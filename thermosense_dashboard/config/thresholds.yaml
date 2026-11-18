@@ -1,0 +1,63 @@
+# THERMOSENSE Alarm Thresholds and Model Parameters
+
+alarms:
+  junction_temp:
+    warning: 110  # °C
+    critical: 125  # °C
+    hysteresis: 2  # °C (alarm clears at warning-hysteresis)
+    debounce: 2  # seconds
+  
+  heatsink_temp:
+    warning: 80  # °C
+    critical: 85  # °C
+    hysteresis: 2  # °C
+    debounce: 2  # seconds
+  
+  cooling_residual:
+    warning: 4  # K (Kelvin)
+    critical: 8  # K
+    hysteresis: 1  # K
+    debounce: 5  # seconds
+  
+  rms_current:
+    warning: 100  # % of rated
+    critical: 120  # % of rated
+    hysteresis: 5  # %
+    debounce: 600  # seconds (10 minutes)
+  
+  residual_rate:
+    critical: 2  # K/min (fast rise indicates fan failure)
+    debounce: 10  # seconds
+
+model:
+  # Thermal resistance and capacitance (from your stages)
+  R_jc: 0.04  # K/W - Junction to case
+  R_sa_baseline: 0.15  # K/W - Heatsink to ambient (healthy condition)
+  
+  # Foster network time constants (3 layers)
+  tau_1: 0.02  # seconds - Fast junction layer
+  tau_2: 0.5   # seconds - Medium layer
+  tau_3: 20    # seconds - Slow layer
+  
+  # Power loss model (from stage1)
+  V_f0: 1.2  # V - Forward voltage drop at zero current
+  r_d: 0.001  # Ohm - Dynamic resistance
+  
+  # Current sharing assumption
+  current_per_thyristor: 0.333  # Id/3 for 6-thyristor bridge
+  
+  # Drive rated current
+  rated_current: 1000  # Amperes (example, adjust to actual drive)
+
+computation:
+  model_frequency: 10  # Hz - Internal calculation rate
+  display_frequency: 1  # Hz - UI update rate
+  peak_hold_window: 1  # seconds - Keep max value in this window
+  history_resolution: 1  # seconds - Store every 1s
+  history_minmax_interval: 10  # seconds - Store min/max every 10s
+
+wear:
+  baseline_wear_rate: 1.0  # Reference wear rate (dimensionless)
+  wear_threshold: 2.0  # Advisory alarm if >2× baseline
+  cycles_threshold_temp: 100  # °C - Count cycles above this
+  cycle_amplitude_threshold: 20  # K - High-swing cycle definition

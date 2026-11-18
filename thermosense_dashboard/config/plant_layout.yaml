@@ -1,0 +1,38 @@
+# Mill stand configuration
+
+mill:
+  name: "Tata Steel Rolling Mill"
+  location: "Hot Strip Mill - Stand Area"
+
+stands:
+  - id: 1
+    name: "Stand 1"
+    instrumented: false
+    status: "not_instrumented"
+  
+  - id: 2
+    name: "Stand 2 (PILOT)"
+    instrumented: true
+    status: "active"
+    thyristor_count: 6
+    drive_type: "6-pulse bridge"
+    rated_current: 1000  # Amperes
+    rated_voltage: 600  # Volts DC
+    cooling_type: "air"  # or "water"
+  
+  - id: 3
+    name: "Stand 3"
+    instrumented: false
+    status: "not_instrumented"
+  
+  - id: 4
+    name: "Stand 4"
+    instrumented: false
+    status: "not_instrumented"
+  
+  - id: 5
+    name: "Stand 5"
+    instrumented: false
+    status: "not_instrumented"
+
+active_stand: 2  # Current pilot stand

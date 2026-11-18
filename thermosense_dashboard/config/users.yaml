@@ -1,0 +1,40 @@
+# User roles configuration (demo only - no real authentication)
+
+roles:
+  operator:
+    name: "Operator"
+    permissions:
+      - view_overview
+      - view_drive_detail
+      - view_alarms
+      - acknowledge_alarms
+      - view_trends
+      - view_settings_readonly
+  
+  engineer:
+    name: "Engineer"
+    permissions:
+      - view_overview
+      - view_drive_detail
+      - view_alarms
+      - acknowledge_alarms
+      - view_trends
+      - view_settings_readonly
+      - edit_thresholds
+      - export_data
+      - fault_injection
+  
+  supervisor:
+    name: "Supervisor"
+    permissions:
+      - view_overview
+      - view_drive_detail
+      - view_alarms
+      - acknowledge_alarms
+      - view_trends
+      - view_settings_readonly
+      - edit_thresholds
+      - export_data
+      - generate_reports
+
+default_role: operator
