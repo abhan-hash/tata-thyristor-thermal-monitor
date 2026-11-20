@@ -1,98 +1,264 @@
 /* =============================================================================
-   THERMOSENSE — $10,000 BESPOKE INDUSTRIAL LUXURY DESIGN SYSTEM
-   Directly matched to Output Thermal (Screenshots Reference):
-   Deep Obsidian, 3D Hardware Controller, Stepped Heat Blobs, Topographic Isolines
+   THERMOSENSE — INDUSTRIAL PRECISION THERMAL VIRTUAL SENSOR DESIGN SYSTEM
+   Directly matched to Output Thermal Hardware Aesthetic (DESIGN_SPEC v2.0)
+   Tata Steel Hot Strip Mill — Stand-04 Main DC Drive Online Virtual Sensor
    ============================================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap');
+/* -----------------------------------------------------------------------------
+   1. TYPOGRAPHY LOADING (Google Fonts)
+   Montserrat: Display Headers & Titles
+   Plus Jakarta Sans: Body, Navigation & UI Controls
+   IBM Plex Mono: Tabular Numerical Telemetry & Timecodes
+   ----------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Montserrat:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 
+/* -----------------------------------------------------------------------------
+   2. DESIGN TOKEN ARCHITECTURE (Strict Warm Spectrum: R >= B, Zero Blue/Teal)
+   ----------------------------------------------------------------------------- */
 :root {
-    /* Color Palette */
-    --bg-void: #060709;
-    --bg-canvas: #090a0e;
-    --bg-surface-1: #0f1118;
-    --bg-surface-2: #141722;
-    --bg-surface-elevated: #1a1e2c;
-    --bg-surface-hover: #222738;
+    /* Primitive Tokens: Warm Blacks, Charcoals, & Greys */
+    --primitive-canvas-black: #0E0D0C;
+    --primitive-panel-charcoal: #1A1918;
+    --primitive-card-dark: #201F1D;
+    --primitive-border-default: rgba(255, 255, 255, 0.08);
+    --primitive-border-subtle: #282624;
+    --primitive-border-gold: #F2B533;
+    --primitive-gold-500: #F2B533;
+    --primitive-orange-400: #FF9A3C;
+    --primitive-orange-500: #FF5A1F;
+    --primitive-yellow-orange: #FFB020;
+    --primitive-red-600: #E0201B;
+    --primitive-grey-100: #FFFFFF;
+    --primitive-grey-200: #F5F3EF;
+    --primitive-grey-300: #C4C1BA;
+    --primitive-grey-400: #88847E;
+    --primitive-grey-500: #5A5752; /* decorative borders only */
+    --primitive-grey-body: #9A9894;
 
-    /* Output Thermal Signature Palette */
-    --thermal-crimson: #ff1f00;
-    --thermal-flame: #ff4800;
-    --thermal-orange: #ff7700;
-    --thermal-amber: #ffaa00;
-    --thermal-gold: #ffc400;
-    --thermal-white-hot: #fff5e6;
-    --thermal-cool: #00f0a8;
-    --thermal-cyan: #00d2ff;
-    --thermal-purple: #b845ed;
+    /* Secondary Primitives */
+    --primitive-black-950: #0A0908;
+    --primitive-black-850: #151413;
+    --primitive-charcoal-600: #33312E;
+    --primitive-gold-400: #FFC033;
+    --primitive-red-800: #8F110E;
 
-    /* Hairlines & Rim Glows */
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-hardware: rgba(255, 255, 255, 0.12);
-    --border-thermal: rgba(255, 85, 0, 0.4);
-    --border-amber-active: #ffaa00;
-    --glow-amber: 0 0 24px rgba(255, 170, 0, 0.35);
-    --glow-flame: 0 0 35px rgba(255, 77, 0, 0.45);
+    /* Semantic Surface Tokens */
+    --color-bg-canvas: var(--primitive-canvas-black);
+    --color-bg-panel: var(--primitive-panel-charcoal);
+    --color-bg-panel-secondary: var(--primitive-black-850);
+    --color-bg-card: var(--primitive-card-dark);
+    --color-bg-subtle: #282624;
 
-    /* Text */
-    --text-primary: #f5f6f9;
-    --text-secondary: #9aa2b2;
-    --text-muted: #5e6676;
-    --text-dim: #383d47;
+    /* Semantic Border Tokens */
+    --color-border-subtle: var(--primitive-border-subtle);
+    --color-border-default: var(--primitive-border-default);
+    --color-border-divider: var(--primitive-charcoal-600);
+    --color-border-active-gold: var(--primitive-border-gold);
 
-    /* Typography */
-    --font-display: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    /* Semantic Accent Tokens */
+    --color-accent-gold: var(--primitive-gold-500);
+    --color-accent-orange: var(--primitive-orange-500);
+    --color-accent-yellow-orange: var(--primitive-yellow-orange);
+    --color-accent-red: var(--primitive-red-600);
+
+    /* Semantic Text Tokens */
+    --color-text-primary: var(--primitive-grey-100);
+    --color-text-secondary: var(--primitive-grey-300);
+    --color-text-muted: var(--primitive-grey-400);
+    --color-text-body: var(--primitive-grey-body);
+    --color-text-accent-gold: var(--primitive-yellow-orange);
+
+    /* Semantic Status Tiers */
+    --color-status-nominal: var(--primitive-grey-300);
+    --color-status-elevated: var(--primitive-yellow-orange);
+    --color-status-warning: var(--primitive-orange-500);
+    --color-status-critical: var(--primitive-red-600);
+
+    /* Backward-Compatible Palette Aliases */
+    --bg-void: var(--primitive-canvas-black);
+    --bg-canvas: var(--primitive-canvas-black);
+    --bg-surface-1: var(--primitive-panel-charcoal);
+    --bg-surface-2: var(--primitive-card-dark);
+    --bg-surface-elevated: #282624;
+    --bg-surface-hover: #33312E;
+
+    --thermal-crimson: var(--primitive-red-600);
+    --thermal-flame: var(--primitive-orange-500);
+    --thermal-orange: var(--primitive-orange-400);
+    --thermal-amber: var(--primitive-yellow-orange);
+    --thermal-gold: var(--primitive-gold-500);
+    --thermal-white-hot: #FFF5E6;
+
+    --border-subtle: var(--color-border-subtle);
+    --border-hardware: var(--color-border-default);
+    --border-amber-active: var(--color-border-active-gold);
+    --glow-amber: 0 0 20px rgba(242, 181, 51, 0.35);
+    --glow-flame: 0 0 32px rgba(255, 90, 31, 0.4);
+
+    --text-primary: var(--color-text-primary);
+    --text-secondary: var(--color-text-secondary);
+    --text-muted: var(--color-text-muted);
+    --text-dim: var(--primitive-grey-500);
+
+    /* Typography Stacks */
+    --font-display: 'Montserrat', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
 
-    /* Emil Kowalski Polish Curves */
+    /* Motion Curves */
     --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-out-fast: cubic-bezier(0, 0, 0.2, 1);
+    --transition-interactive: 120ms var(--ease-spring);
+    --transition-smooth: 220ms var(--ease-spring);
 }
 
-/* Base Body & Canvas */
+/* -----------------------------------------------------------------------------
+   3. GLOBAL RESET & BASE STYLES
+   ----------------------------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html, body, [class*="css"] {
-    font-family: var(--font-sans);
-    color: var(--text-primary);
-    background-color: var(--bg-void);
+    font-family: var(--font-body);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-canvas);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.stApp {
-    background: var(--bg-void) !important;
-    background-image: 
-        radial-gradient(circle at 25% 20%, rgba(255, 55, 0, 0.09) 0px, transparent 50%),
-        radial-gradient(circle at 80% 65%, rgba(255, 140, 0, 0.06) 0px, transparent 55%),
-        radial-gradient(circle at 50% 50%, rgba(15, 17, 24, 0.8) 0px, transparent 100%),
-        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 C 20 50, 40 70, 60 60 C 80 50, 100 70, 120 60 M0 30 C 30 20, 60 40, 120 30 M0 90 C 30 80, 70 100, 120 90 M0 15 C 40 5, 80 25, 120 15 M0 105 C 40 95, 80 115, 120 105' stroke='rgba(255,255,255,0.015)' fill='none' stroke-width='1'/%3E%3C/svg%3E") !important;
-    background-attachment: fixed !important;
-    color: var(--text-primary) !important;
+p, .output-body-text {
+    max-width: 75ch;
+    color: var(--color-text-body);
+    line-height: 1.6;
 }
 
-/* Hide Streamlit default chrome */
-#MainMenu { visibility: hidden; }
-footer { visibility: hidden; }
-header { visibility: hidden; }
-.stDeployButton { visibility: hidden; }
-[data-testid="stToolbar"] { display: none; }
+a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+/* -----------------------------------------------------------------------------
+   4. STREAMLIT CHROME RESET
+   ----------------------------------------------------------------------------- */
+#MainMenu,
+footer,
+header,
+.stDeployButton,
+[data-testid="stToolbar"],
+[data-testid="stDecoration"],
+[data-testid="stStatusWidget"] {
+    display: none !important;
+}
 
 .block-container {
     padding-top: 1rem !important;
-    padding-bottom: 3rem !important;
-    padding-left: 2.2rem !important;
-    padding-right: 2.2rem !important;
-    max-width: 100% !important;
+    padding-bottom: 2.5rem !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
 }
 
-/* =============================================================================
-   OUTPUT TOP NAVIGATION BAR (Exact Copy of Reference Header)
-   ============================================================================= */
+/* -----------------------------------------------------------------------------
+   5. TOPOGRAPHIC VECTOR BACKGROUND & CANVAS LIGHTING (.stApp)
+   ----------------------------------------------------------------------------- */
+.stApp {
+    background-color: var(--color-bg-canvas) !important;
+    background-image:
+        radial-gradient(ellipse 70% 45% at 20% 12%, rgba(255, 90, 31, 0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 85% 75%, rgba(242, 181, 51, 0.035) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(26, 25, 24, 0.35) 0%, transparent 100%),
+        url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 C 90 20, 160 70, 240 30 C 310 -5, 360 45, 400 40' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 100 C 80 120, 150 70, 220 110 C 290 140, 350 90, 400 100' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 160 C 70 140, 140 190, 230 150 C 300 120, 360 180, 400 160' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 220 C 100 250, 170 190, 250 230 C 310 260, 360 210, 400 220' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 280 C 60 260, 130 310, 210 270 C 280 240, 340 300, 400 280' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 340 C 90 370, 180 320, 260 360 C 320 380, 370 330, 400 340' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 400 C 80 380, 150 430, 240 390 C 310 360, 360 410, 400 400' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3C/svg%3E") !important;
+    background-attachment: fixed !important;
+    background-repeat: repeat !important;
+    background-size: auto, auto, auto, 400px 400px !important;
+    color: var(--color-text-primary) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   6. BASE UTILITY CLASSES (Panels, Cards, Hardware Slabs)
+   ----------------------------------------------------------------------------- */
+.output-panel {
+    background: var(--color-bg-panel);
+    border: 1px solid var(--color-border-default);
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.output-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 6px;
+}
+
+.hardware-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 6px;
+    padding: 14px 18px;
+    transition: border-color var(--transition-interactive);
+}
+
+.hardware-card:hover {
+    border-color: var(--primitive-charcoal-600);
+}
+
+.hardware-card-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.hardware-card-value {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    margin: 4px 0;
+}
+
+.hardware-card-subtext {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--color-text-secondary);
+}
+
+/* -----------------------------------------------------------------------------
+   7. INTERACTIVE ACCESSIBILITY & TACTILE MOTION PASS
+   ----------------------------------------------------------------------------- */
+*:focus-visible {
+    outline: 2px solid var(--color-border-active-gold) !important;
+    outline-offset: 2px !important;
+}
+
+*:focus:not(:focus-visible) {
+    outline: none !important;
+}
+
+button:active,
+[role="button"]:active,
+.source-item-btn:active,
+.preset-rack-row:active,
+.stButton > button:active {
+    transform: scale(0.97) !important;
+    transition: transform var(--transition-interactive) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   8. TOP NAVIGATION BAR
+   ----------------------------------------------------------------------------- */
 .output-nav-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
+    padding: 16px 0;
     margin-bottom: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--color-border-default);
 }
 
 .output-logo-group {
@@ -101,137 +267,151 @@ header { visibility: hidden; }
     gap: 10px;
 }
 
-.output-logo {
+.output-logo,
+.output-logo-wordmark {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 13px;
     font-weight: 800;
-    letter-spacing: -0.5px;
-    color: #ffffff;
+    letter-spacing: 0.05em;
+    color: var(--primitive-grey-100);
     text-transform: lowercase;
 }
 
 .output-logo-sub {
     font-family: var(--font-mono);
     font-size: 9px;
-    letter-spacing: 2px;
-    color: #ff7700;
+    letter-spacing: 0.2em;
+    color: var(--primitive-orange-400);
     text-transform: uppercase;
-    background: rgba(255, 119, 0, 0.1);
+    background: rgba(255, 154, 60, 0.08);
     padding: 2px 7px;
-    border-radius: 3px;
-    border: 1px solid rgba(255, 119, 0, 0.25);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 154, 60, 0.25);
 }
 
 .output-nav-links {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 28px;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.output-nav-item {
-    font-family: var(--font-sans);
-    font-size: 11px;
+.output-nav-item,
+.output-nav-link {
+    font-family: var(--font-body);
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 1.5px;
-    color: var(--text-secondary);
+    letter-spacing: 0.25em;
+    color: var(--color-text-muted);
     text-transform: uppercase;
     cursor: pointer;
-    transition: color 0.15s ease;
+    transition: color var(--transition-interactive);
+    text-decoration: none;
 }
 
-.output-nav-item:hover, .output-nav-item.active {
-    color: #ffffff;
+.output-nav-item:hover,
+.output-nav-item.active,
+.output-nav-link:hover,
+.output-nav-link.active {
+    color: var(--primitive-grey-100);
 }
 
 .output-user-group {
     display: flex;
     align-items: center;
     gap: 16px;
-    font-family: var(--font-sans);
-    font-size: 11px;
+    font-family: var(--font-mono);
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 1.2px;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    color: var(--color-text-muted);
 }
 
-/* =============================================================================
-   PRODUCT TITLE LOCKUP (Reference "THERMAL | $149")
-   ============================================================================= */
-.product-hero-lockup {
+/* -----------------------------------------------------------------------------
+   9. HERO TITLE LOCKUP & HEAT SMEAR
+   ----------------------------------------------------------------------------- */
+.product-hero-lockup,
+.output-hero-title-lockup {
     margin-bottom: 28px;
 }
 
-.product-title-row {
+.product-title-row,
+.output-title-row {
     display: flex;
     align-items: baseline;
     gap: 16px;
     margin-bottom: 6px;
 }
 
-.product-main-title {
+.product-main-title,
+.output-main-title {
     font-family: var(--font-display);
-    font-size: 34px;
+    font-size: 38px;
     font-weight: 800;
-    letter-spacing: 2.5px;
-    background: linear-gradient(90deg, #ff2600 0%, #ff6200 45%, #ffaa00 100%);
+    letter-spacing: 0.06em;
+    background: linear-gradient(90deg, var(--primitive-orange-400) 0%, var(--primitive-orange-500) 50%, var(--primitive-red-600) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-transform: uppercase;
     display: inline-block;
-    filter: drop-shadow(0 0 20px rgba(255, 77, 0, 0.4));
+    filter: drop-shadow(0 0 24px rgba(255, 90, 31, 0.35));
+    position: relative;
 }
 
 .product-title-divider {
-    font-size: 28px;
-    color: rgba(255, 255, 255, 0.2);
+    font-size: 26px;
+    color: var(--primitive-charcoal-600);
     font-weight: 300;
 }
 
-.product-price-tag {
-    font-family: var(--font-sans);
-    font-size: 26px;
+.product-price-tag,
+.output-title-tag {
+    font-family: var(--font-display);
+    font-size: 22px;
     font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 0.5px;
+    color: var(--primitive-grey-100);
+    letter-spacing: 0.05em;
 }
 
-.product-subtitle-row {
+.product-subtitle-row,
+.output-subtitle-row {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.product-subtitle-text {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    letter-spacing: 1px;
+.product-subtitle-text,
+.output-subtitle-text {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
 }
 
 .product-action-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     font-size: 11px;
     font-weight: 600;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--primitive-grey-100);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border-default);
     padding: 5px 14px;
-    border-radius: 30px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s var(--ease-spring);
+    transition: all var(--transition-interactive);
 }
 
 .product-action-pill:hover {
-    background: rgba(255, 255, 255, 0.09);
-    border-color: rgba(255, 140, 0, 0.4);
-    box-shadow: 0 0 16px rgba(255, 119, 0, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primitive-orange-500);
+    box-shadow: 0 0 16px rgba(255, 90, 31, 0.25);
     transform: translateY(-1px);
 }
 
@@ -239,17 +419,17 @@ header { visibility: hidden; }
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 1px solid #ff8800;
+    border: 1px solid var(--primitive-orange-500);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 8px;
-    color: #ff8800;
+    color: var(--primitive-orange-500);
 }
 
-/* =============================================================================
-   3D HARDWARE CONTROLLER UNIT (Centerpiece of the $10,000 design)
-   ============================================================================= */
+/* -----------------------------------------------------------------------------
+   10. 3D HARDWARE CONTROLLER UNIT (Chassis Slab & Controls)
+   ----------------------------------------------------------------------------- */
 .hardware-unit-perspective-container {
     perspective: 1200px;
     width: 100%;
@@ -257,15 +437,15 @@ header { visibility: hidden; }
 }
 
 .hardware-chassis-slab {
-    background: linear-gradient(135deg, #141722 0%, #0d0e14 45%, #08090d 100%);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 16px;
-    box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.85),
-        0 10px 25px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 0 30px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(135deg, #201F1D 0%, #1A1918 50%, #151413 100%);
+    border: 1px solid var(--color-border-default);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    box-shadow:
+        0 24px 48px rgba(0, 0, 0, 0.85),
+        0 8px 20px rgba(0, 0, 0, 0.65),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 24px rgba(0, 0, 0, 0.7);
     padding: 24px;
     position: relative;
     overflow: hidden;
@@ -276,21 +456,9 @@ header { visibility: hidden; }
 
 .hardware-chassis-slab:hover {
     transform: rotateX(6deg) rotateY(-4deg) rotateZ(0.5deg) translateY(-4px);
-    box-shadow: 
-        0 40px 80px rgba(0, 0, 0, 0.95),
-        0 0 40px rgba(255, 77, 0, 0.2);
-}
-
-/* Topographic Contour lines inside Hardware Chassis */
-.hardware-chassis-slab::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.12;
-    background-image: url("data:image/svg+xml,%3Csvg width='300' height='300' viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 150 C 70 80, 180 80, 220 150 C 250 200, 150 260, 50 150 M30 150 C 50 60, 200 60, 240 150 C 270 220, 130 280, 30 150 M10 150 C 30 40, 220 40, 260 150 C 290 240, 110 300, 10 150' stroke='%23ff7700' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
+    box-shadow:
+        0 36px 64px rgba(0, 0, 0, 0.95),
+        0 0 32px rgba(255, 90, 31, 0.18);
 }
 
 /* Rotary Knobs */
@@ -305,19 +473,19 @@ header { visibility: hidden; }
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #2a2e3d 0%, #11131a 75%, #08090d 100%);
-    border: 2px solid #333848;
-    box-shadow: 
+    background: radial-gradient(circle at 35% 35%, #282624 0%, #1A1918 75%, #0E0D0C 100%);
+    border: 2px solid var(--primitive-charcoal-600);
+    box-shadow:
         0 6px 14px rgba(0, 0, 0, 0.8),
-        inset 0 1px 2px rgba(255, 255, 255, 0.25);
+        inset 0 1px 2px rgba(255, 255, 255, 0.18);
     position: relative;
     cursor: pointer;
-    transition: transform 0.2s var(--ease-spring);
+    transition: transform var(--transition-interactive), border-color var(--transition-interactive);
 }
 
 .rotary-knob-body:hover {
-    border-color: #ffaa00;
-    box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+    border-color: var(--primitive-gold-500);
+    box-shadow: 0 0 15px rgba(242, 181, 51, 0.35);
 }
 
 .rotary-knob-tick {
@@ -326,18 +494,18 @@ header { visibility: hidden; }
     left: 50%;
     width: 2px;
     height: 10px;
-    background: #ff7700;
+    background: var(--primitive-orange-400);
     transform: translateX(-50%);
     border-radius: 2px;
-    box-shadow: 0 0 6px #ff7700;
+    box-shadow: 0 0 6px var(--primitive-orange-400);
 }
 
 .rotary-knob-label {
     font-family: var(--font-mono);
     font-size: 8.5px;
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-weight: 600;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
@@ -345,9 +513,9 @@ header { visibility: hidden; }
 .linear-fader-track {
     width: 14px;
     height: 90px;
-    background: #090a0f;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 7px;
+    background: var(--primitive-black-950);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 6px;
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9);
     position: relative;
     display: flex;
@@ -357,18 +525,18 @@ header { visibility: hidden; }
 .linear-fader-slot {
     width: 2px;
     height: 80%;
-    background: #191c26;
+    background: var(--primitive-charcoal-600);
     margin: auto 0;
 }
 
 .linear-fader-thumb {
     position: absolute;
     top: 35%;
-    width: 26px;
+    width: 24px;
     height: 14px;
-    background: linear-gradient(180deg, #323746 0%, #151821 100%);
-    border: 1px solid #4a5166;
-    border-radius: 3px;
+    background: linear-gradient(180deg, #282624 0%, #1A1918 100%);
+    border: 1px solid var(--primitive-charcoal-600);
+    border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
     cursor: pointer;
 }
@@ -380,13 +548,13 @@ header { visibility: hidden; }
     left: 20%;
     right: 20%;
     height: 2px;
-    background: #ff8800;
+    background: var(--primitive-orange-400);
     transform: translateY(-50%);
 }
 
-/* =============================================================================
-   2x3 SOUND SOURCE / COMPONENT SELECTOR GRID (Reference Screenshot Match)
-   ============================================================================= */
+/* -----------------------------------------------------------------------------
+   11. 2x3 HARDWARE SOURCE SELECTOR BUTTON GRID
+   ----------------------------------------------------------------------------- */
 .source-selector-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -395,24 +563,27 @@ header { visibility: hidden; }
 }
 
 .source-item-btn {
-    background: #0e1017;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
-    padding: 14px 12px;
+    background: transparent;
+    border: 1px solid var(--primitive-border-gold);
+    border-radius: 6px;
+    padding: 10px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 6px;
     cursor: pointer;
-    transition: all 0.2s var(--ease-spring);
+    transition: all var(--transition-interactive);
     text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
 .source-item-btn:hover {
-    background: #141722;
-    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(242, 181, 51, 0.12);
+    border-color: var(--primitive-border-gold);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .source-item-btn:active {
@@ -420,53 +591,61 @@ header { visibility: hidden; }
 }
 
 .source-item-btn.active {
-    background: linear-gradient(145deg, #181d28 0%, #0e111a 100%);
-    border: 1px solid var(--border-amber-active);
-    box-shadow: var(--glow-amber);
+    background: var(--primitive-gold-500) !important;
+    border-color: var(--primitive-gold-500) !important;
+    color: var(--primitive-canvas-black) !important;
+    box-shadow: 0 0 16px rgba(242, 181, 51, 0.4) !important;
 }
 
 .source-icon-svg {
-    width: 28px;
-    height: 28px;
-    stroke: #8b93a4;
-    stroke-width: 1.5;
+    width: 20px;
+    height: 20px;
+    stroke: var(--primitive-gold-500);
+    stroke-width: 1.75;
     fill: none;
-    transition: stroke 0.2s ease;
-}
-
-.source-item-btn.active .source-icon-svg,
-.source-item-btn:hover .source-icon-svg {
-    stroke: #ffaa00;
+    transition: stroke var(--transition-interactive);
 }
 
 .source-item-label {
-    font-family: var(--font-sans);
-    font-size: 11px;
+    font-family: var(--font-body);
+    font-size: 8.5px;
     font-weight: 700;
-    letter-spacing: 1.2px;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #8b93a4;
+    color: var(--primitive-gold-500);
+    line-height: 1.1;
+    transition: color var(--transition-interactive);
 }
 
-.source-item-btn.active .source-item-label,
-.source-item-btn:hover .source-item-label {
-    color: #ffffff;
+.source-item-btn.active .source-icon-svg {
+    stroke: var(--primitive-canvas-black) !important;
 }
 
-/* =============================================================================
-   ACCORDION PRESET ROWS (DRUMS >, BASS >, VOCALS > in Screenshot)
-   ============================================================================= */
+.source-item-btn.active .source-item-label {
+    color: var(--primitive-canvas-black) !important;
+    font-weight: 800;
+}
+
+/* -----------------------------------------------------------------------------
+   12. PRESET RACK CHANNEL ROWS (Thyristor Bridge Deck)
+   ----------------------------------------------------------------------------- */
 .preset-rack-deck {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 24px;
+    gap: 0;
+    margin-bottom: 20px;
+    background: #1A1918;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
 }
 
 .preset-rack-row {
-    background: linear-gradient(90deg, #11131b 0%, #0c0e14 100%);
-    border: 1px solid var(--border-subtle);
-    border-radius: 6px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #282624;
+    border-radius: 0;
     padding: 13px 20px;
     display: flex;
     justify-content: space-between;
@@ -474,37 +653,56 @@ header { visibility: hidden; }
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: all 0.2s var(--ease-spring);
+    text-decoration: none !important;
+    transition: all var(--transition-interactive);
 }
 
-/* Fine contour isoline on each row */
+.preset-rack-row:last-child {
+    border-bottom: none;
+}
+
+.preset-rack-row,
+.preset-rack-row:hover,
+.preset-rack-row:focus,
+.preset-rack-row:visited,
+.preset-rack-row:active,
+.preset-rack-row * {
+    text-decoration: none !important;
+}
+
 .preset-rack-row::before {
     content: '';
     position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.08;
-    background-image: url("data:image/svg+xml,%3Csvg width='200' height='40' viewBox='0 0 200 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q 50 5, 100 20 T 200 20 M0 30 Q 50 15, 100 30 T 200 30' stroke='%23ff7700' fill='none' stroke-width='1'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--primitive-gold-500);
+    opacity: 0;
+    transition: opacity var(--transition-interactive);
 }
 
 .preset-rack-row:hover {
-    background: linear-gradient(90deg, #181b26 0%, #11131c 100%);
-    border-color: rgba(255, 140, 0, 0.4);
-    transform: translateX(4px);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+    background: #201F1D;
+    transform: translateX(2px);
 }
 
-.preset-rack-row:active {
-    transform: scale(0.99) translateX(2px);
+.preset-rack-row:hover::before,
+.preset-rack-row.active::before {
+    opacity: 1;
+}
+
+.preset-rack-row.active {
+    background: #201F1D !important;
+    border-left: 3px solid var(--primitive-gold-500) !important;
 }
 
 .preset-row-title {
-    font-family: var(--font-sans);
-    font-size: 13px;
+    font-family: var(--font-body);
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1.2px;
-    color: #e2e8f0;
+    letter-spacing: 0.28em;
+    color: var(--primitive-grey-300);
     text-transform: uppercase;
 }
 
@@ -518,68 +716,318 @@ header { visibility: hidden; }
     font-family: var(--font-mono);
     font-size: 15px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--primitive-grey-100);
+    font-variant-numeric: tabular-nums;
 }
 
 .preset-row-chevron {
-    color: #5a6273;
-    font-size: 15px;
+    color: var(--color-text-muted);
+    font-size: 16px;
     font-weight: bold;
-    transition: all 0.2s ease;
+    transition: transform var(--transition-interactive), color var(--transition-interactive);
 }
 
 .preset-rack-row:hover .preset-row-chevron {
-    color: #ffaa00;
+    color: var(--primitive-gold-500);
     transform: translateX(3px);
 }
 
-/* =============================================================================
-   EDITORIAL CALLOUT ("Granular Finally Becomes Musical" / "Infinite Ideas")
-   ============================================================================= */
+/* -----------------------------------------------------------------------------
+   13. EDITORIAL CALLOUT & FEATURE PANELS
+   ----------------------------------------------------------------------------- */
 .editorial-callout-box {
     margin-top: 14px;
 }
 
+.editorial-headline,
 .editorial-callout-title {
     font-family: var(--font-display);
     font-size: 22px;
     font-weight: 800;
-    color: #ff7700;
-    letter-spacing: 0.5px;
+    color: var(--color-accent-yellow-orange);
+    letter-spacing: 0.02em;
     margin-bottom: 8px;
+    line-height: 1.25;
 }
 
 .editorial-callout-p {
+    font-family: var(--font-body);
     font-size: 12px;
     line-height: 1.6;
-    color: var(--text-secondary);
+    color: var(--color-text-body);
+    max-width: 75ch;
 }
 
-/* =============================================================================
-   GLOBAL STREAMLIT WIDGET OVERRIDES (Buttons, Tabs, Inputs)
-   ============================================================================= */
+/* -----------------------------------------------------------------------------
+   14. MULTI-MODAL STATUS PILLS & BADGES (Zero Cyan/Blue/Purple)
+   ----------------------------------------------------------------------------- */
+.thermal-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.thermal-pill.nominal,
+.thermal-pill.normal {
+    background: rgba(196, 193, 186, 0.08);
+    border: 1px solid var(--primitive-charcoal-600);
+    color: var(--primitive-grey-300);
+}
+
+.thermal-pill.elevated {
+    background: rgba(255, 176, 32, 0.1);
+    border: 1px solid var(--primitive-yellow-orange);
+    color: var(--primitive-yellow-orange);
+}
+
+.thermal-pill.warning {
+    background: rgba(255, 90, 31, 0.12);
+    border: 1px solid var(--primitive-orange-500);
+    color: var(--primitive-orange-500);
+}
+
+.thermal-pill.critical {
+    background: rgba(224, 32, 27, 0.15);
+    border: 1.5px solid var(--primitive-red-600);
+    color: var(--primitive-red-600);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-dot.nominal,
+.status-dot.normal {
+    background: var(--primitive-grey-300);
+}
+
+.status-dot.elevated {
+    background: var(--primitive-yellow-orange);
+    box-shadow: 0 0 8px var(--primitive-yellow-orange);
+}
+
+.status-dot.warning {
+    background: var(--primitive-orange-500);
+    box-shadow: 0 0 8px var(--primitive-orange-500);
+}
+
+.status-dot.critical {
+    background: var(--primitive-red-600);
+    box-shadow: 0 0 8px var(--primitive-red-600);
+}
+
+/* -----------------------------------------------------------------------------
+   15. STREAMLIT WIDGET RESTYLING (Warm Precision)
+   ----------------------------------------------------------------------------- */
 .stButton > button {
-    background: linear-gradient(180deg, #181c26 0%, #11131b 100%) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    background: var(--primitive-panel-charcoal) !important;
+    color: var(--primitive-grey-200) !important;
+    border: 1px solid var(--primitive-charcoal-600) !important;
     border-radius: 6px !important;
-    padding: 9px 18px !important;
-    font-family: var(--font-sans) !important;
+    padding: 8px 16px !important;
+    font-family: var(--font-body) !important;
     font-size: 11px !important;
     font-weight: 700 !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.15em !important;
     text-transform: uppercase !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
-    transition: all 0.15s var(--ease-spring) !important;
+    transition: all var(--transition-interactive) !important;
 }
 
 .stButton > button:hover {
-    border-color: #ff8800 !important;
-    color: #ff8800 !important;
-    box-shadow: 0 4px 18px rgba(255, 119, 0, 0.25) !important;
+    border-color: var(--primitive-gold-500) !important;
+    color: var(--primitive-gold-500) !important;
+    box-shadow: 0 4px 18px rgba(242, 181, 51, 0.25) !important;
     transform: translateY(-1px) !important;
 }
 
 .stButton > button:active {
     transform: scale(0.97) !important;
+}
+
+/* Streamlit Tabs */
+[data-baseweb="tab-list"] {
+    background: transparent !important;
+    border-bottom: 1px solid var(--color-border-subtle) !important;
+    gap: 8px !important;
+}
+
+[data-baseweb="tab"] {
+    font-family: var(--font-body) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
+    color: var(--color-text-muted) !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 10px 16px !important;
+    transition: color var(--transition-interactive) !important;
+}
+
+[data-baseweb="tab"]:hover {
+    color: var(--primitive-grey-100) !important;
+}
+
+[aria-selected="true"][data-baseweb="tab"] {
+    color: var(--primitive-gold-500) !important;
+    border-bottom: 2px solid var(--primitive-gold-500) !important;
+    font-weight: 700 !important;
+}
+
+/* Streamlit Selectbox & Inputs */
+div[data-baseweb="select"] > div,
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input {
+    background-color: var(--primitive-panel-charcoal) !important;
+    border: 1px solid var(--primitive-charcoal-600) !important;
+    border-radius: 6px !important;
+    color: var(--primitive-grey-100) !important;
+    font-family: var(--font-body) !important;
+    font-size: 12px !important;
+}
+
+/* Streamlit Metrics */
+[data-testid="stMetricValue"] {
+    font-family: var(--font-mono) !important;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    color: var(--primitive-grey-100) !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+[data-testid="stMetricLabel"] {
+    font-family: var(--font-body) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    color: var(--color-text-muted) !important;
+}
+
+/* Streamlit Dataframe & Tables */
+[data-testid="stDataFrame"] {
+    background: var(--primitive-panel-charcoal) !important;
+    border: 1px solid var(--color-border-subtle) !important;
+    border-radius: 6px !important;
+}
+
+.telemetry-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 11px;
+}
+
+.telemetry-table th {
+    padding: 10px 14px;
+    text-align: left;
+    color: var(--color-text-muted);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    border-bottom: 1px solid var(--primitive-charcoal-600);
+    background: var(--primitive-panel-charcoal);
+}
+
+.telemetry-table td {
+    padding: 10px 14px;
+    color: var(--primitive-grey-200);
+    border-bottom: 1px solid var(--primitive-border-subtle);
+}
+
+.telemetry-table tr:nth-child(even) {
+    background: var(--primitive-black-850);
+}
+
+/* -----------------------------------------------------------------------------
+   16. MULTI-VIEWPORT RESPONSIVE BREAKPOINTS
+   ----------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+    .block-container {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    .hardware-chassis-slab {
+        transform: rotateX(6deg) rotateY(-3deg) rotateZ(0deg);
+    }
+
+    .telemetry-grid-strip {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-top: 0.5rem !important;
+    }
+
+    /* Flatten 3D perspective to 2D to prevent clipping & overflow */
+    .hardware-chassis-slab {
+        transform: none !important;
+        margin-bottom: 16px;
+    }
+
+    .output-nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .output-nav-links {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 6px;
+        gap: 16px;
+    }
+
+    .product-title-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .product-main-title,
+    .output-main-title {
+        font-size: 28px;
+    }
+
+    .source-selector-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .second-panel-container > div {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .telemetry-grid-strip {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   17. REDUCED MOTION PREFERENCE (Accessibility)
+   ----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transform: none !important;
+    }
 }
