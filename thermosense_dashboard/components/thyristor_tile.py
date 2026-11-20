@@ -1,99 +1,95 @@
 """
-Thyristor status tile component
+THERMOSENSE - Thyristor Status Tile Component
+Sleek Output Thermal Hardware Tile Architecture
 """
 
 import streamlit as st
-from data.data_source import ThyristorData
+try:
+    from data.data_source import ThyristorData
+except ImportError:
+    from thermosense_dashboard.data.data_source import ThyristorData
 
 
 def render_thyristor_tile(thyristor: ThyristorData, clickable: bool = True):
     """
-    Render a single thyristor status tile
-    
-    Args:
-        thyristor: ThyristorData object
-        clickable: If True, show as a button that navigates to Drive Detail
+    Render a single thyristor status tile in Output Thermal hardware style
     """
-    # Status icon mapping
-    status_icons = {
-        "normal": "✓",
-        "warning": "⚠",
-        "critical": "✕",
-        "fault": "⊘"
-    }
+    status = getattr(thyristor, 'status', 'normal')
     
-    # Status colors
-    status_colors = {
-        "normal": "#34A853",
-        "warning": "#FBBC04",
-        "critical": "#EA4335",
-        "fault": "#5F6368"
-    }
+    # Extract Tj safely
+    try:
+        val = thyristor.tj_estimated() if callable(getattr(thyristor, 'tj_estimated', None)) else getattr(thyristor, 'tj_estimated', 75.0)
+        if isinstance(val, (list, tuple)):
+            tj_val = float(val[0])
+        else:
+            tj_val = float(val)
+    except Exception:
+        tj_val = 75.0
+        
+    try:
+        hs_val = thyristor.t_heatsink_measured() if callable(getattr(thyristor, 't_heatsink_measured', None)) else getattr(thyristor, 't_heatsink_measured', 45.0)
+        if isinstance(hs_val, (list, tuple)):
+            hs_val = float(hs_val[0])
+        else:
+            hs_val = float(hs_val)
+    except Exception:
+        hs_val = 45.0
+        
+    margin = 125.0 - tj_val
+    t_id = getattr(thyristor, 'id', 1)
     
-    icon = status_icons.get(thyristor.status, "?")
-    color = status_colors.get(thyristor.status, "#5F6368")
-    
-    # Build tile HTML
+    # Color classes
+    if tj_val >= 125.0:
+        status_color = "#ff2a2a"
+        status_cls = "critical"
+    elif tj_val >= 105.0:
+        status_color = "#ffaa00"
+        status_cls = "warning"
+    else:
+        status_color = "#00e5a3"
+        status_cls = "normal"
+        
     tile_html = f"""
-    <div class="thyristor-tile {thyristor.status}" style="
-        background-color: #242B33;
-        border: 3px solid {color};
-        border-radius: 8px;
-        padding: 16px;
-        text-align: center;
-        margin: 8px;
-        {'cursor: pointer;' if clickable else ''}
-        transition: transform 0.2s;
-    ">
-        <div style="font-size: 14px; color: #9AA0A6; margin-bottom: 8px;">
-            <span style="color: {color}; font-size: 18px;">{icon}</span> 
-            Thyristor T{thyristor.id}
+    <div class="hardware-card" style="text-align: center; padding: 18px 12px; margin-bottom: 12px; border-top: 2px solid {status_color};">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; color: #ffffff; background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px;">
+                T{t_id}
+            </span>
+            <span class="thermal-pill {status_cls}" style="font-size: 8px; padding: 2px 6px;">
+                {status.upper()}
+            </span>
         </div>
         
-        <div style="font-family: 'Roboto Mono', monospace; font-size: 42px; 
-                    font-weight: bold; color: {color}; margin: 12px 0;">
-            {thyristor.tj_estimated:.1f}°C
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 700; color: #ffffff; margin: 8px 0; text-shadow: 0 0 14px {status_color}40;">
+            {tj_val:.1f}<span style="font-size: 14px; opacity: 0.7; margin-left: 2px;">°C</span>
         </div>
         
-        <div style="font-size: 11px; color: #FBBC04; margin-bottom: 4px;">
-            EST
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 9px; font-weight: 600; color: #ff8800; letter-spacing: 1px; text-transform: uppercase;">
+            JUNCTION (EST)
         </div>
         
-        <div style="font-size: 14px; color: #E8EAED; margin: 8px 0;">
-            Margin: {thyristor.margin_to_limit:.1f}°C
-        </div>
-        
-        <div style="font-size: 12px; color: #9AA0A6;">
-            Heatsink: {thyristor.t_heatsink_measured:.1f}°C
-        </div>
-        
-        <div style="font-size: 10px; color: #9AA0A6; margin-top: 8px;">
-            {thyristor.status.upper()}
+        <div style="display: flex; justify-content: space-between; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7f8796;">
+            <span>HEATSINK: <strong style="color: #ffffff;">{hs_val:.1f}°C</strong></span>
+            <span>MARGIN: <strong style="color: {status_color};">{margin:.1f}°C</strong></span>
         </div>
     </div>
     """
     
-    # If clickable, wrap in a column with button
-    if clickable:
-        if st.button(f"View T{thyristor.id}", key=f"tile_btn_{thyristor.id}", 
-                     help=f"Click to view details for Thyristor {thyristor.id}", 
-                     use_container_width=True):
-            st.session_state['selected_thyristor'] = thyristor.id
-            st.switch_page("pages/2_⚡_Drive_Detail.py")
-    
-    # Render the tile
     st.markdown(tile_html, unsafe_allow_html=True)
+    
+    if clickable:
+        if st.button(f"Analyze T{t_id}", key=f"btn_tile_{t_id}", use_container_width=True):
+            st.session_state['selected_thyristor'] = t_id
+            try:
+                st.switch_page("pages/2_⚡_Drive_Detail.py")
+            except Exception:
+                pass
 
 
 def render_thyristor_grid(drive_data, columns: int = 3):
     """
     Render a grid of thyristor tiles
-    
-    Args:
-        drive_data: DriveData object
-        columns: Number of columns in the grid
     """
-    # Create grid (2 rows × 3 columns for 6 thyristors)
     rows = (len(drive_data.thyristors) + columns - 1) // columns
     
     for row in range(rows):
@@ -107,48 +103,6 @@ def render_thyristor_grid(drive_data, columns: int = 3):
 
 def render_compact_tile(thyristor: ThyristorData):
     """
-    Render a compact version of the thyristor tile (for sidebar or small spaces)
+    Compact version for sidebars or tight panels
     """
-    status_colors = {
-        "normal": "#34A853",
-        "warning": "#FBBC04",
-        "critical": "#EA4335",
-        "fault": "#5F6368"
-    }
-    
-    status_icons = {
-        "normal": "✓",
-        "warning": "⚠",
-        "critical": "✕",
-        "fault": "⊘"
-    }
-    
-    color = status_colors.get(thyristor.status, "#5F6368")
-    icon = status_icons.get(thyristor.status, "?")
-    
-    compact_html = f"""
-    <div style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px;
-        background-color: #1A1F26;
-        border-left: 4px solid {color};
-        margin-bottom: 4px;
-        border-radius: 4px;
-    ">
-        <span style="color: #E8EAED; font-size: 14px;">
-            <span style="color: {color};">{icon}</span> T{thyristor.id}
-        </span>
-        <span style="
-            font-family: 'Roboto Mono', monospace;
-            font-size: 16px;
-            font-weight: bold;
-            color: {color};
-        ">
-            {thyristor.tj_estimated:.1f}°C
-        </span>
-    </div>
-    """
-    
-    st.markdown(compact_html, unsafe_allow_html=True)
+    render_thyristor_tile(thyristor, clickable=False)
