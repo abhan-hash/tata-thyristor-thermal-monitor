@@ -9,7 +9,7 @@ import tempfile
 import os
 import websockets
 
-async def capture(url="http://localhost:8501/", output_path="screenshot_verified.png", wait_secs=3):
+async def capture(url="http://localhost:8501/", output_path="screenshot_verified.png", wait_secs=4.0):
     tmpdir = tempfile.mkdtemp()
     proc = subprocess.Popen([
         "google-chrome",
@@ -23,24 +23,24 @@ async def capture(url="http://localhost:8501/", output_path="screenshot_verified
     ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     try:
-        # Wait for page to load & hydrate
-        await asyncio.sleep(wait_secs)
+        # Give Chrome a second to bind port
+        await asyncio.sleep(1.5)
 
         # Get WebSocket debugger URL
         tabs_url = "http://localhost:9222/json"
-        req = urllib.request.urlopen(tabs_url)
-        tabs = json.loads(req.read().decode())
-        
         target_tab = None
-        for tab in tabs:
-            if tab.get("type") == "page" and "8501" in tab.get("url", ""):
-                target_tab = tab
-                break
-        if not target_tab:
-            for tab in tabs:
-                if tab.get("type") == "page":
-                    target_tab = tab
+        for _ in range(10):
+            try:
+                req = urllib.request.urlopen(tabs_url)
+                tabs = json.loads(req.read().decode())
+                for tab in tabs:
+                    if tab.get("type") == "page":
+                        target_tab = tab
+                        break
+                if target_tab:
                     break
+            except Exception:
+                await asyncio.sleep(0.5)
 
         if not target_tab:
             print("No page tab found in Chrome")
@@ -48,6 +48,23 @@ async def capture(url="http://localhost:8501/", output_path="screenshot_verified
 
         ws_url = target_tab["webSocketDebuggerUrl"]
         async with websockets.connect(ws_url) as ws:
+            # Poll until Streamlit main element exists and has content
+            for _ in range(int(wait_secs * 4)):
+                await asyncio.sleep(0.25)
+                eval_msg = {
+                    "id": 10,
+                    "method": "Runtime.evaluate",
+                    "params": {"expression": "document.querySelector('.main') ? document.querySelector('.main').innerText.length : 0"}
+                }
+                await ws.send(json.dumps(eval_msg))
+                resp = json.loads(await ws.recv())
+                length = resp.get("result", {}).get("result", {}).get("value", 0)
+                if length and length > 20:
+                    break
+
+            # Extra settle for fonts and layout
+            await asyncio.sleep(1.0)
+
             # Request screenshot
             msg = {"id": 1, "method": "Page.captureScreenshot", "params": {"format": "png"}}
             await ws.send(json.dumps(msg))
@@ -68,7 +85,6 @@ async def capture(url="http://localhost:8501/", output_path="screenshot_verified
             proc.wait(timeout=2)
         except Exception:
             proc.kill()
-        # Clean up temp dir
         try:
             import shutil
             shutil.rmtree(tmpdir, ignore_errors=True)
@@ -77,6 +93,7 @@ async def capture(url="http://localhost:8501/", output_path="screenshot_verified
 
 if __name__ == "__main__":
     out = sys.argv[1] if len(sys.argv) > 1 else "screenshot_verified.png"
-    wait = float(sys.argv[2]) if len(sys.argv) > 2 else 3.5
-    success = asyncio.run(capture(output_path=out, wait_secs=wait))
+    wait = float(sys.argv[2]) if len(sys.argv) > 2 else 4.0
+    url = sys.argv[3] if len(sys.argv) > 3 else "http://localhost:8501/"
+    success = asyncio.run(capture(url=url, output_path=out, wait_secs=wait))
     sys.exit(0 if success else 1)

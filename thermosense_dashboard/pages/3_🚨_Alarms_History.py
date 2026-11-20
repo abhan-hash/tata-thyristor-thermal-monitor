@@ -16,19 +16,23 @@ if str(parent_dir) not in sys.path:
     sys.path.insert(0, str(parent_dir))
 
 from data.data_source import get_latest, get_data_source
+from components.output_nav import render_output_nav
 
 st.set_page_config(
     page_title="Alarms & Incidents — THERMOSENSE",
-    page_icon="🚨",
+    page_icon=None,
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Load global CSS
 css_path = parent_dir / "assets" / "styles.css"
 if css_path.exists():
     with open(css_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        st.html(f"<style>{f.read()}</style>")
+
+# Render Top Navigation Header
+render_output_nav("ALARMS & HISTORY")
 
 data = get_latest()
 
@@ -71,66 +75,42 @@ if 'alarm_history' not in st.session_state:
         }
     ]
 
-# Header Bar
-st.markdown("""
-<div class="thermal-header-bar">
-    <div class="brand-badge">
-        <div style="font-size: 22px; filter: drop-shadow(0 0 8px rgba(255, 77, 0, 0.6));">🚨</div>
-        <div>
-            <div style="display: flex; align-items: baseline; gap: 8px;">
-                <span class="brand-title" style="font-size: 18px;">THERMOSENSE</span>
-                <span class="brand-divider">|</span>
-                <span class="brand-subtitle">ALARM & INCIDENT RESPONSE</span>
-            </div>
-            <div style="font-size: 9px; color: #6e7687; font-family: 'IBM Plex Mono', monospace;">
-                DEBOUNCE: 3.0s &bull; HYSTERESIS: 2.0K &bull; WCAG 2.1 AA COMPLIANT
-            </div>
-        </div>
-    </div>
-    <div class="header-status-group">
-        <div class="thermal-pill warning">
-            <span class="status-dot"></span> ADVISORY PILOT MODE
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# KPI Metrics Row
+# KPI Metrics Row (Pure Warm Tokens)
 kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 
 with kpi1:
     st.markdown("""
-    <div class="hardware-card" style="border-top: 2px solid #ff4d00;">
-        <div class="hardware-card-label">Active Trip Alerts</div>
-        <div class="hardware-card-value" style="color: #ffffff;">0</div>
-        <div class="hardware-card-subtext"><span>TRIP THRESHOLD: 125°C</span><span>ALL CLEAR</span></div>
+    <div class="hardware-card" style="border-top: 2px solid #E0201B; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 14px 16px;">
+        <div class="hardware-card-label" style="font-family: 'Plus Jakarta Sans'; font-size: 10px; color: #88847E; font-weight: 700; text-transform: uppercase;">Active Trip Alerts</div>
+        <div class="hardware-card-value" style="font-family: 'IBM Plex Mono'; font-size: 26px; font-weight: 800; color: #FFFFFF; margin: 4px 0;">0</div>
+        <div class="hardware-card-subtext" style="font-family: 'IBM Plex Mono'; font-size: 9.5px; color: #88847E; display: flex; justify-content: space-between;"><span>TRIP THRESHOLD: 125°C</span><span style="color: #C4C1BA;">ALL CLEAR</span></div>
     </div>
     """, unsafe_allow_html=True)
 
 with kpi2:
     st.markdown("""
-    <div class="hardware-card" style="border-top: 2px solid #ffaa00;">
-        <div class="hardware-card-label">Active Warnings</div>
-        <div class="hardware-card-value" style="color: #ffaa00;">1</div>
-        <div class="hardware-card-subtext"><span>FILTER RESIDUAL</span><span>4.2 K DELTA</span></div>
+    <div class="hardware-card" style="border-top: 2px solid #FFB020; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 14px 16px;">
+        <div class="hardware-card-label" style="font-family: 'Plus Jakarta Sans'; font-size: 10px; color: #88847E; font-weight: 700; text-transform: uppercase;">Active Warnings</div>
+        <div class="hardware-card-value" style="font-family: 'IBM Plex Mono'; font-size: 26px; font-weight: 800; color: #FFB020; margin: 4px 0;">1</div>
+        <div class="hardware-card-subtext" style="font-family: 'IBM Plex Mono'; font-size: 9.5px; color: #88847E; display: flex; justify-content: space-between;"><span>FILTER RESIDUAL</span><span>4.2 K DELTA</span></div>
     </div>
     """, unsafe_allow_html=True)
 
 with kpi3:
     st.markdown("""
-    <div class="hardware-card" style="border-top: 2px solid #00e5a3;">
-        <div class="hardware-card-label">Mean Time To Ack (MTTA)</div>
-        <div class="hardware-card-value" style="color: #00e5a3;">1.4 <span style="font-size: 14px; opacity: 0.7;">MIN</span></div>
-        <div class="hardware-card-subtext"><span>SHIFT TARGET: &lt; 3.0m</span><span>OPTIMAL</span></div>
+    <div class="hardware-card" style="border-top: 2px solid #F2B533; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 14px 16px;">
+        <div class="hardware-card-label" style="font-family: 'Plus Jakarta Sans'; font-size: 10px; color: #88847E; font-weight: 700; text-transform: uppercase;">Mean Time To Ack (MTTA)</div>
+        <div class="hardware-card-value" style="font-family: 'IBM Plex Mono'; font-size: 26px; font-weight: 800; color: #F2B533; margin: 4px 0;">1.4 <span style="font-size: 14px; opacity: 0.7;">MIN</span></div>
+        <div class="hardware-card-subtext" style="font-family: 'IBM Plex Mono'; font-size: 9.5px; color: #88847E; display: flex; justify-content: space-between;"><span>SHIFT TARGET: &lt; 3.0m</span><span style="color: #C4C1BA;">OPTIMAL</span></div>
     </div>
     """, unsafe_allow_html=True)
 
 with kpi4:
     st.markdown("""
-    <div class="hardware-card" style="border-top: 2px solid #3b82f6;">
-        <div class="hardware-card-label">Historical Incidents (24H)</div>
-        <div class="hardware-card-value" style="color: #ffffff;">3</div>
-        <div class="hardware-card-subtext"><span>STAND-04 LOGS</span><span>EXPORT READY</span></div>
+    <div class="hardware-card" style="border-top: 2px solid #FF9A3C; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 14px 16px;">
+        <div class="hardware-card-label" style="font-family: 'Plus Jakarta Sans'; font-size: 10px; color: #88847E; font-weight: 700; text-transform: uppercase;">Historical Incidents (24H)</div>
+        <div class="hardware-card-value" style="font-family: 'IBM Plex Mono'; font-size: 26px; font-weight: 800; color: #FFFFFF; margin: 4px 0;">3</div>
+        <div class="hardware-card-subtext" style="font-family: 'IBM Plex Mono'; font-size: 9.5px; color: #88847E; display: flex; justify-content: space-between;"><span>STAND-04 LOGS</span><span>EXPORT READY</span></div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -138,28 +118,28 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 # Active Live Alarm Action Banner
 st.markdown("""
-<div class="hardware-card" style="border-left: 4px solid #ffaa00; margin-bottom: 20px;">
+<div class="hardware-card" style="border-left: 4px solid #FFB020; margin-bottom: 20px; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 16px 20px;">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                <span class="thermal-pill warning" style="font-size: 9px;">ACTIVE WARNING</span>
-                <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; color: #ffffff;">STAND-04 COOLING RESIDUAL: +4.2K</span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <span class="thermal-pill warning" style="font-size: 9px; padding: 2px 7px;">ACTIVE WARNING</span>
+                <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; color: #FFFFFF;">STAND-04 COOLING RESIDUAL: +4.2K</span>
             </div>
-            <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; color: #828a99;">
+            <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11.5px; color: #9A9894;">
                 Heatsink actual temperature exceeds predicted thermal model by 4.2K. Indicates gradual intake filter clogging.
             </div>
         </div>
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ffaa00;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #FFB020; font-weight: 700;">
             DURATION: 14m 20s
         </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Fault Injection Control Panel (For demonstration and testing)
-with st.expander("🧪 Demo Simulation Fault Injection Controls (Testing Engine)", expanded=False):
+# Fault Injection Control Panel
+with st.expander("Diagnostic Simulation Controls (Engine Staging)", expanded=False):
     st.markdown("""
-    <div style="font-size: 11px; color: #828a99; margin-bottom: 12px;">
+    <div style="font-size: 11px; color: #88847E; margin-bottom: 12px; font-family: 'Plus Jakarta Sans';">
         Trigger simulated industrial fault conditions on Stand-04 to observe real-time alarm triggering, debouncing, and model adaptation.
     </div>
     """, unsafe_allow_html=True)
@@ -197,7 +177,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 # Historical Incident Log Table
 st.markdown("""
-<div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; color: #828a99; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;">
+<div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; color: #88847E; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;">
     RECENT INCIDENT & TRIP EVENT AUDIT LOG
 </div>
 """, unsafe_allow_html=True)
@@ -205,23 +185,23 @@ st.markdown("""
 for entry in st.session_state['alarm_history']:
     is_crit = (entry['level'] == 'critical')
     badge_cls = 'critical' if is_crit else 'warning'
-    border_col = '#ff2a2a' if is_crit else '#ffaa00'
+    border_col = '#E0201B' if is_crit else '#FFB020'
     
     st.markdown(f"""
-    <div class="channel-row-item" style="border-left: 3px solid {border_col}; margin-bottom: 8px;">
-        <div class="channel-title-group">
-            <span class="channel-id-badge">{entry['id']}</span>
+    <div class="channel-row-item" style="border-left: 3px solid {border_col}; margin-bottom: 8px; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="channel-title-group" style="display: flex; align-items: center; gap: 12px;">
+            <span class="channel-id-badge" style="font-family: 'IBM Plex Mono'; font-weight: 700; color: #FFFFFF; background: #201F1D; padding: 4px 8px; border-radius: 4px; font-size: 10.5px;">{entry['id']}</span>
             <div>
-                <div class="channel-name">{entry['type']} &bull; <strong style="color: {border_col};">{entry['thyristor']}</strong></div>
-                <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #6b7382;">
-                    TIME: {entry['timestamp']} &bull; VALUE: <span style="color: #ffffff;">{entry['value']}</span> &bull; {entry['action']}
+                <div class="channel-name" style="font-family: 'Montserrat'; font-size: 13px; font-weight: 700; color: #FFFFFF;">{entry['type']} &bull; <strong style="color: {border_col};">{entry['thyristor']}</strong></div>
+                <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #88847E; margin-top: 2px;">
+                    TIME: {entry['timestamp']} &bull; VALUE: <span style="color: #FFFFFF;">{entry['value']}</span> &bull; {entry['action']}
                 </div>
             </div>
         </div>
         <div class="channel-metrics-group">
             <div style="text-align: right;">
-                <span class="thermal-pill {badge_cls}" style="font-size: 8px;">ACKNOWLEDGED</span>
-                <div style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #575e6d; margin-top: 2px;">
+                <span class="thermal-pill {badge_cls}" style="font-size: 8px; padding: 2px 7px;">ACKNOWLEDGED</span>
+                <div style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #88847E; margin-top: 3px;">
                     {entry['ack_by']}
                 </div>
             </div>
