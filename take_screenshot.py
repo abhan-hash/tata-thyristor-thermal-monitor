@@ -9,14 +9,14 @@ import tempfile
 import os
 import websockets
 
-async def capture(url="http://localhost:8501/", output_path="screenshot_verified.png", wait_secs=4.0):
+async def capture(url="http://localhost:8501/", output_path="screenshot_verified.png", wait_secs=4.0, width=1440, height=1100):
     tmpdir = tempfile.mkdtemp()
     proc = subprocess.Popen([
         "google-chrome",
         "--headless=new",
         "--remote-debugging-port=9222",
         f"--user-data-dir={tmpdir}",
-        "--window-size=1440,1100",
+        f"--window-size={width},{height}",
         "--disable-gpu",
         "--no-sandbox",
         url
@@ -95,5 +95,7 @@ if __name__ == "__main__":
     out = sys.argv[1] if len(sys.argv) > 1 else "screenshot_verified.png"
     wait = float(sys.argv[2]) if len(sys.argv) > 2 else 4.0
     url = sys.argv[3] if len(sys.argv) > 3 else "http://localhost:8501/"
-    success = asyncio.run(capture(url=url, output_path=out, wait_secs=wait))
+    w = int(sys.argv[4]) if len(sys.argv) > 4 else 1440
+    h = int(sys.argv[5]) if len(sys.argv) > 5 else 1100
+    success = asyncio.run(capture(url=url, output_path=out, wait_secs=wait, width=w, height=h))
     sys.exit(0 if success else 1)

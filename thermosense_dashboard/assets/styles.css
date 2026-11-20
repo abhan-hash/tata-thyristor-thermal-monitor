@@ -115,10 +115,14 @@
 }
 
 /* -----------------------------------------------------------------------------
-   3. GLOBAL RESET & BASE STYLES
+   3. GLOBAL RESET & BASE STYLES (Mobile Native Touch & Platform Layer)
    ----------------------------------------------------------------------------- */
 *, *::before, *::after {
     box-sizing: border-box;
+}
+
+html {
+    -webkit-tap-highlight-color: transparent;
 }
 
 html, body, [class*="css"] {
@@ -129,10 +133,22 @@ html, body, [class*="css"] {
     -moz-osx-font-smoothing: grayscale;
 }
 
+button, a, [role="button"], .source-item-btn, .preset-rack-row, .stButton > button, .knob-dial, .fader-thumb-knob {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+input, textarea, select {
+    font-size: 16px !important;
+}
+
 p, .output-body-text {
     max-width: 75ch;
     color: var(--color-text-body);
     line-height: 1.6;
+    overflow-wrap: anywhere;
 }
 
 a {
@@ -1018,44 +1034,141 @@ div[data-baseweb="select"] > div,
 }
 
 @media (max-width: 767px) {
+    /* Mobile-Native Platform & Viewport Layer */
     .block-container {
         padding-left: 1rem !important;
         padding-right: 1rem !important;
         padding-top: 0.5rem !important;
+        padding-bottom: env(safe-area-inset-bottom, 2rem) !important;
     }
 
-    /* Flatten 3D perspective to 2D to prevent clipping & overflow */
-    .hardware-chassis-slab {
+    /* Single-column stacking for Streamlit horizontal containers */
+    [data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    [data-testid="column"] {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+    }
+
+    /* Hero Left Column & Stepped Heat Blob Aura Containment */
+    .hero-left-wrapper {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        padding-top: 15px !important;
+    }
+
+    .stepped-heat-blob-aura {
+        width: 130% !important;
+        left: -15% !important;
+        top: -30px !important;
+        height: 560px !important;
+        display: block !important;
+    }
+
+    /* 3D Hardware Controller Flattened 2D Viewport Adaptation */
+    .hardware-stage {
+        perspective: none !important;
+        aspect-ratio: auto !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    .chassis-3d-slab {
         transform: none !important;
-        margin-bottom: 16px;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 420px !important;
+        margin-bottom: 20px !important;
     }
 
+    .chassis-top-face {
+        position: relative !important;
+        inset: auto !important;
+        min-height: 420px !important;
+        padding: 16px !important;
+    }
+
+    .chassis-front-extrusion,
+    .chassis-right-extrusion {
+        display: none !important;
+    }
+
+    .thermal-disc-housing {
+        width: 210px !important;
+        height: 210px !important;
+    }
+
+    .dark-center-blob {
+        width: 96px !important;
+        height: 92px !important;
+    }
+
+    .pupil-core-ring {
+        width: 72px !important;
+        height: 72px !important;
+    }
+
+    .pupil-temp-value {
+        font-size: 16px !important;
+    }
+
+    .controls-deck {
+        gap: 10px !important;
+    }
+
+    .chassis-bottom-row {
+        flex-wrap: wrap !important;
+        gap: 6px 12px !important;
+    }
+
+    /* Top Nav Responsive Collapse & Scrollable Links */
     .output-nav-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
     }
 
     .output-nav-links {
-        width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 6px;
-        gap: 16px;
+        width: 100% !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        padding-bottom: 6px !important;
+        gap: 16px !important;
+        -webkit-overflow-scrolling: touch;
     }
 
+    /* Typography & Header Stacking */
     .product-title-row {
-        flex-wrap: wrap;
-        gap: 8px;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
     }
 
     .product-main-title,
     .output-main-title {
-        font-size: 28px;
+        font-size: 28px !important;
+        letter-spacing: -0.5px !important;
     }
 
+    /* Thumb-friendly Touch Targets (>= 48px) */
     .source-selector-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .source-item-btn {
+        min-height: 48px !important;
+        padding: 12px 10px !important;
+        touch-action: manipulation;
+    }
+
+    .preset-rack-row {
+        min-height: 48px !important;
+        padding: 12px 14px !important;
+        touch-action: manipulation;
     }
 
     .second-panel-container > div {
@@ -1549,21 +1662,4 @@ div[data-baseweb="select"] > div,
     z-index: 2;
 }
 
-@media (max-width: 767px) {
-    .chassis-3d-slab {
-        transform: none !important;
-        width: 100% !important;
-        height: auto !important;
-        margin-bottom: 20px;
-    }
-    .hardware-stage {
-        perspective: none !important;
-        aspect-ratio: auto !important;
-        height: auto !important;
-        min-height: auto !important;
-    }
-    .chassis-front-extrusion,
-    .chassis-right-extrusion {
-        display: none !important;
-    }
-}
+

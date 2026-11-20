@@ -19,6 +19,25 @@ try:
 except ImportError:
     from thermosense_dashboard.components.output_console import render_3d_hardware_console_html
 
+try:
+    from components.interactive_logic import (
+        validate_component_source,
+        validate_selected_channel,
+        get_thermal_status_tier,
+        calculate_thermal_margin,
+        sanitize_telemetry_dataset,
+        VALID_SOURCES
+    )
+except ImportError:
+    from thermosense_dashboard.components.interactive_logic import (
+        validate_component_source,
+        validate_selected_channel,
+        get_thermal_status_tier,
+        calculate_thermal_margin,
+        sanitize_telemetry_dataset,
+        VALID_SOURCES
+    )
+
 
 def render_output_thermal_showcase(drive_data, active_component: str = "BRIDGE"):
     """
@@ -28,87 +47,43 @@ def render_output_thermal_showcase(drive_data, active_component: str = "BRIDGE")
     # =========================================================================
     # 1. CLEAN DATA SANITIZATION (Strict physical bounds & safe clamping)
     # =========================================================================
-    clean_tj: List[float] = []
-    clean_hs: List[float] = []
-
+    raw_tj = []
+    raw_hs = []
     thyristors = getattr(drive_data, 'thyristors', [])
-    for idx in range(6):
-        # Junction temperature (Tj) extraction & clamping
-        tj_val = 70.0 + idx * 0.4
-        if idx < len(thyristors):
-            t = thyristors[idx]
-            try:
-                val = t.tj_estimated() if callable(getattr(t, 'tj_estimated', None)) else getattr(t, 'tj_estimated', None)
-                if isinstance(val, (list, tuple)) and len(val) > 0:
-                    val = float(val[0])
-                elif val is not None:
-                    val = float(val)
-                else:
-                    val = 70.0 + idx * 0.4
+    for t in thyristors:
+        try:
+            tj_val = t.tj_estimated() if callable(getattr(t, 'tj_estimated', None)) else getattr(t, 'tj_estimated', None)
+            raw_tj.append(tj_val)
+        except Exception:
+            raw_tj.append(70.0)
+        try:
+            hs_val = t.t_heatsink_measured() if callable(getattr(t, 't_heatsink_measured', None)) else getattr(t, 't_heatsink_measured', None)
+            raw_hs.append(hs_val)
+        except Exception:
+            raw_hs.append(45.0)
 
-                if not np.isfinite(val) or val < 20.0 or val > 135.0:
-                    val = 70.0 + idx * 0.4
-                tj_val = min(125.0, max(45.0, float(val)))
-            except Exception:
-                tj_val = 70.0 + idx * 0.4
-        clean_tj.append(tj_val)
-
-        # Heatsink temperature (Hs) extraction & clamping
-        hs_val = 45.0 + idx * 0.2
-        if idx < len(thyristors):
-            t = thyristors[idx]
-            try:
-                hs = t.t_heatsink_measured() if callable(getattr(t, 't_heatsink_measured', None)) else getattr(t, 't_heatsink_measured', None)
-                if isinstance(hs, (list, tuple)) and len(hs) > 0:
-                    hs = float(hs[0])
-                elif hs is not None:
-                    hs = float(hs)
-                else:
-                    hs = 45.0 + idx * 0.2
-
-                if not np.isfinite(hs) or hs < 15.0 or hs > 100.0:
-                    hs = 45.0 + idx * 0.2
-                hs_val = min(90.0, max(25.0, float(hs)))
-            except Exception:
-                hs_val = 45.0 + idx * 0.2
-        clean_hs.append(hs_val)
-
-    # Clamping peak Tj to [65.0, 95.0] during normal simulation
-    raw_max_tj = max(clean_tj) if clean_tj else 71.2
-    max_tj = min(95.0, max(65.0, raw_max_tj))
-    max_hs = max(clean_hs) if clean_hs else 46.5
-
-    # Armature current sanitization
-    raw_current = getattr(drive_data, 'armature_current', 700.0)
-    try:
-        armature_current = float(raw_current)
-        if not np.isfinite(armature_current) or armature_current < 0.0 or armature_current > 1600.0:
-            armature_current = 700.0
-    except Exception:
-        armature_current = 700.0
-
-    # Ambient temp sanitization
-    raw_ambient = getattr(drive_data, 'ambient_temp', 35.0)
-    try:
-        ambient_temp = float(raw_ambient)
-        if not np.isfinite(ambient_temp) or ambient_temp < 10.0 or ambient_temp > 60.0:
-            ambient_temp = 35.0
-    except Exception:
-        ambient_temp = 35.0
-
-    # Cooling residual sanitization
     residuals = []
     for t in thyristors:
         r = getattr(t, 'residual', None)
         if r is not None:
-            try:
-                r_val = float(r)
-                if np.isfinite(r_val):
-                    residuals.append(r_val)
-            except Exception:
-                pass
-    cooling_residual = max(residuals) if residuals else 2.4
-    cooling_residual = min(12.0, max(0.5, cooling_residual))
+            residuals.append(r)
+
+    telemetry = sanitize_telemetry_dataset(
+        raw_tj=raw_tj,
+        raw_hs=raw_hs,
+        armature_current=getattr(drive_data, 'armature_current', 700.0),
+        ambient_temp=getattr(drive_data, 'ambient_temp', 35.0),
+        residuals=residuals,
+        min_channels=6
+    )
+
+    clean_tj = telemetry['clean_tj']
+    clean_hs = telemetry['clean_hs']
+    max_tj = min(95.0, max(65.0, telemetry['max_tj']))
+    max_hs = telemetry['max_hs']
+    armature_current = telemetry['armature_current']
+    ambient_temp = telemetry['ambient_temp']
+    cooling_residual = telemetry['cooling_residual']
 
     # =========================================================================
     # 2. QUERY PARAMETERS & SESSION STATE SYNCHRONIZATION
@@ -116,18 +91,16 @@ def render_output_thermal_showcase(drive_data, active_component: str = "BRIDGE")
     if "source" in st.query_params:
         src_param = st.query_params.get("source")
         if src_param:
-            st.session_state['selected_component'] = src_param.upper()
+            st.session_state['selected_component'] = validate_component_source(src_param)
 
     if "t" in st.query_params:
-        try:
-            t_param = int(st.query_params.get("t", 1))
-            if 1 <= t_param <= 6:
-                st.session_state['selected_thyristor'] = t_param
-        except (ValueError, TypeError):
-            pass
+        st.session_state['selected_thyristor'] = validate_selected_channel(
+            st.query_params.get("t"),
+            max_channels=len(clean_tj)
+        )
 
-    selected_source = st.session_state.get('selected_component', active_component).upper()
-    selected_thyristor = st.session_state.get('selected_thyristor', 1)
+    selected_source = validate_component_source(st.session_state.get('selected_component', active_component))
+    selected_thyristor = validate_selected_channel(st.session_state.get('selected_thyristor', 1), max_channels=len(clean_tj))
 
     # =========================================================================
     # 3. MAIN HERO 2-COLUMN SPLIT (Tasks 6, 7, 8, 9, 10)
@@ -186,11 +159,11 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
             is_active = (selected_source == code or (code == "BRIDGE" and "BRIDGE" in selected_source))
             active_cls = "active" if is_active else ""
             btn_html = (
-                f'<a href="?source={code}" class="source-item-btn {active_cls}" tabindex="0" target="_self" style="text-decoration: none;">'
-                f'<svg class="source-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">'
+                f'<a href="?source={code}" class="source-item-btn {active_cls}" tabindex="0" target="_self" role="button" style="text-decoration: none;">'
+                f'<svg class="source-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">'
                 f'{svg_paths}'
                 f'</svg>'
-                f'<span class="source-item-label" style="text-decoration: none;">{label}</span>'
+                f'<span class="source-item-label" style="text-decoration: none; overflow-wrap: anywhere;">{label}</span>'
                 f'</a>'
             )
             buttons_html_list.append(btn_html)
@@ -198,14 +171,15 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
         buttons_grid_str = "\n".join(buttons_html_list)
 
         # Build Preset Rack Rows HTML (Task 9) - Interruptible Expandable Channels
-        channels = [
-            ("T1 &bull; UPPER ARM (PHASE U)", 1, clean_tj[0], clean_hs[0]),
-            ("T2 &bull; LOWER ARM (PHASE U)", 2, clean_tj[1], clean_hs[1]),
-            ("T3 &bull; UPPER ARM (PHASE V)", 3, clean_tj[2], clean_hs[2]),
-            ("T4 &bull; LOWER ARM (PHASE V)", 4, clean_tj[3], clean_hs[3]),
-            ("T5 &bull; UPPER ARM (PHASE W)", 5, clean_tj[4], clean_hs[4]),
-            ("T6 &bull; LOWER ARM (PHASE W)", 6, clean_tj[5], clean_hs[5]),
-        ]
+        phase_map = ["(PHASE U)", "(PHASE U)", "(PHASE V)", "(PHASE V)", "(PHASE W)", "(PHASE W)"]
+        arm_map = ["UPPER ARM", "LOWER ARM"]
+        channels = []
+        for i in range(len(clean_tj)):
+            t_num = i + 1
+            phase = phase_map[i % 6]
+            arm = arm_map[i % 2]
+            ch_title = f"T{t_num} &bull; {arm} {phase}"
+            channels.append((ch_title, t_num, clean_tj[i], clean_hs[i]))
 
         rack_rows_list = []
         for ch_title, t_num, temp_val, hs_val in channels:
@@ -213,34 +187,26 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
             item_cls = "preset-rack-item" + (" active expanded" if is_sel else "")
 
             # Thermal status tier colors (strictly warm)
-            if temp_val >= 125.0:
-                dot_col = "#E0201B"  # Critical
-            elif temp_val >= 110.0:
-                dot_col = "#FF5A1F"  # Warning
-            elif temp_val >= 105.0:
-                dot_col = "#FFB020"  # Elevated
-            else:
-                dot_col = "#C4C1BA"  # Nominal
-
+            status_label, dot_col = get_thermal_status_tier(temp_val)
             title_col = "#FFFFFF" if is_sel else "#C4C1BA"
-            thermal_margin = max(0.0, 125.0 - temp_val)
+            thermal_margin = calculate_thermal_margin(temp_val, trip_limit=125.0)
 
             row_html = (
                 f'<div class="{item_cls}">'
                 f'<div class="preset-rack-row" tabindex="0" role="button" aria-expanded="{"true" if is_sel else "false"}" '
                 f'onclick="this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\');" '
                 f'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){{event.preventDefault();this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\');}}">'
-                f'<div style="display: flex; align-items: center; gap: 12px;">'
-                f'<span class="preset-row-title" style="font-family: \'Plus Jakarta Sans\', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.28em; color: {title_col}; text-transform: uppercase;">{ch_title}</span>'
+                f'<div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1;">'
+                f'<span class="preset-row-title" style="font-family: \'Plus Jakarta Sans\', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.28em; color: {title_col}; text-transform: uppercase; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{ch_title}</span>'
                 f'</div>'
-                f'<div class="preset-row-right" style="display: flex; align-items: center; gap: 14px;">'
-                f'<span class="preset-row-temp" style="font-family: \'IBM Plex Mono\', monospace; font-size: 13.5px; font-weight: 700; color: #FFFFFF; font-variant-numeric: tabular-nums;">{temp_val:.1f}&deg;C</span>'
-                f'<span class="preset-row-chevron" style="color: #88847E; font-size: 16px;">&rsaquo;</span>'
+                f'<div class="preset-row-right" style="display: flex; align-items: center; gap: 14px; flex-shrink: 0;">'
+                f'<span class="preset-row-temp" style="font-family: \'IBM Plex Mono\', monospace; font-size: 13.5px; font-weight: 700; color: #FFFFFF; font-variant-numeric: tabular-nums; flex-shrink: 0;">{temp_val:.1f}&deg;C</span>'
+                f'<span class="preset-row-chevron" style="color: #88847E; font-size: 16px; flex-shrink: 0;">&rsaquo;</span>'
                 f'</div>'
                 f'</div>'
                 f'<div class="preset-rack-drawer">'
                 f'<div class="preset-rack-drawer-inner">'
-                f'<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); font-family: \'IBM Plex Mono\', monospace; font-size: 10px; color: #88847E;">'
+                f'<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); font-family: \'IBM Plex Mono\', monospace; font-size: 10px; color: #88847E;">'
                 f'<span>HEATSINK: <strong style="color: #FFFFFF;">{hs_val:.1f}&deg;C</strong></span>'
                 f'<span>Zth: <strong style="color: #FFB020;">0.040 K/W</strong></span>'
                 f'<span>MARGIN: <strong style="color: #C4C1BA;">+{thermal_margin:.1f} K</strong></span>'
