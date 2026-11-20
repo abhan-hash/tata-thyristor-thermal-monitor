@@ -7,12 +7,25 @@ Output Thermal Bespoke Hardware Design Experience (DESIGN_SPEC v2.0)
 import streamlit as st
 from pathlib import Path
 import sys
+import importlib
 import textwrap
 
 # Add parent directory to path
 current_dir = Path(__file__).parent
 if str(current_dir) not in sys.path:
     sys.path.insert(0, str(current_dir))
+
+import data.data_source
+import components.output_hardware
+import components.output_hero
+import components.output_nav
+import components.output_console
+
+importlib.reload(data.data_source)
+importlib.reload(components.output_console)
+importlib.reload(components.output_hardware)
+importlib.reload(components.output_hero)
+importlib.reload(components.output_nav)
 
 from data.data_source import get_latest
 from components.output_nav import render_output_nav
@@ -22,7 +35,7 @@ from components.output_hardware import render_output_thermal_showcase
 # Page configuration
 st.set_page_config(
     page_title="THERMAL | THERMOSENSE — Tata Steel HSM",
-    page_icon="⚡",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -31,7 +44,7 @@ st.set_page_config(
 css_path = current_dir / "assets" / "styles.css"
 if css_path.exists():
     with open(css_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        st.html(f"<style>{f.read()}</style>")
 
 # Session state initialization
 if 'selected_thyristor' not in st.session_state:
@@ -92,7 +105,7 @@ suite_header_html = textwrap.dedent("""
 EXPLORE INDUSTRIAL DIAGNOSTIC SUITE
 </div>
 """).strip()
-st.markdown(suite_header_html, unsafe_allow_html=True)
+st.html(suite_header_html)
 
 nav_col1, nav_col2, nav_col3 = st.columns(3)
 
@@ -112,7 +125,7 @@ Drive Detail &amp; Bridge Topology
 </div>
 </div>
 """).strip()
-    st.markdown(card1_html, unsafe_allow_html=True)
+    st.html(card1_html)
     if st.button("Launch Drive Detail", key="btn_nav_drive", use_container_width=True):
         st.switch_page("pages/2_⚡_Drive_Detail.py")
 
@@ -134,7 +147,7 @@ Active trip alerts, cooling filter clogging early warning, debounce controls, an
 </div>
 </div>
 """).strip()
-    st.markdown(card2_html, unsafe_allow_html=True)
+    st.html(card2_html)
     if st.button("Open Alarm Center", key="btn_nav_alarms", use_container_width=True):
         st.switch_page("pages/3_🚨_Alarms_History.py")
 
@@ -154,7 +167,7 @@ Thermo-mechanical fatigue damage accumulation, bond wire solder stress velocity,
 </div>
 </div>
 """).strip()
-    st.markdown(card3_html, unsafe_allow_html=True)
+    st.html(card3_html)
     if st.button("Inspect Wear Analytics", key="btn_nav_wear", use_container_width=True):
         st.switch_page("pages/4_📊_Trends_Wear.py")
 

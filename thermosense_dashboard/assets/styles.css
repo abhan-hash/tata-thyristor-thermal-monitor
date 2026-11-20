@@ -169,10 +169,10 @@ header,
         radial-gradient(ellipse 70% 45% at 20% 12%, rgba(255, 90, 31, 0.05) 0%, transparent 60%),
         radial-gradient(ellipse 60% 40% at 85% 75%, rgba(242, 181, 51, 0.035) 0%, transparent 60%),
         radial-gradient(circle at 50% 50%, rgba(26, 25, 24, 0.35) 0%, transparent 100%),
-        url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 C 90 20, 160 70, 240 30 C 310 -5, 360 45, 400 40' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 100 C 80 120, 150 70, 220 110 C 290 140, 350 90, 400 100' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 160 C 70 140, 140 190, 230 150 C 300 120, 360 180, 400 160' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 220 C 100 250, 170 190, 250 230 C 310 260, 360 210, 400 220' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 280 C 60 260, 130 310, 210 270 C 280 240, 340 300, 400 280' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 340 C 90 370, 180 320, 260 360 C 320 380, 370 330, 400 340' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M0 400 C 80 380, 150 430, 240 390 C 310 360, 360 410, 400 400' stroke='rgba(255,255,255,0.045)' fill='none' stroke-width='0.8'/%3E%3C/svg%3E") !important;
+        url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50 C 120 20, 210 80, 320 30 C 410 -10, 460 60, 500 50 M0 120 C 110 150, 190 90, 290 140 C 370 180, 440 110, 500 120 M0 200 C 90 170, 180 230, 280 190 C 370 150, 430 220, 500 200 M0 280 C 120 310, 220 250, 310 290 C 390 320, 450 270, 500 280 M0 360 C 80 340, 170 390, 270 350 C 350 310, 420 380, 500 360 M0 440 C 110 470, 210 410, 320 450 C 400 480, 460 430, 500 440' stroke='rgba(255,255,255,0.032)' fill='none' stroke-width='0.75'/%3E%3Cellipse cx='320' cy='290' rx='45' ry='25' stroke='rgba(255,255,255,0.032)' fill='none' stroke-width='0.75'/%3E%3Cellipse cx='140' cy='110' rx='55' ry='30' stroke='rgba(255,255,255,0.032)' fill='none' stroke-width='0.75'/%3E%3C/svg%3E") !important;
     background-attachment: fixed !important;
     background-repeat: repeat !important;
-    background-size: auto, auto, auto, 400px 400px !important;
+    background-size: auto, auto, auto, 500px 500px !important;
     color: var(--color-text-primary) !important;
 }
 
@@ -1029,5 +1029,375 @@ div[data-baseweb="select"] > div,
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
         transform: none !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   18. 3D ISOMETRIC HARDWARE CONSOLE (Option B - True Isometric Hardware Unit)
+   ----------------------------------------------------------------------------- */
+.hardware-console-root {
+    width: 100%;
+    max-width: 580px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+.hardware-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    min-height: 380px;
+    perspective: 1400px;
+    perspective-origin: 50% 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.chassis-3d-slab {
+    position: relative;
+    width: 94%;
+    height: 92%;
+    transform: rotateX(24deg) rotateY(-16deg) rotateZ(6deg);
+    transform-style: preserve-3d;
+    background: #181716;
+    border-radius: 10px;
+    box-sizing: border-box;
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.92),
+        0 20px 40px rgba(0, 0, 0, 0.8),
+        0 0 1px rgba(255, 255, 255, 0.15);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) {
+    .chassis-3d-slab:hover {
+        transform: rotateX(22deg) rotateY(-14deg) rotateZ(5deg) translateY(-4px);
+        box-shadow: 
+            0 50px 95px rgba(0, 0, 0, 0.95),
+            0 25px 45px rgba(0, 0, 0, 0.85),
+            0 0 25px rgba(255, 90, 31, 0.15);
+    }
+}
+
+.chassis-top-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: #181716;
+    background-image: 
+        radial-gradient(ellipse 90% 60% at 20% 15%, rgba(255, 255, 255, 0.05) 0%, transparent 70%),
+        radial-gradient(circle at 75% 75%, rgba(20, 19, 18, 0.6) 0%, transparent 100%);
+    border-top: 1.5px solid rgba(255, 255, 255, 0.22);
+    border-left: 1.2px solid rgba(255, 255, 255, 0.14);
+    border-right: 1.2px solid rgba(14, 13, 12, 0.8);
+    border-bottom: 2px solid rgba(10, 9, 8, 0.95);
+    padding: 22px 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.chassis-noise-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    border-radius: 10px;
+}
+
+.chassis-front-extrusion {
+    position: absolute;
+    bottom: -11px;
+    left: 4px;
+    right: 4px;
+    height: 12px;
+    background: linear-gradient(180deg, #121110 0%, #0A0908 100%);
+    border-radius: 0 0 8px 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.95);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.9);
+}
+
+.chassis-right-extrusion {
+    position: absolute;
+    top: 4px;
+    bottom: -4px;
+    right: -11px;
+    width: 12px;
+    background: linear-gradient(90deg, #141312 0%, #0A0908 100%);
+    border-radius: 0 8px 8px 0;
+    border-left: 1px solid rgba(0, 0, 0, 0.85);
+}
+
+.chassis-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+}
+
+.chassis-title-label {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primitive-yellow-orange);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.chassis-subtitle-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--primitive-grey-400);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+}
+
+.controls-deck {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.knob-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.knob-dial {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #383532 0%, #201F1D 45%, #151413 75%, #0E0D0C 100%);
+    border: 1.5px solid #3A3734;
+    position: relative;
+    box-shadow: 
+        0 6px 14px rgba(0, 0, 0, 0.85),
+        inset 0 1px 1px rgba(255, 255, 255, 0.22),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.9);
+    cursor: grab;
+    transition: transform 0.15s ease-out;
+}
+
+.knob-dial::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+
+.knob-indicator-tick {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    width: 2px;
+    height: 9px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.knob-sub-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--primitive-grey-400);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.fader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.fader-recessed-slot {
+    width: 14px;
+    height: 58px;
+    background: #0E0D0C;
+    border: 1.2px solid #2B2926;
+    border-radius: 4px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.95);
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.fader-guide-slit {
+    width: 2px;
+    height: 78%;
+    background: var(--primitive-orange-500);
+    margin: auto 0;
+    border-radius: 1px;
+    box-shadow: 0 0 6px rgba(255, 90, 31, 0.6);
+}
+
+.fader-thumb-knob {
+    position: absolute;
+    top: 35%;
+    width: 22px;
+    height: 12px;
+    background: linear-gradient(180deg, #33312E 0%, #1E1D1B 100%);
+    border: 1px solid #45423E;
+    border-radius: 3px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    cursor: ns-resize;
+}
+
+.fader-thumb-knob::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.35);
+    transform: translate(-50%, -50%);
+}
+
+.thermal-disc-housing {
+    width: 236px;
+    height: 236px;
+    margin: 4px auto;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 176, 32, 0.45);
+    box-shadow: 
+        0 0 50px rgba(255, 90, 31, 0.45),
+        inset 0 0 30px rgba(0, 0, 0, 0.92);
+    background: radial-gradient(
+        circle at 48% 48%,
+        #141312 0%,
+        #2A0E0A 18%,
+        #8F110E 38%,
+        #E0201B 55%,
+        #FF5A1F 72%,
+        #FFB020 88%,
+        #181716 100%
+    );
+    transition: box-shadow 0.2s ease-out;
+}
+
+.disc-isoline-outer {
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.22);
+    pointer-events: none;
+}
+
+.disc-isoline-inner {
+    position: absolute;
+    inset: 32px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.dark-center-blob {
+    position: absolute;
+    width: 110px;
+    height: 104px;
+    border-radius: 46% 54% 52% 48% / 51% 48% 52% 49%;
+    background: #0E0D0C;
+    box-shadow: 
+        inset 0 0 16px rgba(0, 0, 0, 0.95),
+        0 0 14px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: transform 0.2s ease-out;
+}
+
+.pupil-core-ring {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #201F1D 0%, #151413 70%, #0E0D0C 100%);
+    border: 1.5px solid rgba(255, 176, 32, 0.55);
+    box-shadow: 
+        0 0 16px rgba(0, 0, 0, 0.95),
+        0 0 12px rgba(255, 90, 31, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+}
+
+.pupil-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--primitive-yellow-orange);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.pupil-temp-value {
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--primitive-grey-100);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.pupil-trip-sub {
+    font-family: var(--font-mono);
+    font-size: 7.5px;
+    color: var(--primitive-grey-300);
+    letter-spacing: 0.05em;
+}
+
+.chassis-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--primitive-grey-400);
+    position: relative;
+    z-index: 2;
+}
+
+@media (max-width: 767px) {
+    .chassis-3d-slab {
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+        margin-bottom: 20px;
+    }
+    .hardware-stage {
+        perspective: none !important;
+        aspect-ratio: auto !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+    .chassis-front-extrusion,
+    .chassis-right-extrusion {
+        display: none !important;
     }
 }

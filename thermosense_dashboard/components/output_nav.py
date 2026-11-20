@@ -77,7 +77,7 @@ def render_output_nav(active_page: str = "OVERVIEW"):
 .output-nav-left {{
     display: flex;
     align-items: center;
-    flex: 1;
+    flex: 0 0 auto;
 }}
 
 .output-nav-wordmark {{
@@ -102,15 +102,15 @@ def render_output_nav(active_page: str = "OVERVIEW"):
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 28px;
-    flex: 2;
+    gap: 20px;
+    margin: 0 20px;
 }}
 
 .output-nav-link {{
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
     font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     color: #88847E;
     text-transform: uppercase;
     text-decoration: none;
@@ -132,7 +132,7 @@ def render_output_nav(active_page: str = "OVERVIEW"):
     align-items: center;
     justify-content: flex-end;
     gap: 20px;
-    flex: 1;
+    flex: 0 0 auto;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
     font-weight: 600;
@@ -200,4 +200,7 @@ def render_output_nav(active_page: str = "OVERVIEW"):
 </div>
 """).strip()
 
-    st.markdown(html, unsafe_allow_html=True)
+    if hasattr(st, "html"):
+        st.html(html)
+    else:
+        st.markdown(html, unsafe_allow_html=True)

@@ -44,7 +44,7 @@ def render_output_hero(
     align-items: center;
     gap: 0;
     margin: 8px 0 28px 0;
-    padding: 6px 0;
+    padding: 6px 0 6px 36px;
     position: relative;
     box-sizing: border-box;
 }}
@@ -65,40 +65,40 @@ def render_output_hero(
 
 .output-hero-heat-smear {{
     position: absolute;
-    left: -60px;
+    left: -78px;
     top: 50%;
     transform: translateY(-50%);
-    width: 75px;
-    height: 80%;
-    background: linear-gradient(90deg, rgba(255, 90, 31, 0) 0%, rgba(255, 154, 60, 0.28) 35%, rgba(255, 90, 31, 0.65) 75%, rgba(224, 32, 27, 0.85) 100%);
-    filter: blur(12px);
-    border-radius: 50% 0 0 50%;
+    width: 95px;
+    height: 75%;
+    background: linear-gradient(90deg, rgba(255, 90, 31, 0) 0%, rgba(255, 154, 60, 0.4) 30%, rgba(255, 90, 31, 0.8) 75%, rgba(224, 32, 27, 0.95) 100%);
+    border-radius: 40px 0 0 40px;
     pointer-events: none;
     z-index: 0;
+    filter: blur(8px);
 }}
 
 .output-hero-heat-smear::before {{
     content: '';
     position: absolute;
-    top: 28%;
+    top: 25%;
     left: 8px;
-    width: 52px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #FF9A3C 55%, #FF5A1F 100%);
-    filter: blur(1px);
-    opacity: 0.75;
+    width: 72px;
+    height: 2.5px;
+    background: linear-gradient(90deg, transparent, #FF9A3C 40%, #FF5A1F 100%);
+    border-radius: 2px;
+    opacity: 0.9;
 }}
 
 .output-hero-heat-smear::after {{
     content: '';
     position: absolute;
-    top: 68%;
+    top: 70%;
     left: 4px;
-    width: 56px;
+    width: 78px;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #FF9A3C 45%, #E0201B 100%);
-    filter: blur(1.5px);
-    opacity: 0.65;
+    background: linear-gradient(90deg, transparent, #FF9A3C 35%, #E0201B 100%);
+    border-radius: 2px;
+    opacity: 0.85;
 }}
 
 .output-hero-title {{
@@ -232,4 +232,7 @@ def render_output_hero(
 </div>
 """).strip()
 
-    st.markdown(html, unsafe_allow_html=True)
+    if hasattr(st, "html"):
+        st.html(html)
+    else:
+        st.markdown(html, unsafe_allow_html=True)

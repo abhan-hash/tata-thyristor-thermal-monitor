@@ -14,6 +14,11 @@ import numpy as np
 import textwrap
 from typing import List
 
+try:
+    from components.output_console import render_3d_hardware_console_html
+except ImportError:
+    from thermosense_dashboard.components.output_console import render_3d_hardware_console_html
+
 
 def render_output_thermal_showcase(drive_data, active_component: str = "BRIDGE"):
     """
@@ -129,109 +134,32 @@ def render_output_thermal_showcase(drive_data, active_component: str = "BRIDGE")
     # =========================================================================
     left_hero, right_hero = st.columns([1.18, 1.0], gap="large")
 
+    console_3d_html = render_3d_hardware_console_html(max_tj, cooling_residual)
+
     # -------------------------------------------------------------------------
     # LEFT COLUMN: Task 6 (Hero Stepped Heat Blob Art & 3D Hardware Controller)
     # -------------------------------------------------------------------------
     with left_hero:
         left_col_html = textwrap.dedent(f"""
 <div class="hero-left-wrapper" style="position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
-
-<!-- Radiant Stepped Heat Blob SVG Aura (Behind Hardware) -->
-<div class="stepped-heat-blob-aura" style="position: absolute; width: 135%; height: 680px; top: -60px; left: -18%; pointer-events: none; z-index: 1; filter: drop-shadow(0 0 60px rgba(255, 90, 31, 0.55));">
-<svg width="100%" height="100%" viewBox="0 0 700 640" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
-<defs>
-<radialGradient id="blobCoreGlow" cx="50%" cy="50%" r="50%">
-<stop offset="0%" stop-color="#FF5A1F" stop-opacity="0.35"/>
-<stop offset="100%" stop-color="#FF5A1F" stop-opacity="0"/>
-</radialGradient>
-</defs>
-<!-- Layer 1: Outermost Pale Warm Orange Tier #FF9A3C -->
-<path d="M 30 220 C 10 70, 160 10, 380 20 C 580 30, 690 120, 670 320 C 650 510, 530 630, 330 620 C 130 610, 60 480, 30 350 Z" fill="#FF9A3C" opacity="0.96"/>
-<!-- Layer 2: Mid Vibrant Orange Heat Wave #FF5A1F -->
-<path d="M 70 235 C 50 110, 190 50, 380 60 C 550 70, 630 150, 610 320 C 590 480, 490 580, 340 570 C 170 560, 110 450, 70 330 Z" fill="#FF5A1F" opacity="0.98"/>
-<!-- Layer 3: Deep Center Molten Red Tier #E0201B -->
-<path d="M 120 250 C 100 150, 220 90, 380 100 C 520 110, 570 190, 550 330 C 530 450, 450 530, 350 520 C 210 510, 160 410, 120 320 Z" fill="#E0201B"/>
-<!-- Topographic Isoline Contour Rings -->
-<ellipse cx="370" cy="320" rx="260" ry="210" fill="none" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.2" stroke-dasharray="10, 6"/>
-<ellipse cx="365" cy="315" rx="200" ry="160" fill="none" stroke="rgba(14, 13, 12, 0.35)" stroke-width="1.8"/>
-<ellipse cx="360" cy="310" rx="140" ry="110" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.2"/>
+<div class="stepped-heat-blob-aura" style="position: absolute; width: 135%; height: 680px; top: -60px; left: -18%; pointer-events: none; z-index: 1;">
+<svg width="100%" height="100%" viewBox="0 0 740 660" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+<path d="M 45 200 C 20 60, 160 15, 380 20 C 580 25, 710 110, 680 300 C 655 460, 560 620, 350 635 C 160 650, 60 520, 30 380 C 10 280, 70 340, 45 200 Z" fill="#FF9A3C" />
+<path d="M 85 220 C 65 100, 190 55, 370 65 C 540 75, 645 155, 620 310 C 600 440, 510 570, 345 580 C 195 590, 105 480, 75 365 C 55 285, 105 340, 85 220 Z" fill="#FF5A1F" />
+<path d="M 130 240 C 115 140, 220 95, 365 105 C 505 115, 580 195, 560 320 C 540 420, 460 520, 340 525 C 230 530, 155 440, 125 350 C 105 285, 145 340, 130 240 Z" fill="#E0201B" />
+<path d="M 55 210 C 32 75, 170 30, 375 35 C 565 40, 690 125, 665 305 C 640 450, 545 605, 348 620 C 170 635, 75 505, 45 375 Z" fill="none" stroke="rgba(255, 255, 255, 0.28)" stroke-width="1.2" stroke-dasharray="10, 6" />
+<path d="M 95 230 C 75 115, 200 70, 368 80 C 528 90, 630 170, 608 315 C 588 430, 498 555, 342 565 C 205 575, 120 465, 88 360 Z" fill="none" stroke="rgba(14, 13, 12, 0.35)" stroke-width="1.8" />
+<path d="M 140 250 C 125 155, 230 110, 362 120 C 495 130, 565 205, 548 325 C 530 410, 450 505, 338 510 C 240 515, 168 430, 138 345 Z" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.0" />
 </svg>
 </div>
-
-<!-- 3D Isometric Hardware Controller Unit -->
-<div class="hardware-unit-perspective-container" style="perspective: 1200px; width: 100%; position: relative; z-index: 5; margin-bottom: 24px;">
-<div class="hardware-chassis-slab" style="background: #181716; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08); padding: 22px; transform: rotateX(24deg) rotateY(-16deg) rotateZ(6deg); transform-style: preserve-3d; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
-
-<!-- Chassis Header Row: Title & Controls -->
-<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
-<div>
-<div style="font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #FFB020; letter-spacing: 0.18em; text-transform: uppercase;">
-THERMAL CORE &bull; VIRTUAL RTD
-</div>
-<div style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #88847E; letter-spacing: 0.1em; margin-top: 2px;">
-MODEL: FOSTER 3-STAGE IMPEDANCE
-</div>
-</div>
-
-<div style="display: flex; align-items: center; gap: 14px;">
-<!-- Rotary Potentiometer 1: ARMATURE LOAD Id -->
-<div class="rotary-knob-wrapper" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-<div class="rotary-knob-body" style="width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #282624 0%, #1A1918 75%, #0E0D0C 100%); border: 2px solid #33312E; position: relative; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.8);">
-<div class="rotary-knob-tick" style="position: absolute; top: 4px; left: 50%; width: 2px; height: 9px; background: #FF5A1F; transform: translateX(-50%); border-radius: 2px; box-shadow: 0 0 6px #FF5A1F;"></div>
-</div>
-<span style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #88847E; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">LOAD (Id)</span>
-</div>
-
-<!-- Rotary Potentiometer 2: COOLING RESIDUAL ΔT -->
-<div class="rotary-knob-wrapper" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-<div class="rotary-knob-body" style="width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #282624 0%, #1A1918 75%, #0E0D0C 100%); border: 2px solid #33312E; position: relative; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.8);">
-<div class="rotary-knob-tick" style="position: absolute; top: 4px; left: 50%; width: 2px; height: 9px; background: #FFB020; transform: translateX(-50%) rotate(40deg); transform-origin: center 18px; border-radius: 2px; box-shadow: 0 0 6px #FFB020;"></div>
-</div>
-<span style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #88847E; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">RESIDUAL (&Delta;T)</span>
-</div>
-
-<!-- Linear Slider Fader -->
-<div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-<div class="linear-fader-track" style="width: 12px; height: 60px; background: #0E0D0C; border: 1px solid #282624; border-radius: 4px; position: relative; display: flex; justify-content: center;">
-<div class="linear-fader-slot" style="width: 2px; height: 80%; background: #FF5A1F; margin: auto 0; opacity: 0.85;"></div>
-<div class="linear-fader-thumb" style="position: absolute; top: 32%; width: 20px; height: 11px; background: #282624; border: 1px solid #33312E; border-radius: 3px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);"></div>
-</div>
-<span style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #88847E; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">LIMIT</span>
-</div>
-</div>
-</div>
-
-<!-- Large Circular Heat Disc (240px x 240px) -->
-<div style="width: 240px; height: 240px; margin: 8px auto; border-radius: 50%; background: radial-gradient(circle at 48% 48%, #141312 0%, #2A0E0A 18%, #8F110E 38%, #E0201B 55%, #FF5A1F 72%, #FFB020 88%, #181716 100%); border: 2px solid rgba(255, 176, 32, 0.4); box-shadow: 0 0 45px rgba(255, 90, 31, 0.45), inset 0 0 25px rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; position: relative;">
-<!-- Isoline Rings -->
-<div style="position: absolute; inset: 14px; border-radius: 50%; border: 1px dashed rgba(255, 255, 255, 0.22); pointer-events: none;"></div>
-<div style="position: absolute; inset: 32px; border-radius: 50%; border: 1.5px solid rgba(0, 0, 0, 0.4); pointer-events: none;"></div>
-
-<!-- Irregular Organic Dark Center Blob / Pupil with Live Peak Tj -->
-<div style="width: 88px; height: 88px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #201F1D 0%, #151413 70%, #0E0D0C 100%); border: 1.5px solid rgba(255, 176, 32, 0.5); box-shadow: 0 0 16px rgba(0, 0, 0, 0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-<span style="font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: #FFB020; font-weight: 700; letter-spacing: 0.1em;">PEAK Tj</span>
-<span style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; font-weight: 800; color: #FFFFFF; line-height: 1.1;">{max_tj:.1f}&deg;</span>
-<span style="font-family: 'IBM Plex Mono', monospace; font-size: 7.5px; color: #C4C1BA; letter-spacing: 0.05em;">TRIP 125&deg;</span>
-</div>
-</div>
-
-<!-- Bottom Specs on Hardware Slab -->
-<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #88847E;">
-<span>THERMAL IMPEDANCE: <strong style="color: #FFFFFF;">0.04 K/W</strong></span>
-<span>COOLING DELTA: <strong style="color: #FFB020;">+{cooling_residual:.1f} K</strong></span>
-<span>CHASSIS: <strong style="color: #C4C1BA;">STAND-04</strong></span>
-</div>
-
-</div>
-</div>
-
-<!-- Left Editorial Block -->
+{console_3d_html}
 <div class="editorial-callout-box" style="width: 100%; margin-top: 10px; position: relative; z-index: 6; background: #1A1918; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 18px 22px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);">
 <div style="font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; color: #FFB020; letter-spacing: -0.3px; line-height: 1.25; margin-bottom: 8px;">
 Silicon Junction Transients Finally Become Predictable
 </div>
 <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.6; color: #9A9894; max-width: 75ch;">
 In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Physical heatsink RTDs lag by 20s and miss dangerous junction excursions. THERMOSENSE fuses RTD sensing with electrical current through a 3-layer Foster RC network (&tau;<sub>1</sub>=20ms, &tau;<sub>2</sub>=0.5s, &tau;<sub>3</sub>=20s) to compute real-time junction temperature at 10 Hz, turning blind hardware risk into precision operational foresight.
+</div>
 </div>
 </div>
 
@@ -383,7 +311,10 @@ Physical actual heatsink temperature is compared against predicted baseline (R<s
 
 </div>
 """).strip()
-        st.markdown(right_col_html, unsafe_allow_html=True)
+        if hasattr(st, "html"):
+            st.html(right_col_html)
+        else:
+            st.markdown(right_col_html, unsafe_allow_html=True)
 
     # =========================================================================
     # 4. BOTTOM LIVE TELEMETRY STRIP (Task 10 - 4 Machined Warm Rack Cards)
@@ -454,4 +385,7 @@ COFFIN-MANSON MODEL ACCEL
 </div>
 </div>
 """).strip()
-    st.markdown(telemetry_strip_html, unsafe_allow_html=True)
+    if hasattr(st, "html"):
+        st.html(telemetry_strip_html)
+    else:
+        st.markdown(telemetry_strip_html, unsafe_allow_html=True)

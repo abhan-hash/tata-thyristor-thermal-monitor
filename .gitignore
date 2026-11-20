@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 *.pyo
 .DS_Store
+screenshot_*.png
+test_screen.png
