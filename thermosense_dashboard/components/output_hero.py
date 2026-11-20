@@ -63,6 +63,28 @@ def render_output_hero(
     align-items: center;
 }}
 
+@keyframes heat-smear-sweep {{
+    0% {{
+        opacity: 0;
+        transform: translateY(-50%) translateX(-30px) scaleX(0.65);
+    }}
+    100% {{
+        opacity: 1;
+        transform: translateY(-50%) translateX(0) scaleX(1);
+    }}
+}}
+
+@keyframes hero-title-enter {{
+    0% {{
+        opacity: 0;
+        transform: translateX(-12px);
+    }}
+    100% {{
+        opacity: 1;
+        transform: translateX(0);
+    }}
+}}
+
 .output-hero-heat-smear {{
     position: absolute;
     left: -78px;
@@ -75,6 +97,8 @@ def render_output_hero(
     pointer-events: none;
     z-index: 0;
     filter: blur(8px);
+    animation: heat-smear-sweep 520ms cubic-bezier(0.23, 1, 0.32, 1) 0ms both;
+    will-change: transform, opacity;
 }}
 
 .output-hero-heat-smear::before {{
@@ -117,6 +141,8 @@ def render_output_hero(
     position: relative;
     z-index: 1;
     filter: drop-shadow(0 0 24px rgba(255, 90, 31, 0.35));
+    animation: hero-title-enter 500ms cubic-bezier(0.23, 1, 0.32, 1) 60ms both;
+    will-change: transform, opacity;
 }}
 
 .output-hero-subtitle {{
@@ -184,13 +210,32 @@ def render_output_hero(
     justify-content: center;
     cursor: pointer;
     box-sizing: border-box;
-    transition: all 120ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: background-color 140ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 140ms cubic-bezier(0.23, 1, 0.32, 1), transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
 }}
 
-.output-hero-play-btn:hover {{
-    background: rgba(255, 90, 31, 0.22);
-    box-shadow: 0 0 14px rgba(255, 90, 31, 0.45);
-    transform: scale(1.08);
+@media (hover: hover) and (pointer: fine) {{
+    .output-hero-play-btn:hover {{
+        background: rgba(255, 90, 31, 0.22);
+        box-shadow: 0 0 12px rgba(255, 90, 31, 0.4);
+    }}
+}}
+
+.output-hero-play-btn:active {{
+    transform: scale(0.92);
+}}
+
+@media (prefers-reduced-motion: reduce) {{
+    .output-hero-heat-smear,
+    .output-hero-title,
+    .output-hero-play-btn {{
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }}
+    .output-hero-heat-smear {{
+        transform: translateY(-50%) !important;
+    }}
 }}
 
 @media (max-width: 768px) {{

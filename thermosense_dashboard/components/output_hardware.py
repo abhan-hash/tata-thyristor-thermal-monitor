@@ -144,12 +144,12 @@ def render_output_thermal_showcase(drive_data, active_component: str = "BRIDGE")
 <div class="hero-left-wrapper" style="position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
 <div class="stepped-heat-blob-aura" style="position: absolute; width: 135%; height: 680px; top: -60px; left: -18%; pointer-events: none; z-index: 1;">
 <svg width="100%" height="100%" viewBox="0 0 740 660" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
-<path d="M 45 200 C 20 60, 160 15, 380 20 C 580 25, 710 110, 680 300 C 655 460, 560 620, 350 635 C 160 650, 60 520, 30 380 C 10 280, 70 340, 45 200 Z" fill="#FF9A3C" />
-<path d="M 85 220 C 65 100, 190 55, 370 65 C 540 75, 645 155, 620 310 C 600 440, 510 570, 345 580 C 195 590, 105 480, 75 365 C 55 285, 105 340, 85 220 Z" fill="#FF5A1F" />
-<path d="M 130 240 C 115 140, 220 95, 365 105 C 505 115, 580 195, 560 320 C 540 420, 460 520, 340 525 C 230 530, 155 440, 125 350 C 105 285, 145 340, 130 240 Z" fill="#E0201B" />
-<path d="M 55 210 C 32 75, 170 30, 375 35 C 565 40, 690 125, 665 305 C 640 450, 545 605, 348 620 C 170 635, 75 505, 45 375 Z" fill="none" stroke="rgba(255, 255, 255, 0.28)" stroke-width="1.2" stroke-dasharray="10, 6" />
-<path d="M 95 230 C 75 115, 200 70, 368 80 C 528 90, 630 170, 608 315 C 588 430, 498 555, 342 565 C 205 575, 120 465, 88 360 Z" fill="none" stroke="rgba(14, 13, 12, 0.35)" stroke-width="1.8" />
-<path d="M 140 250 C 125 155, 230 110, 362 120 C 495 130, 565 205, 548 325 C 530 410, 450 505, 338 510 C 240 515, 168 430, 138 345 Z" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.0" />
+<path class="heat-blob-layer heat-blob-layer-1" d="M 45 200 C 20 60, 160 15, 380 20 C 580 25, 710 110, 680 300 C 655 460, 560 620, 350 635 C 160 650, 60 520, 30 380 C 10 280, 70 340, 45 200 Z" fill="#FF9A3C" />
+<path class="heat-blob-layer heat-blob-layer-2" d="M 85 220 C 65 100, 190 55, 370 65 C 540 75, 645 155, 620 310 C 600 440, 510 570, 345 580 C 195 590, 105 480, 75 365 C 55 285, 105 340, 85 220 Z" fill="#FF5A1F" />
+<path class="heat-blob-layer heat-blob-layer-3" d="M 130 240 C 115 140, 220 95, 365 105 C 505 115, 580 195, 560 320 C 540 420, 460 520, 340 525 C 230 530, 155 440, 125 350 C 105 285, 145 340, 130 240 Z" fill="#E0201B" />
+<path class="heat-blob-isoline" d="M 55 210 C 32 75, 170 30, 375 35 C 565 40, 690 125, 665 305 C 640 450, 545 605, 348 620 C 170 635, 75 505, 45 375 Z" fill="none" stroke="rgba(255, 255, 255, 0.28)" stroke-width="1.2" stroke-dasharray="10, 6" />
+<path class="heat-blob-isoline" d="M 95 230 C 75 115, 200 70, 368 80 C 528 90, 630 170, 608 315 C 588 430, 498 555, 342 565 C 205 575, 120 465, 88 360 Z" fill="none" stroke="rgba(14, 13, 12, 0.35)" stroke-width="1.8" />
+<path class="heat-blob-isoline" d="M 140 250 C 125 155, 230 110, 362 120 C 495 130, 565 205, 548 325 C 530 410, 450 505, 338 510 C 240 515, 168 430, 138 345 Z" fill="none" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1.0" />
 </svg>
 </div>
 {console_3d_html}
@@ -197,20 +197,20 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
 
         buttons_grid_str = "\n".join(buttons_html_list)
 
-        # Build Preset Rack Rows HTML (Task 9)
+        # Build Preset Rack Rows HTML (Task 9) - Interruptible Expandable Channels
         channels = [
-            ("T1 &bull; UPPER ARM (PHASE U)", 1, clean_tj[0]),
-            ("T2 &bull; LOWER ARM (PHASE U)", 2, clean_tj[1]),
-            ("T3 &bull; UPPER ARM (PHASE V)", 3, clean_tj[2]),
-            ("T4 &bull; LOWER ARM (PHASE V)", 4, clean_tj[3]),
-            ("T5 &bull; UPPER ARM (PHASE W)", 5, clean_tj[4]),
-            ("T6 &bull; LOWER ARM (PHASE W)", 6, clean_tj[5]),
+            ("T1 &bull; UPPER ARM (PHASE U)", 1, clean_tj[0], clean_hs[0]),
+            ("T2 &bull; LOWER ARM (PHASE U)", 2, clean_tj[1], clean_hs[1]),
+            ("T3 &bull; UPPER ARM (PHASE V)", 3, clean_tj[2], clean_hs[2]),
+            ("T4 &bull; LOWER ARM (PHASE V)", 4, clean_tj[3], clean_hs[3]),
+            ("T5 &bull; UPPER ARM (PHASE W)", 5, clean_tj[4], clean_hs[4]),
+            ("T6 &bull; LOWER ARM (PHASE W)", 6, clean_tj[5], clean_hs[5]),
         ]
 
         rack_rows_list = []
-        for ch_title, t_num, temp_val in channels:
+        for ch_title, t_num, temp_val, hs_val in channels:
             is_sel = (t_num == selected_thyristor)
-            active_cls = "active" if is_sel else ""
+            item_cls = "preset-rack-item" + (" active expanded" if is_sel else "")
 
             # Thermal status tier colors (strictly warm)
             if temp_val >= 125.0:
@@ -223,9 +223,13 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
                 dot_col = "#C4C1BA"  # Nominal
 
             title_col = "#FFFFFF" if is_sel else "#C4C1BA"
+            thermal_margin = max(0.0, 125.0 - temp_val)
 
             row_html = (
-                f'<a href="?t={t_num}" class="preset-rack-row {active_cls}" tabindex="0" target="_self">'
+                f'<div class="{item_cls}">'
+                f'<div class="preset-rack-row" tabindex="0" role="button" aria-expanded="{"true" if is_sel else "false"}" '
+                f'onclick="this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\');" '
+                f'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){{event.preventDefault();this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\');}}">'
                 f'<div style="display: flex; align-items: center; gap: 12px;">'
                 f'<span class="preset-row-title" style="font-family: \'Plus Jakarta Sans\', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.28em; color: {title_col}; text-transform: uppercase;">{ch_title}</span>'
                 f'</div>'
@@ -233,7 +237,18 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
                 f'<span class="preset-row-temp" style="font-family: \'IBM Plex Mono\', monospace; font-size: 13.5px; font-weight: 700; color: #FFFFFF; font-variant-numeric: tabular-nums;">{temp_val:.1f}&deg;C</span>'
                 f'<span class="preset-row-chevron" style="color: #88847E; font-size: 16px;">&rsaquo;</span>'
                 f'</div>'
-                f'</a>'
+                f'</div>'
+                f'<div class="preset-rack-drawer">'
+                f'<div class="preset-rack-drawer-inner">'
+                f'<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); font-family: \'IBM Plex Mono\', monospace; font-size: 10px; color: #88847E;">'
+                f'<span>HEATSINK: <strong style="color: #FFFFFF;">{hs_val:.1f}&deg;C</strong></span>'
+                f'<span>Zth: <strong style="color: #FFB020;">0.040 K/W</strong></span>'
+                f'<span>MARGIN: <strong style="color: #C4C1BA;">+{thermal_margin:.1f} K</strong></span>'
+                f'<a href="?t={t_num}" target="_self" style="color: #FF5A1F; text-decoration: none; font-weight: 700; border-bottom: 1px dotted #FF5A1F;">SELECT CHANNEL &rarr;</a>'
+                f'</div>'
+                f'</div>'
+                f'</div>'
+                f'</div>'
             )
             rack_rows_list.append(row_html)
 
@@ -264,7 +279,7 @@ STAND-04 &bull; 6-PULSE &bull; TATA STEEL
 
 <!-- Circular Heat Disc Graphic Inside Card -->
 <div style="width: 104px; height: 104px; border-radius: 50%; margin-left: 14px; background: radial-gradient(circle at 48% 48%, #141312 0%, #2A0E0A 18%, #8F110E 38%, #E0201B 55%, #FF5A1F 72%, #FFB020 88%, #121110 100%); border: 1.5px solid rgba(255, 176, 32, 0.4); box-shadow: 0 0 24px rgba(255, 90, 31, 0.4); display: flex; align-items: center; justify-content: center; position: relative;">
-<div style="position: absolute; inset: 6px; border-radius: 50%; border: 0.8px dashed rgba(255, 255, 255, 0.22); pointer-events: none;"></div>
+<div class="card-disc-isoline" style="position: absolute; inset: 6px; border-radius: 50%; border: 0.8px dashed rgba(255, 255, 255, 0.22); pointer-events: none;"></div>
 <div style="width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #201F1D 0%, #0E0D0C 100%); border: 1px solid rgba(255, 176, 32, 0.5); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
 <span style="font-family: 'IBM Plex Mono', monospace; font-size: 6px; color: #FFB020; font-weight: 700; letter-spacing: 0.08em;">PEAK Tj</span>
 <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 800; color: #FFFFFF; line-height: 1.1;">{max_tj:.0f}&deg;</span>

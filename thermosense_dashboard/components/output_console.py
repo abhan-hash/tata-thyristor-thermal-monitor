@@ -106,14 +106,9 @@ if (knobLoad) {{
 const knobAngle = -30 + ratio * 80;
 knobLoad.style.transform = `rotate(${{knobAngle}}deg)`;
 }}
-if (discHousing) {{
-const glowSpread = 40 + ratio * 35;
-const glowAlpha = 0.4 + ratio * 0.3;
-discHousing.style.boxShadow = `0 0 ${{glowSpread}}px rgba(255, 90, 31, ${{glowAlpha}}), inset 0 0 30px rgba(0, 0, 0, 0.92)`;
-}}
 if (centerBlob) {{
-const blobScale = 1.0 + Math.sin(time * 3) * 0.04 + ratio * 0.12;
-centerBlob.style.transform = `scale(${{blobScale}})`;
+const blobScale = 1.0 + ratio * 0.12;
+centerBlob.style.transform = `scale(${{blobScale.toFixed(3)}})`;
 }}
 }}
 }}

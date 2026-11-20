@@ -106,10 +106,12 @@
     --font-sans: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
 
-    /* Motion Curves */
+    /* Motion Curves (Emil Kowalski Animation System) */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-interactive: 120ms var(--ease-spring);
-    --transition-smooth: 220ms var(--ease-spring);
+    --transition-interactive: 120ms var(--ease-out);
+    --transition-smooth: 220ms var(--ease-out);
 }
 
 /* -----------------------------------------------------------------------------
@@ -405,14 +407,13 @@ button:active,
     padding: 5px 14px;
     border-radius: 6px;
     cursor: pointer;
-    transition: all var(--transition-interactive);
+    transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), box-shadow 140ms var(--ease-out);
 }
 
 .product-action-pill:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: var(--primitive-orange-500);
     box-shadow: 0 0 16px rgba(255, 90, 31, 0.25);
-    transform: translateY(-1px);
 }
 
 .product-play-icon {
@@ -451,14 +452,13 @@ button:active,
     overflow: hidden;
     transform: rotateX(12deg) rotateY(-8deg) rotateZ(1.5deg);
     transform-style: preserve-3d;
-    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+    transition: border-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
 }
 
 .hardware-chassis-slab:hover {
-    transform: rotateX(6deg) rotateY(-4deg) rotateZ(0.5deg) translateY(-4px);
     box-shadow:
-        0 36px 64px rgba(0, 0, 0, 0.95),
-        0 0 32px rgba(255, 90, 31, 0.18);
+        0 32px 56px rgba(0, 0, 0, 0.95),
+        0 0 24px rgba(255, 90, 31, 0.12);
 }
 
 /* Rotary Knobs */
@@ -573,28 +573,36 @@ button:active,
     justify-content: center;
     gap: 6px;
     cursor: pointer;
-    transition: all var(--transition-interactive);
+    transition: 
+        background-color 140ms var(--ease-out),
+        border-color 140ms var(--ease-out),
+        color 140ms var(--ease-out),
+        box-shadow 140ms var(--ease-out),
+        transform 100ms var(--ease-out);
     text-align: center;
     text-decoration: none;
     box-sizing: border-box;
+    user-select: none;
 }
 
-.source-item-btn:hover {
-    background: rgba(242, 181, 51, 0.12);
-    border-color: var(--primitive-border-gold);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+@media (hover: hover) and (pointer: fine) {
+    .source-item-btn:hover {
+        background: rgba(242, 181, 51, 0.08);
+        border-color: rgba(242, 181, 51, 0.5);
+    }
 }
 
 .source-item-btn:active {
-    transform: scale(0.97);
+    transform: scale(0.95);
+    transition: transform 100ms var(--ease-out);
 }
 
 .source-item-btn.active {
     background: var(--primitive-gold-500) !important;
     border-color: var(--primitive-gold-500) !important;
     color: var(--primitive-canvas-black) !important;
-    box-shadow: 0 0 16px rgba(242, 181, 51, 0.4) !important;
+    box-shadow: 0 0 16px rgba(242, 181, 51, 0.35) !important;
+    transform: none;
 }
 
 .source-icon-svg {
@@ -603,7 +611,7 @@ button:active,
     stroke: var(--primitive-gold-500);
     stroke-width: 1.75;
     fill: none;
-    transition: stroke var(--transition-interactive);
+    transition: stroke 140ms var(--ease-out);
 }
 
 .source-item-label {
@@ -614,7 +622,7 @@ button:active,
     text-transform: uppercase;
     color: var(--primitive-gold-500);
     line-height: 1.1;
-    transition: color var(--transition-interactive);
+    transition: color 140ms var(--ease-out);
 }
 
 .source-item-btn.active .source-icon-svg {
@@ -641,10 +649,19 @@ button:active,
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
 }
 
+.preset-rack-item {
+    background: transparent;
+    border-bottom: 1px solid #282624;
+    transition: background-color 140ms var(--ease-out);
+}
+
+.preset-rack-item:last-child {
+    border-bottom: none;
+}
+
 .preset-rack-row {
     background: transparent;
     border: none;
-    border-bottom: 1px solid #282624;
     border-radius: 0;
     padding: 13px 20px;
     display: flex;
@@ -654,11 +671,8 @@ button:active,
     position: relative;
     overflow: hidden;
     text-decoration: none !important;
-    transition: all var(--transition-interactive);
-}
-
-.preset-rack-row:last-child {
-    border-bottom: none;
+    user-select: none;
+    transition: background-color 140ms var(--ease-out);
 }
 
 .preset-rack-row,
@@ -679,22 +693,24 @@ button:active,
     width: 3px;
     background: var(--primitive-gold-500);
     opacity: 0;
-    transition: opacity var(--transition-interactive);
+    transition: opacity 140ms var(--ease-out);
 }
 
 .preset-rack-row:hover {
-    background: #201F1D;
-    transform: translateX(2px);
+    background: #22201E;
 }
 
 .preset-rack-row:hover::before,
-.preset-rack-row.active::before {
+.preset-rack-item.active .preset-rack-row::before {
     opacity: 1;
 }
 
-.preset-rack-row.active {
-    background: #201F1D !important;
-    border-left: 3px solid var(--primitive-gold-500) !important;
+.preset-rack-item.active {
+    background: #1E1D1B;
+}
+
+.preset-rack-item.active .preset-rack-row {
+    border-left: 3px solid var(--primitive-gold-500);
 }
 
 .preset-row-title {
@@ -724,12 +740,41 @@ button:active,
     color: var(--color-text-muted);
     font-size: 16px;
     font-weight: bold;
-    transition: transform var(--transition-interactive), color var(--transition-interactive);
+    display: inline-block;
+    transition: transform 180ms var(--ease-out), color 180ms var(--ease-out);
 }
 
 .preset-rack-row:hover .preset-row-chevron {
     color: var(--primitive-gold-500);
-    transform: translateX(3px);
+    transform: translateX(4px);
+}
+
+.preset-rack-item.expanded .preset-row-chevron {
+    transform: rotate(90deg);
+    color: var(--primitive-gold-500);
+}
+
+/* Interruptible Expand/Collapse Drawer */
+.preset-rack-drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 220ms var(--ease-out), opacity 180ms var(--ease-out);
+}
+
+.preset-rack-item.expanded .preset-rack-drawer {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.preset-rack-drawer-inner {
+    overflow: hidden;
+    padding: 0 20px;
+    transition: padding 220ms var(--ease-out);
+}
+
+.preset-rack-item.expanded .preset-rack-drawer-inner {
+    padding: 0 20px 14px 20px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -842,14 +887,18 @@ button:active,
     letter-spacing: 0.15em !important;
     text-transform: uppercase !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
-    transition: all var(--transition-interactive) !important;
+    transition: 
+        background-color 140ms var(--ease-out),
+        border-color 140ms var(--ease-out),
+        color 140ms var(--ease-out),
+        box-shadow 140ms var(--ease-out),
+        transform 100ms var(--ease-out) !important;
 }
 
 .stButton > button:hover {
     border-color: var(--primitive-gold-500) !important;
     color: var(--primitive-gold-500) !important;
     box-shadow: 0 4px 18px rgba(242, 181, 51, 0.25) !important;
-    transform: translateY(-1px) !important;
 }
 
 .stButton > button:active {
@@ -1030,11 +1079,117 @@ div[data-baseweb="select"] > div,
         scroll-behavior: auto !important;
         transform: none !important;
     }
+    .output-hero-heat-smear {
+        transform: translateY(-50%) !important;
+    }
+    .chassis-3d-slab {
+        transform: rotateX(24deg) rotateY(-16deg) rotateZ(6deg) !important;
+    }
 }
 
 /* -----------------------------------------------------------------------------
    18. 3D ISOMETRIC HARDWARE CONSOLE (Option B - True Isometric Hardware Unit)
    ----------------------------------------------------------------------------- */
+/* Hero Choreography Keyframes (< 900ms total, Composite-only) */
+@keyframes product-lift-in {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes blob-settle-1 {
+    0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.94);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes blob-settle-2 {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes blob-settle-3 {
+    0% {
+        opacity: 0;
+        transform: translateY(6px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes blob-isolines-fade {
+    0% {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Subtle Idle Heat Disc Motion (Off-main-thread GPU rotation & shimmer) */
+@keyframes disc-idle-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes disc-subtle-shimmer {
+    0%, 100% {
+        opacity: 0.94;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Stepped Heat Blob Aura Layer Classes */
+.heat-blob-layer-1 {
+    animation: blob-settle-1 560ms cubic-bezier(0.23, 1, 0.32, 1) 140ms both;
+    transform-origin: 380px 320px;
+    will-change: transform, opacity;
+}
+
+.heat-blob-layer-2 {
+    animation: blob-settle-2 520ms cubic-bezier(0.23, 1, 0.32, 1) 200ms both;
+    transform-origin: 370px 320px;
+    will-change: transform, opacity;
+}
+
+.heat-blob-layer-3 {
+    animation: blob-settle-3 480ms cubic-bezier(0.23, 1, 0.32, 1) 260ms both;
+    transform-origin: 360px 320px;
+    will-change: transform, opacity;
+}
+
+.heat-blob-isoline {
+    animation: blob-isolines-fade 440ms cubic-bezier(0.23, 1, 0.32, 1) 300ms both;
+    transform-origin: 370px 320px;
+    will-change: transform, opacity;
+}
+
 .hardware-console-root {
     width: 100%;
     max-width: 580px;
@@ -1042,6 +1197,8 @@ div[data-baseweb="select"] > div,
     position: relative;
     z-index: 5;
     box-sizing: border-box;
+    animation: product-lift-in 620ms cubic-bezier(0.23, 1, 0.32, 1) 220ms both;
+    will-change: transform, opacity;
 }
 
 .hardware-stage {
@@ -1070,16 +1227,15 @@ div[data-baseweb="select"] > div,
         0 40px 80px rgba(0, 0, 0, 0.92),
         0 20px 40px rgba(0, 0, 0, 0.8),
         0 0 1px rgba(255, 255, 255, 0.15);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 0.25s var(--ease-out);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .chassis-3d-slab:hover {
-        transform: rotateX(22deg) rotateY(-14deg) rotateZ(5deg) translateY(-4px);
         box-shadow: 
-            0 50px 95px rgba(0, 0, 0, 0.95),
-            0 25px 45px rgba(0, 0, 0, 0.85),
-            0 0 25px rgba(255, 90, 31, 0.15);
+            0 46px 90px rgba(0, 0, 0, 0.95),
+            0 24px 44px rgba(0, 0, 0, 0.85),
+            0 0 20px rgba(255, 90, 31, 0.12);
     }
 }
 
@@ -1292,6 +1448,7 @@ div[data-baseweb="select"] > div,
         #FFB020 88%,
         #181716 100%
     );
+    animation: disc-subtle-shimmer 12s ease-in-out infinite;
     transition: box-shadow 0.2s ease-out;
 }
 
@@ -1301,6 +1458,15 @@ div[data-baseweb="select"] > div,
     border-radius: 50%;
     border: 1px dashed rgba(255, 255, 255, 0.22);
     pointer-events: none;
+    animation: disc-idle-rotate 60s linear infinite;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.card-disc-isoline {
+    animation: disc-idle-rotate 60s linear infinite;
+    transform-origin: center center;
+    will-change: transform;
 }
 
 .disc-isoline-inner {
