@@ -183,6 +183,31 @@ class TestInteractiveLogic(unittest.TestCase):
         self.assertEqual(len(res['clean_tj']), 20)
         self.assertEqual(len(res['clean_hs']), 20)
 
+    def test_sanitization_numpy_arrays(self):
+        """NumPy array inputs do not cause truthiness ambiguity ValueErrors."""
+        raw_tj_arr = np.array([72.4, 75.1, 78.0, 71.2, 69.8, 73.5])
+        raw_hs_arr = np.array([45.0, 46.2, 47.1, 44.8, 43.9, 45.5])
+        res = sanitize_telemetry_dataset(
+            raw_tj=raw_tj_arr,
+            raw_hs=raw_hs_arr,
+            residuals=np.array([2.1, 1.8]),
+            min_channels=6
+        )
+        self.assertEqual(len(res['clean_tj']), 6)
+        self.assertAlmostEqual(res['clean_tj'][0], 72.4)
+        self.assertAlmostEqual(res['clean_hs'][0], 45.0)
+
+    def test_channel_selection_float_string_coercion(self):
+        """Float strings (e.g., '2.0') safely parse without ValueError."""
+        self.assertEqual(validate_selected_channel("2.0", max_channels=6), 2)
+        self.assertEqual(validate_selected_channel("5.9", max_channels=6), 5)
+
+    def test_sound_source_token_matching(self):
+        """Partial token or word matching resolves cleanly (e.g. 'FOSTER' -> 'FOSTER_RC')."""
+        self.assertEqual(validate_component_source("FOSTER"), "FOSTER_RC")
+        self.assertEqual(validate_component_source("CURRENT"), "CURRENT_SHUNT")
+        self.assertEqual(validate_component_source("foster rc"), "FOSTER_RC")
+
 
 if __name__ == '__main__':
     unittest.main()

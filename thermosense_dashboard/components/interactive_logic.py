@@ -30,9 +30,9 @@ def validate_component_source(source_str: Optional[str]) -> str:
     if clean_src in VALID_SOURCES:
         return clean_src
     
-    # Check for substring match (e.g., 'FOSTER' -> 'FOSTER_RC')
+    # Check for exact, space-normalized, or word token match (e.g., 'FOSTER' -> 'FOSTER_RC')
     for valid in VALID_SOURCES:
-        if clean_src == valid or clean_src == valid.replace("_", " "):
+        if clean_src == valid or clean_src == valid.replace("_", " ") or clean_src in valid.split("_"):
             return valid
 
     return "BRIDGE"
@@ -47,7 +47,7 @@ def validate_selected_channel(t_val: Any, max_channels: int = 6) -> int:
         return 1
     
     try:
-        int_val = int(t_val)
+        int_val = int(float(t_val))
         if 1 <= int_val <= max_channels:
             return int_val
         return 1
@@ -117,9 +117,9 @@ def sanitize_telemetry_dataset(
     - ambient_temp clamped to [10.0, 60.0]
     - cooling_residual clamped to [0.5, 12.0]
     """
-    raw_tj = raw_tj or []
-    raw_hs = raw_hs or []
-    residuals = residuals or []
+    raw_tj = [] if raw_tj is None else list(raw_tj)
+    raw_hs = [] if raw_hs is None else list(raw_hs)
+    residuals = [] if residuals is None else list(residuals)
     
     count = max(min_channels, len(raw_tj), len(raw_hs))
     

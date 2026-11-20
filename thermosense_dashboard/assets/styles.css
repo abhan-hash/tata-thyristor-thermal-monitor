@@ -1176,6 +1176,10 @@ div[data-baseweb="select"] > div,
         align-items: center !important;
     }
 
+    .second-panel-container > div > div {
+        width: 100% !important;
+    }
+
     .telemetry-grid-strip {
         grid-template-columns: 1fr !important;
     }

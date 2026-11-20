@@ -74,12 +74,12 @@ def render_output_thermal_showcase(drive_data, active_component: str = "BRIDGE")
         armature_current=getattr(drive_data, 'armature_current', 700.0),
         ambient_temp=getattr(drive_data, 'ambient_temp', 35.0),
         residuals=residuals,
-        min_channels=6
+        min_channels=len(raw_tj) if raw_tj else 6
     )
 
     clean_tj = telemetry['clean_tj']
     clean_hs = telemetry['clean_hs']
-    max_tj = min(95.0, max(65.0, telemetry['max_tj']))
+    max_tj = min(125.0, max(45.0, telemetry['max_tj']))
     max_hs = telemetry['max_hs']
     armature_current = telemetry['armature_current']
     ambient_temp = telemetry['ambient_temp']
@@ -194,9 +194,10 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
             row_html = (
                 f'<div class="{item_cls}">'
                 f'<div class="preset-rack-row" tabindex="0" role="button" aria-expanded="{"true" if is_sel else "false"}" '
-                f'onclick="this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\');" '
-                f'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){{event.preventDefault();this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\');}}">'
-                f'<div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1;">'
+                f'onclick="this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\'); this.setAttribute(\'aria-expanded\', this.getAttribute(\'aria-expanded\')===\'true\'?\'false\':\'true\');" '
+                f'onkeydown="if(event.key===\'Enter\'||event.key===\' \'){{event.preventDefault();this.closest(\'.preset-rack-item\').classList.toggle(\'expanded\'); this.setAttribute(\'aria-expanded\', this.getAttribute(\'aria-expanded\')===\'true\'?\'false\':\'true\');}}">'
+                f'<div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">'
+                f'<span style="width: 7px; height: 7px; border-radius: 50%; background: {dot_col}; flex-shrink: 0;" title="Thermal Tier: {status_label}"></span>'
                 f'<span class="preset-row-title" style="font-family: \'Plus Jakarta Sans\', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.28em; color: {title_col}; text-transform: uppercase; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{ch_title}</span>'
                 f'</div>'
                 f'<div class="preset-row-right" style="display: flex; align-items: center; gap: 14px; flex-shrink: 0;">'
