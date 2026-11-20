@@ -1,270 +1,171 @@
 """
-THERMOSENSE - About Page
-Project information and methodology
+THERMOSENSE - Technical Methodology & Engineering Dossier
+Tata Steel Hot Strip Mill Stand-04 Thyristor Thermal Monitor
+Output Thermal Hardware Design Language
 """
 
 import streamlit as st
 from pathlib import Path
 import sys
 
+# Add parent directory to path
 parent_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(parent_dir))
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
+
+from components.output_nav import render_output_nav
 
 st.set_page_config(
-    page_title="About - THERMOSENSE",
-    page_icon="ℹ️",
-    layout="wide"
+    page_title="About — THERMOSENSE",
+    page_icon=None,
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
+# Load global CSS
 css_path = parent_dir / "assets" / "styles.css"
 if css_path.exists():
     with open(css_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        st.html(f"<style>{f.read()}</style>")
 
-st.title("ℹ️ About THERMOSENSE")
+# Render Top Navigation Header
+render_output_nav("ABOUT")
 
-# Project Info
+# Safety Notice Banner
 st.markdown("""
-## Project Information
+<div style="
+    background: rgba(255, 176, 32, 0.08);
+    border: 1px solid rgba(255, 176, 32, 0.3);
+    border-left: 3px solid #FFB020;
+    border-radius: 6px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    font-size: 11px;
+    color: #C4C1BA;
+    line-height: 1.6;
+">
+    <strong style="color: #FFB020; text-transform: uppercase;">Advisory Operating Notice:</strong>
+    THERMOSENSE outputs are advisory during pilot qualification. Junction temperature is an online estimated state variable calculated by an impedance model. Field validation against optical / fiber-optic test fixtures is mandatory prior to safety interlock commissioning.
+</div>
+""", unsafe_allow_html=True)
 
-**THERMOSENSE** – Virtual Thermal Sensor for Rolling Mill Thyristors
+# Executive Overview Grid
+col1, col2 = st.columns(2, gap="medium")
 
-### Team
-- **Project**: Women of Mettle - Project 7
-- **Institution**: [Your Institution]
-- **Industry Partner**: Tata Steel
-- **Application**: Hot Strip Mill DC Drive Thermal Monitoring
+with col1:
+    st.markdown("""
+<div class="hardware-card" style="height: 100%; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 16px;">
+    <div class="hardware-card-label" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 700; color: #88847E; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">PROJECT SPECIFICATION</div>
+    <div style="font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">
+        Virtual Junction Temperature Sensor for Rolling Mill Thyristors
+    </div>
+    <div style="font-size: 11.5px; color: #88847E; line-height: 1.6;">
+        In steel rolling mills, high-power DC drives endure sudden, massive cyclic loads when red-hot steel slabs enter the mill stand (bar bite impacts).
+        Traditional heatsink RTDs have high thermal mass and lag behind true silicon junction temperature by tens of seconds, blind to 2.5s peak over-temperature spikes that cause premature thyristor degradation.
+        <br><br>
+        <strong style="color: #FFFFFF;">THERMOSENSE</strong> bridges this gap by fusing physical heatsink RTD measurements with electrical current telemetry through a dynamic 3-layer Foster RC thermal model at 10 Hz.
+    </div>
+</div>
+    """, unsafe_allow_html=True)
 
-### Competition Context
-This dashboard was developed as part of the Women of Mettle competition, focusing on solving 
-real industrial challenges in the steel manufacturing sector.
+with col2:
+    st.markdown("""
+<div class="hardware-card" style="height: 100%; background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 16px;">
+    <div class="hardware-card-label" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 700; color: #88847E; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">COLLABORATION & METADATA</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; margin-top: 8px;">
+        <div style="background: #151413; border: 1px solid #282624; padding: 10px; border-radius: 6px;">
+            <div style="color: #88847E; font-size: 9px; text-transform: uppercase;">INITIATIVE</div>
+            <div style="color: #FFFFFF; font-weight: 700; margin-top: 2px;">Women of Mettle</div>
+            <div style="color: #FF5A1F; font-size: 9.5px;">Project 7 Challenge</div>
+        </div>
+        <div style="background: #151413; border: 1px solid #282624; padding: 10px; border-radius: 6px;">
+            <div style="color: #88847E; font-size: 9px; text-transform: uppercase;">INDUSTRY PARTNER</div>
+            <div style="color: #FFFFFF; font-weight: 700; margin-top: 2px;">Tata Steel</div>
+            <div style="color: #FFB020; font-size: 9.5px;">Hot Strip Mill (HSM)</div>
+        </div>
+        <div style="background: #151413; border: 1px solid #282624; padding: 10px; border-radius: 6px;">
+            <div style="color: #88847E; font-size: 9px; text-transform: uppercase;">APPLICATION</div>
+            <div style="color: #FFFFFF; font-weight: 700; margin-top: 2px;">Stand-04 Main Drive</div>
+            <div style="color: #88847E; font-size: 9.5px;">6-Pulse Graetz Bridge</div>
+        </div>
+        <div style="background: #151413; border: 1px solid #282624; padding: 10px; border-radius: 6px;">
+            <div style="color: #88847E; font-size: 9px; text-transform: uppercase;">COMPUTATION RATE</div>
+            <div style="color: #FFFFFF; font-weight: 700; margin-top: 2px;">10 Hz Model / 1 Hz GUI</div>
+            <div style="color: #F2B533; font-size: 9.5px;">Peak-Hold Retention</div>
+        </div>
+    </div>
+</div>
+    """, unsafe_allow_html=True)
 
----
-""")
+st.markdown("<br>", unsafe_allow_html=True)
 
-# Disclaimer
-st.error("""
-### ⚠️ IMPORTANT DISCLAIMER
-
-This is a **PROTOTYPE** using **SIMULATED DATA** for demonstration purposes.
-
-**Safety Notice:**
-- Alarm outputs are **ADVISORY ONLY** during the pilot phase
-- This system does **NOT** control the drive or safety systems
-- **Not safety-certified** for automatic trip or protection functions
-- Requires **field validation** against actual sensor data before production deployment
-- Junction temperature is an **ESTIMATE** based on a thermal model
-
-**Validation Required:**
-- Compare estimated Tj with direct measurements (if available)
-- Validate alarm thresholds with plant engineers
-- Conduct extended pilot testing under various operating conditions
-- Obtain necessary safety certifications before integration with critical systems
-
-**Use this dashboard for:**
-- Early warning and trend monitoring ✓
-- Predictive maintenance planning ✓
-- Operator situational awareness ✓
-
-**Do not use for:**
-- Direct thyristor protection (use hardware protection) ✗
-- Safety-critical automatic shutdowns ✗
-- Replacing existing protection systems ✗
-""")
-
-# Methodology
+# Technical Foster RC Architecture Section
 st.markdown("""
----
+<div class="hardware-card" style="background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 16px;">
+    <div class="hardware-card-label" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 700; color: #88847E; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">FOSTER 3-LAYER RC IMPEDANCE FORMULATION</div>
+    <div style="font-size: 11.5px; color: #88847E; line-height: 1.6; margin-bottom: 14px;">
+        Heat generation follows silicon forward voltage conduction and dynamic resistance loss:
+        <span style="font-family: 'IBM Plex Mono', monospace; color: #FFFFFF;">P_loss = V_f0 &times; (Id/3) + r_d &times; (Id/3)&sup2;</span>.
+        The transient thermal impedance <span style="font-family: 'IBM Plex Mono', monospace; color: #FF5A1F;">Z_th(t)</span> is governed by three decoupled RC cells:
+    </div>
 
-## Technical Methodology
+    <div style="background: #0E0D0C; border: 1px solid #282624; border-radius: 6px; padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #C4C1BA; line-height: 1.8;">
+        [Silicon Junction] &rarr; (R1 = 0.008 K/W, &tau;1 = 0.02s) &rarr; Fast Die Surge Layer<br>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&rarr; (R2 = 0.016 K/W, &tau;2 = 0.50s) &rarr; Intermediate Spreading Layer<br>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&rarr; (R3 = 0.016 K/W, &tau;3 = 20.0s) &rarr; Extrusion Heat Capacity &rarr; [Heatsink RTD]
+    </div>
 
-### How It Works
+    <div style="margin-top: 14px; font-size: 11px; color: #88847E; line-height: 1.6;">
+        <strong style="color: #FFFFFF;">Cooling Residual & Early Warning:</strong> The physical heatsink temperature is simultaneously predicted using known clean-filter resistance <span style="font-family: 'IBM Plex Mono'; color: #FFB020;">R_sa</span>.
+        Any divergence <span style="font-family: 'IBM Plex Mono'; color: #FFB020;">&Delta;T = Ts_measured - Ts_predicted &gt; 4.0K</span> provides operators with days of advance notice regarding intake air filter clogging prior to junction trip.
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-THERMOSENSE estimates junction temperature (Tj) using a physics-based thermal model combined 
-with real sensor measurements.
+st.markdown("<br>", unsafe_allow_html=True)
 
-#### Measured Inputs (from sensors)
-1. **Heatsink Temperature**: RTD sensor on each thyristor heatsink
-2. **Ambient Temperature**: RTD sensor measuring air temperature
-3. **Armature Current**: From the drive's current sensor (shared by all 6 thyristors)
-
-#### Estimated Outputs (from model)
-1. **Junction Temperature (Tj)**: The temperature inside the silicon chip
-2. **Power Loss**: Heat dissipation in each thyristor
-3. **Cooling Residual**: Indicates filter clogging or fan issues
-
----
-
-### The Thermal Model
-
-We use a **3-layer Foster RC network** to model heat flow from junction to heatsink:
-
-```
-[Junction] → [Fast RC] → [Medium RC] → [Slow RC] → [Heatsink]
-              τ1=0.02s    τ2=0.5s     τ3=20s
-```
-
-**Why 3 layers?**
-- Junction responds to load changes at different speeds
-- Fast layer (20ms): captures quick current spikes during bar entry
-- Slow layer (20s): tracks long-term heating trends
-
-**Heat flow equation:**
-```
-Tj = T_heatsink + P_loss × R_jc
-```
-
-Where:
-- `P_loss = V_f0 × I + r_d × I²` (conduction loss formula)
-- `R_jc = 0.04 K/W` (junction-to-case thermal resistance)
-- `I = Id/3` (current sharing assumption for 6-thyristor bridge)
-
----
-
-### Why Peak-Hold Matters
-
-Rolling mills create **fast load spikes** (2.5 seconds) when hot bars enter the stand:
-- 10 Hz computation captures these spikes
-- 1 Hz display shows the **peak value** in each second
-- Without peak-hold, operators would miss dangerous temperature excursions
-
----
-
-### Cooling Health Monitoring
-
-The **residual** is our early-warning signal for cooling problems:
-
-```
-Residual = T_heatsink_measured - T_heatsink_predicted
-```
-
-- **Predicted** assumes clean filters and working fan (baseline R_sa)
-- If **actual > predicted**, cooling is degraded
-- Gradual residual increase → filter clogging (days to weeks)
-- Rapid residual increase → fan failure (minutes)
-
-**Alarm thresholds:**
-- Warning: Residual ≥ 4K
-- Critical: Residual ≥ 8K
-
-This gives **days of advance notice** before a critical over-temperature event.
-
----
-
-### Data Provenance
-
-Clear labeling of data sources builds operator trust:
-
-| Parameter | Source | Confidence |
-|-----------|--------|------------|
-| Heatsink Temp | RTD sensor | High (measured) |
-| Ambient Temp | RTD sensor | High (measured) |
-| Armature Current | Drive sensor | High (measured) |
-| **Junction Temp** | **Thermal model** | **Medium (estimated)** |
-| Power Loss | Calculation | Medium (derived) |
-| Residual | Calculation | Medium (derived) |
-| Wear Rate | Statistical model | Low (estimated) |
-
-**Key principle**: Never present an estimate as a measurement. Always label "EST" on Tj displays.
-
----
-
-## Technical Architecture
-
-### Software Stack
-- **Frontend**: Streamlit (Python web framework)
-- **Visualization**: Plotly (interactive charts)
-- **Backend**: Python 3.9+
-- **Data source**: Simulation (pilot), OPC UA (future production)
-
-### Alarm Philosophy (ISA-18.2)
-- Every alarm requires operator action
-- Debouncing prevents nuisance alarms
-- Hysteresis prevents alarm chatter
-- Acknowledge required for critical alarms
-
-### Update Rates
-- **Model calculation**: 10 Hz (every 100ms)
-- **Display refresh**: 1 Hz (every second)
-- **History storage**: 1-second averages + 10-second min/max
-
----
-
-## References
-
-### Standards & Guidelines
-- **IEC 60747-2**: Thyristor datasheet standards
-- **ISA-18.2**: Alarm management philosophy
-- **WCAG 2.1 AA**: Web accessibility guidelines
-
-### Thermal Modeling
-- Foster RC network thermal models
-- Coffin-Manson equation for wear prediction
-- Heat transfer fundamentals (Incropera & DeWitt)
-
-### Industry Inspiration
-- Honeywell Forge (plant overview design)
-- Splunk industrial dashboards (data visualization)
-- Control room HMI best practices
-
----
-
-## Future Enhancements
-
-### Phase 2 (In Progress)
-- Complete Drive Detail page with live charts
-- Full alarm management and history logging
-- Fault injection UI for demo
-
-### Phase 3 (Planned)
-- Historical trend analysis with date ranges
-- Wear tracking and life prediction
-- CSV export and shift reports
-
-### Phase 4 (Production Deployment)
-- OPC UA integration with plant PLC
-- TimescaleDB for persistent history
-- User authentication and role management
-- Integration with plant SCADA/DCS
-- Hardware redundancy and failover
-
----
-
-## Contact & Support
-
-**Development Team**: Women of Mettle - Project 7  
-**Mentor**: [Tata Steel Mentor Name]  
-**Questions**: [Your Email]
-
-**Source Code**: [Repository Link]  
-**Documentation**: [Link to full technical doc]
-
----
-
-## Version History
-
-- **v1.0.0-alpha** (2024-12-19): Phase 1 complete
-  - Project structure
-  - Simulation engine
-  - Overview page
-  - Dark theme
-
-- **v0.1.0** (2024-12-01): Initial concept and planning
-
----
-
-## Acknowledgments
-
-Special thanks to:
-- **Tata Steel** for providing domain expertise and real-world problem context
-- **Women of Mettle Program** for organizing the competition
-- **Dribbble industrial UI designers** for visual inspiration
-- **Streamlit community** for excellent documentation and examples
-
----
-""")
-
-st.success("📖 For detailed methodology, see the full technical documentation (link above)")
-
-st.markdown("---")
-st.caption("© 2024 Women of Mettle - Project 7 | Last updated: 2024-12-19")
+# Data Provenance Table
+st.markdown("""
+<div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 700; color: #88847E; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px;">
+    DATA PROVENANCE & SENSOR CONFIDENCE MAPPING
+</div>
+<div class="hardware-card" style="background: #1A1918; border: 1px solid #282624; border-radius: 8px; padding: 16px;">
+    <table style="width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #FFFFFF;">
+        <tr style="border-bottom: 1px solid #282624; text-align: left; color: #88847E;">
+            <th style="padding: 8px;">VARIABLE</th>
+            <th style="padding: 8px;">SOURCE SENSOR</th>
+            <th style="padding: 8px;">SAMPLING RATE</th>
+            <th style="padding: 8px;">CONFIDENCE CLASS</th>
+            <th style="padding: 8px;">FAILURE MODE MITIGATION</th>
+        </tr>
+        <tr style="border-bottom: 1px solid #282624;">
+            <td style="padding: 8px; font-weight: bold;">Heatsink Temp (Ts)</td>
+            <td style="padding: 8px;">PT100 4-Wire RTD</td>
+            <td style="padding: 8px;">1 Hz PLC Analog Input</td>
+            <td style="padding: 8px;"><span class="thermal-pill normal" style="font-size: 8px;">HIGH (MEASURED)</span></td>
+            <td style="padding: 8px; color: #88847E;">Out-of-range sensor clamp + open circuit trip</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #282624;">
+            <td style="padding: 8px; font-weight: bold;">Armature Current (Id)</td>
+            <td style="padding: 8px;">Hall Effect Transducer</td>
+            <td style="padding: 8px;">10 Hz Fast Modbus</td>
+            <td style="padding: 8px;"><span class="thermal-pill normal" style="font-size: 8px;">HIGH (MEASURED)</span></td>
+            <td style="padding: 8px; color: #88847E;">Shared bus current split 1/3 per thyristor arm</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #282624;">
+            <td style="padding: 8px; font-weight: bold;">Junction Temp (Tj)</td>
+            <td style="padding: 8px;">Foster 3-Layer Virtual Sensor</td>
+            <td style="padding: 8px;">10 Hz Model / 1 Hz Peak-Hold</td>
+            <td style="padding: 8px;"><span class="thermal-pill warning" style="font-size: 8px;">ESTIMATED (MODEL)</span></td>
+            <td style="padding: 8px; color: #88847E;">Conservative R_jc worst-case safety margin (+15%)</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; font-weight: bold;">Cooling Residual</td>
+            <td style="padding: 8px;">Delta Ts - Ts,pred</td>
+            <td style="padding: 8px;">Rolling 60s Window</td>
+            <td style="padding: 8px;"><span class="thermal-pill normal" style="font-size: 8px;">HIGH (DIAGNOSTIC)</span></td>
+            <td style="padding: 8px; color: #88847E;">Debounced 5s to eliminate transient false trips</td>
+        </tr>
+    </table>
+</div>
+""", unsafe_allow_html=True)
