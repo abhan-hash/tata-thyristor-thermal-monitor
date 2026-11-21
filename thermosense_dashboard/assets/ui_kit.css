@@ -28,15 +28,30 @@
     }
 }
 
-@keyframes criticalPulseSlow {
+@keyframes criticalPulse3Times {
     0%, 100% {
         box-shadow: 0 0 0 0 rgba(224, 32, 27, 0.4);
         border-color: rgba(224, 32, 27, 0.9);
     }
     50% {
-        box-shadow: 0 0 14px 2px rgba(224, 32, 27, 0.6);
+        box-shadow: 0 0 12px 2px rgba(224, 32, 27, 0.7);
         border-color: #FF5A1F;
     }
+}
+
+@keyframes alarmRowSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timeline-item {
+    animation: alarmRowSlideIn 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes syncPulseDot {
@@ -93,7 +108,24 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-    animation: smearSweep 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.page-header-ribbon.entrance-play,
+.page-header-hud.entrance-play,
+.page-header-split.entrance-play {
+    animation: smearSweep 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.plate-panel.entrance-play {
+    animation: panelStaggerIn 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.no-entrance,
+.page-header-ribbon.no-entrance,
+.plate-panel.no-entrance {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
 }
 
 .page-header-ribbon .header-title-box {
@@ -268,7 +300,7 @@
     background: rgba(224, 32, 27, 0.15);
     border: 1px solid #E0201B;
     color: #FFA59E;
-    animation: criticalPulseSlow 2.2s infinite ease-in-out;
+    animation: criticalPulse3Times 0.65s ease-in-out 3 forwards;
 }
 
 .status-chip-dot {
@@ -717,4 +749,54 @@ div[data-testid="stToggle"] [data-baseweb="checkbox"]:has(input:checked) span {
     border-color: #F2B533;
     background: #181614;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 14px rgba(242, 181, 51, 0.25);
+}
+
+/* -----------------------------------------------------------------------------
+   9. INTERACTION REFINEMENTS & TABULAR NUMERALS (Emil Kowalski Motion Contract)
+   ----------------------------------------------------------------------------- */
+.tabular-nums {
+    font-variant-numeric: tabular-nums !important;
+    font-feature-settings: 'tnum' 1 !important;
+}
+
+/* Fast lift & brighten on hover, instant active press */
+.channel-card-plate,
+.channel-card-fader,
+.channel-card-capsule,
+.timeline-content-card,
+.stButton > button,
+.kpi-tile-wrap {
+    transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), filter 120ms cubic-bezier(0.16, 1, 0.3, 1), border-color 120ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.channel-card-plate:hover,
+.channel-card-fader:hover,
+.channel-card-capsule:hover,
+.timeline-content-card:hover,
+.stButton > button:hover,
+.kpi-tile-wrap:hover {
+    transform: translateY(-2px) !important;
+    filter: brightness(1.08) !important;
+}
+
+.channel-card-plate:active,
+.channel-card-fader:active,
+.channel-card-capsule:active,
+.timeline-content-card:active,
+.stButton > button:active,
+.kpi-tile-wrap:active {
+    transform: translateY(0) scale(0.985) !important;
+    transition-duration: 50ms !important;
+}
+
+/* Chevron nudge on hover */
+.chevron-nudge {
+    display: inline-block;
+    transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*:hover > .chevron-nudge,
+.kpi-tile-wrap:hover .chevron-nudge {
+    transform: translateX(4px);
+    color: #F2B533 !important;
 }

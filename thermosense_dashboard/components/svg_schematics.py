@@ -71,22 +71,26 @@ def render_bridge_schematic_svg(
             cath_line = '<line x1="-15" y1="-10" x2="15" y2="-10" stroke="#FFFFFF" stroke-width="2"/>'
             gate_line = '<path d="M 0,-10 L 8,-18 L 18,-18" fill="none" stroke="#FFB020" stroke-width="1.5"/>'
 
+        # Identify if this is the hottest thyristor
+        is_hottest = (t_temp == max(temps))
+        hottest_cls = 'class="bridge-hottest-shimmer"' if is_hottest else ""
+
         node_svg = f"""
         <!-- Thyristor T{t_id} -->
         <g transform="translate({cx}, {cy})" style="cursor: pointer;">
             <a href="?t={t_id}" target="_self" style="text-decoration: none;" aria-label="Select Thyristor T{t_id} ({t_temp:.1f}°C)">
                 <!-- Hit area & background plate -->
-                <rect x="-42" y="-36" width="84" height="72" rx="6" fill="#151413" stroke="{box_stroke}" stroke-width="{border_w}" />
+                <rect x="-42" y="-36" width="84" height="72" rx="6" fill="#151413" stroke="{box_stroke}" stroke-width="{border_w}" style="transition: stroke 200ms ease;" />
                 {sel_glow}
-                <!-- Heat glow filter -->
-                <circle cx="0" cy="0" r="22" fill="{col}" opacity="0.25" filter="url(#bridgeHeatBlur)"/>
+                <!-- Heat glow filter (transitions smoothly; slow idle shimmer on hottest) -->
+                <circle cx="0" cy="0" r="22" fill="{col}" opacity="0.28" filter="url(#bridgeHeatBlur)" {hottest_cls} style="transition: fill 350ms ease, opacity 350ms ease;" />
                 <!-- Thyristor Symbol -->
-                <polygon points="{tri_pts}" fill="{col}" stroke="#FFFFFF" stroke-width="1.5"/>
+                <polygon points="{tri_pts}" fill="{col}" stroke="#FFFFFF" stroke-width="1.5" style="transition: fill 350ms ease;" />
                 {cath_line}
                 {gate_line}
                 <!-- Text Readout -->
                 <text x="0" y="-22" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">T{t_id}</text>
-                <text x="0" y="30" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="700" fill="{col}" text-anchor="middle">{t_temp:.1f}°C</text>
+                <text x="0" y="30" font-family="'IBM Plex Mono', monospace" font-size="10" font-weight="700" fill="{col}" text-anchor="middle" style="transition: fill 350ms ease;">{t_temp:.1f}°C</text>
             </a>
         </g>
         """
@@ -103,6 +107,15 @@ def render_bridge_schematic_svg(
     svg = f"""
     <svg width="100%" height="{height}" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" style="display: block; background: #0E0D0C; border-radius: 8px;">
         <defs>
+            <style>
+                @keyframes bridgeHottestShimmer {{
+                    0%, 100% {{ opacity: 0.28; }}
+                    50% {{ opacity: 0.65; }}
+                }}
+                .bridge-hottest-shimmer {{
+                    animation: bridgeHottestShimmer 4s ease-in-out infinite;
+                }}
+            </style>
             <filter id="bridgeHeatBlur" x="-50%" y="-50%" width="200%" height="200%">
                 <feGaussianBlur stdDeviation="6"/>
             </filter>

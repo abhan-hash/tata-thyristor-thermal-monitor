@@ -143,6 +143,30 @@ def render_output_nav(active_page: str = "OVERVIEW"):
 
 .output-nav-sync {{
     color: #88847E;
+    display: inline-flex;
+    align-items: center;
+}}
+
+.output-nav-sync-dot {{
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #F2B533;
+    box-shadow: 0 0 6px rgba(242, 181, 51, 0.8);
+    margin-right: 6px;
+    animation: syncTickPulse 1000ms ease-in-out infinite;
+}}
+
+@keyframes syncTickPulse {{
+    0%, 100% {{
+        opacity: 1;
+        transform: scale(1);
+    }}
+    50% {{
+        opacity: 0.25;
+        transform: scale(0.65);
+    }}
 }}
 
 .output-nav-sync-hz {{
@@ -194,7 +218,7 @@ def render_output_nav(active_page: str = "OVERVIEW"):
 {links_str}
 </div>
 <div class="output-nav-right">
-<span class="output-nav-sync">STAND SYNC: <strong class="output-nav-sync-hz">10Hz</strong></span>
+<span class="output-nav-sync"><span class="output-nav-sync-dot"></span>STAND SYNC: <strong class="output-nav-sync-hz">10Hz</strong></span>
 <span class="output-nav-operator">OPERATOR [ LOG OUT ]</span>
 </div>
 </div>

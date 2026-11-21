@@ -99,19 +99,24 @@ def render_status_chip(tier: str = "nominal", label: Optional[str] = None):
 def render_mini_heat_disc_svg(temp_c: float, diameter: int = 48) -> str:
     """
     Render mini SVG heat disc with concentric machining rings and thermal core.
+    Hottest element features slow idle shimmer with 4s period.
     """
-    # Normalized temperature clamped [30, 130]
     norm = min(1.0, max(0.0, (temp_c - 30.0) / 100.0))
     glow_color = get_thermal_color(temp_c)
     r = diameter / 2.0
     core_r = max(4.0, r * (0.25 + 0.5 * norm))
-
-    # Glow intensity
     glow_opacity = 0.25 + 0.45 * norm
+    shimmer_style = "animation: hotCoreShimmer 4s ease-in-out infinite; transform-origin: center;" if temp_c >= 80.0 else ""
 
     svg = f"""
     <svg width="{diameter}" height="{diameter}" viewBox="0 0 {diameter} {diameter}" xmlns="http://www.w3.org/2000/svg" style="display: block; overflow: visible;">
         <defs>
+            <style>
+                @keyframes hotCoreShimmer {{
+                    0%, 100% {{ opacity: {glow_opacity:.2f}; }}
+                    50% {{ opacity: {min(1.0, glow_opacity + 0.3):.2f}; }}
+                }}
+            </style>
             <radialGradient id="miniCoreGrad_{int(temp_c)}_{diameter}" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95" />
                 <stop offset="35%" stop-color="{glow_color}" stop-opacity="0.9" />
@@ -128,10 +133,10 @@ def render_mini_heat_disc_svg(temp_c: float, diameter: int = 48) -> str:
         <!-- Inner concentric thermal tracks -->
         <circle cx="{r}" cy="{r}" r="{r * 0.78}" fill="none" stroke="#201F1D" stroke-width="1" />
         <circle cx="{r}" cy="{r}" r="{r * 0.58}" fill="none" stroke="#282624" stroke-width="0.8" stroke-dasharray="2,2" />
-        <!-- Heat glow aura -->
-        <circle cx="{r}" cy="{r}" r="{core_r + 2}" fill="{glow_color}" opacity="{glow_opacity}" filter="url(#miniHeatGlow_{int(temp_c)}_{diameter})" />
+        <!-- Heat glow aura with transition -->
+        <circle cx="{r}" cy="{r}" r="{core_r + 2}" fill="{glow_color}" opacity="{glow_opacity}" filter="url(#miniHeatGlow_{int(temp_c)}_{diameter})" style="{shimmer_style} transition: fill 350ms ease, opacity 350ms ease;" />
         <!-- Radiant core -->
-        <circle cx="{r}" cy="{r}" r="{core_r}" fill="url(#miniCoreGrad_{int(temp_c)}_{diameter})" />
+        <circle cx="{r}" cy="{r}" r="{core_r}" fill="url(#miniCoreGrad_{int(temp_c)}_{diameter})" style="transition: fill 350ms ease;" />
         <!-- Center pivot brass dot -->
         <circle cx="{r}" cy="{r}" r="2" fill="#F2B533" opacity="0.9" />
     </svg>
@@ -156,13 +161,29 @@ def render_page_header(
     - 'ribbon' (Variant A): Horizontal streamlined bar with heat-smear accent, gradient title, vertical divider, live metric & chip.
     - 'hud' (Variant B): Machined rack HUD with top status breadcrumb, Stand-04 sync pulse, and framed metrics.
     - 'split' (Variant C): Dual-flank card with heat-smear pill left and telemetry capsule right.
+    Plays entrance animation ONCE per session; skips on reruns.
     """
     chip_html = render_status_chip_html(status_tier)
+
+    # Session-scoped entrance animation flag
+    page_slug = "".join([c for c in title if c.isalnum()]).lower()[:12]
+    page_key = f"entrance_done_{page_slug}"
+    is_first_load = False
+    try:
+        import streamlit as st_mod
+        if hasattr(st_mod, "session_state"):
+            if page_key not in st_mod.session_state:
+                st_mod.session_state[page_key] = True
+                is_first_load = True
+    except Exception:
+        pass
+
+    entrance_cls = "entrance-play" if is_first_load else "no-entrance"
 
     if variant == "hud":
         # Variant B: Machined Rack HUD
         html_content = f"""
-        <div class="page-header-hud">
+        <div class="page-header-hud {entrance_cls}">
             <div class="hud-top-meta">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #FFB020; box-shadow: 0 0 6px #FFB020; animation: syncPulseDot 2s infinite;"></span>
@@ -195,7 +216,7 @@ def render_page_header(
     elif variant == "split":
         # Variant C: Dual-Flank Split Bar
         html_content = f"""
-        <div class="page-header-split">
+        <div class="page-header-split {entrance_cls}">
             <div class="split-title-card">
                 <div style="width: 5px; height: 36px; border-radius: 2.5px; background: linear-gradient(180deg, #FFB020 0%, #FF5A1F 100%); box-shadow: 0 0 8px rgba(255, 90, 31, 0.4);"></div>
                 <div>
@@ -222,7 +243,7 @@ def render_page_header(
     else:
         # Variant A: Compact Industrial Ribbon (Default)
         html_content = f"""
-        <div class="page-header-ribbon">
+        <div class="page-header-ribbon {entrance_cls}">
             <div class="header-title-box">
                 <div class="header-heat-accent"></div>
                 <div>
@@ -338,9 +359,22 @@ def render_channel_card(
 # -----------------------------------------------------------------------------
 def render_plate_open(title: str, vertical_label: str = "STAND-04", icon_svg: Optional[str] = None):
     """Open a styled matte plate panel with corner crop-bracket marks."""
+    plate_slug = "".join([c for c in title if c.isalnum()]).lower()[:12]
+    plate_key = f"plate_entered_{plate_slug}"
+    is_first_load = False
+    try:
+        import streamlit as st_mod
+        if hasattr(st_mod, "session_state"):
+            if plate_key not in st_mod.session_state:
+                st_mod.session_state[plate_key] = True
+                is_first_load = True
+    except Exception:
+        pass
+
+    entrance_cls = "entrance-play" if is_first_load else "no-entrance"
     icon_tag = f"""<span style="display: inline-flex; align-items: center;">{icon_svg}</span>""" if icon_svg else ""
     html_markup = f"""
-    <div class="plate-panel">
+    <div class="plate-panel {entrance_cls}">
         <div class="plate-vertical-badge">{vertical_label}</div>
         <div class="plate-panel-header">
             <div class="plate-panel-title">
@@ -409,11 +443,11 @@ def render_kpi_tile_html(
     tile_html = f"""
     <div class="kpi-tile-wrap">
         <div class="kpi-tile-top">
-            <span class="kpi-tile-label">{label}</span>
+            <span class="kpi-tile-label">{label} <span class="chevron-nudge" style="color: #575450; font-size: 9px; vertical-align: middle;">&rsaquo;</span></span>
             {delta_html}
         </div>
         <div class="kpi-tile-mid">
-            <span class="kpi-tile-value">{value}</span>
+            <span class="kpi-tile-value tabular-nums">{value}</span>
             <span class="kpi-tile-unit">{unit}</span>
         </div>
         <div class="kpi-tile-sparkline-box">
@@ -460,6 +494,7 @@ def apply_warm_plotly_layout(
         margin=dict(l=36, r=16, t=32, b=24),
         paper_bgcolor="#151413",
         plot_bgcolor="#0E0D0C",
+        transition=dict(duration=350, easing="cubic-in-out"),
         font=dict(size=9.5, family="IBM Plex Mono, monospace", color="#88847E"),
         title=dict(
             text=title,
