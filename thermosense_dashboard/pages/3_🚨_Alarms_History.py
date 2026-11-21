@@ -119,7 +119,7 @@ def render_live_alarms():
         subtitle="DISPATCH LOG • DEBOUNCE LOGIC • OPERATOR ACKNOWLEDGMENT AUDIT",
         live_metric_val=f"{len(active_unack)}",
         live_metric_unit="ACTIVE",
-        live_metric_label="UNACK ALERTS",
+        live_metric_label="ACTIVE ALARMS",
         status_tier=overall_tier,
         variant="ribbon"
     )

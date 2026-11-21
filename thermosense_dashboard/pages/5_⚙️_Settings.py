@@ -58,9 +58,19 @@ except Exception:
         }
     }
 
-# Track modification state
-if 'settings_modified' not in st.session_state:
-    st.session_state['settings_modified'] = False
+# Initialize baseline setpoints in session state if not present
+if 'baseline_settings' not in st.session_state:
+    st.session_state['baseline_settings'] = {
+        'tj_trip': int(config['alarms']['junction_temp']['critical']),
+        'tj_warn': int(config['alarms']['junction_temp']['warning']),
+        'hs_trip': int(config['alarms']['heatsink_temp']['critical']),
+        'res_warn': float(config['alarms']['cooling_residual']['warning']),
+        'fan_interlock': True,
+        'load_shedding': True,
+        'logging_10hz': False,
+    }
+
+base = st.session_state['baseline_settings']
 
 # 1. STANDARDIZED PAGE HEADER (Variant A: Compact Industrial Ribbon)
 render_page_header(
@@ -73,26 +83,39 @@ render_page_header(
     variant="ribbon"
 )
 
-# 2. GROUPED PLATE PANEL: ALARM THRESHOLDS & INLINE VALIDATION
+# 2. GROUPED PLATE PANEL: ALARM THRESHOLDS & HARDWARE SWITCHES
 render_plate_open("ALARM & TRIP SAFETY THRESHOLDS (HARDWARE SETPOINTS)", "SAFETY LIMITS")
 
 col_t1, col_t2 = st.columns(2, gap="medium")
 with col_t1:
-    st.markdown("**Junction Temperature Trip & Warning Configuration:**")
-    tj_trip = st.slider("Junction Trip Threshold (°C)", min_value=115, max_value=135, value=config['alarms']['junction_temp']['critical'], step=1)
-    tj_warn = st.slider("Junction Warning Threshold (°C)", min_value=90, max_value=120, value=config['alarms']['junction_temp']['warning'], step=1)
+    st.markdown("**Junction Temperature Trip & Warning Configuration (Fader Controls):**")
+    tj_trip = st.slider("Junction Trip Threshold (°C)", min_value=115, max_value=135, value=base['tj_trip'], step=1, key="sld_tj_trip")
+    tj_warn = st.slider("Junction Warning Threshold (°C)", min_value=90, max_value=120, value=base['tj_warn'], step=1, key="sld_tj_warn")
     
     # Inline validation
     if tj_warn >= tj_trip:
-        st.error("⚠️ Validation Error: Warning threshold must be strictly below trip threshold.")
+        st.error(f"⚠️ Validation Error: Warning threshold ({tj_warn}°C) must be strictly below trip threshold ({tj_trip}°C).")
     else:
         st.caption(f"✓ Valid: {tj_trip - tj_warn}°C safety margin between warning dispatch and emergency trip.")
 
 with col_t2:
-    st.markdown("**Heatsink & Filter Residual Clogging Setpoints:**")
-    hs_trip = st.slider("Heatsink Trip Limit (°C)", min_value=70, max_value=95, value=config['alarms']['heatsink_temp']['critical'], step=1)
-    res_warn = st.slider("Cooling Residual Filter Clog Alarm (K)", min_value=2.0, max_value=8.0, value=float(config['alarms']['cooling_residual']['warning']), step=0.5)
+    st.markdown("**Heatsink & Filter Residual Clogging Setpoints (Fader Controls):**")
+    hs_trip = st.slider("Heatsink Trip Limit (°C)", min_value=70, max_value=95, value=base['hs_trip'], step=1, key="sld_hs_trip")
+    res_warn = st.slider("Cooling Residual Filter Clog Alarm (K)", min_value=2.0, max_value=8.0, value=float(base['res_warn']), step=0.5, key="sld_res_warn")
     st.caption("✓ Filter residual monitors divergence ΔT = Ts,actual - Ts,predicted over a rolling 60s window.")
+
+render_html("<div style='height: 12px;'></div>")
+st.markdown("**Hardware Safety Interlock Switches:**")
+sw_col1, sw_col2, sw_col3 = st.columns(3)
+with sw_col1:
+    fan_interlock = st.toggle("Emergency Blower Fan Interlock", value=base['fan_interlock'], key="tog_fan_interlock")
+    st.caption("Auto-trips drive on blower tachometer loss")
+with sw_col2:
+    load_shedding = st.toggle("HSM Bar-Bite Load Shedding", value=base['load_shedding'], key="tog_load_shedding")
+    st.caption("-20% armature current during transient overload")
+with sw_col3:
+    logging_10hz = st.toggle("10Hz Modbus Waveform Logging", value=base['logging_10hz'], key="tog_logging_10hz")
+    st.caption("Records high-speed transient telemetry")
 
 render_plate_close()
 
@@ -199,15 +222,70 @@ render_plate_close()
 
 render_html("<br><br>")
 
-# 6. STICKY SAVE BAR AT BOTTOM
-render_html("""
-<div class="sticky-save-bar">
-    <div style="display: flex; align-items: center; gap: 12px;">
-        <span style="width: 8px; height: 8px; border-radius: 50%; background: #F2B533; box-shadow: 0 0 8px #F2B533;"></span>
-        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #FFFFFF; font-weight: 700;">CALIBRATION CONSOLE STATUS: SYSTEM SYNCHRONIZED</span>
+# 6. STICKY SAVE BAR WITH UNSAVED CHANGES DETECTION
+changed_fields = []
+if tj_trip != base['tj_trip']:
+    changed_fields.append(f"Tj Trip ({base['tj_trip']}°C → {tj_trip}°C)")
+if tj_warn != base['tj_warn']:
+    changed_fields.append(f"Tj Warn ({base['tj_warn']}°C → {tj_warn}°C)")
+if hs_trip != base['hs_trip']:
+    changed_fields.append(f"Ts Trip ({base['hs_trip']}°C → {hs_trip}°C)")
+if abs(res_warn - base['res_warn']) > 0.01:
+    changed_fields.append(f"Residual ({base['res_warn']}K → {res_warn}K)")
+if fan_interlock != base['fan_interlock']:
+    changed_fields.append(f"Fan Interlock ({'ON' if fan_interlock else 'OFF'})")
+if load_shedding != base['load_shedding']:
+    changed_fields.append(f"Load Shedding ({'ON' if load_shedding else 'OFF'})")
+if logging_10hz != base['logging_10hz']:
+    changed_fields.append(f"10Hz Logging ({'ON' if logging_10hz else 'OFF'})")
+
+has_unsaved = len(changed_fields) > 0
+
+if has_unsaved:
+    render_html(f"""
+    <div class="sticky-save-bar has-unsaved">
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: #FF5A1F; box-shadow: 0 0 10px #FF5A1F; animation: criticalPulseSlow 1.4s infinite;"></span>
+            <div>
+                <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #FFFFFF; font-weight: 800; letter-spacing: 0.05em;">
+                    UNSAVED SETPOINT CHANGES DETECTED ({len(changed_fields)} PARAMETERS ALTERED)
+                </div>
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; color: #FFB020; margin-top: 2px;">
+                    {', '.join(changed_fields[:4])}{'...' if len(changed_fields) > 4 else ''}
+                </div>
+            </div>
+        </div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #C4C1BA; background: #201F1D; padding: 4px 8px; border-radius: 4px; border: 1px solid #383532;">
+            PENDING PLC SYNC
+        </div>
     </div>
-    <div style="display: flex; gap: 10px;">
-        <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10.5px; color: #88847E; align-self: center;">Hardware safety checks active</span>
+    """)
+    s_col1, s_col2, s_spacer = st.columns([1.2, 0.9, 3.0])
+    with s_col1:
+        if st.button("SAVE SETPOINTS", key="btn_save_all_settings", use_container_width=True):
+            st.session_state['baseline_settings']['tj_trip'] = tj_trip
+            st.session_state['baseline_settings']['tj_warn'] = tj_warn
+            st.session_state['baseline_settings']['hs_trip'] = hs_trip
+            st.session_state['baseline_settings']['res_warn'] = res_warn
+            st.session_state['baseline_settings']['fan_interlock'] = fan_interlock
+            st.session_state['baseline_settings']['load_shedding'] = load_shedding
+            st.session_state['baseline_settings']['logging_10hz'] = logging_10hz
+            st.success("Setpoints committed successfully to Stand-04 safety memory.")
+            st.rerun()
+    with s_col2:
+        if st.button("DISCARD", key="btn_discard_all_settings", use_container_width=True):
+            st.rerun()
+else:
+    render_html("""
+    <div class="sticky-save-bar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #F2B533; box-shadow: 0 0 8px #F2B533;"></span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #FFFFFF; font-weight: 700;">
+                CALIBRATION CONSOLE STATUS: ALL SETPOINTS COMMITTED & SYNCHRONIZED
+            </span>
+        </div>
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10.5px; color: #88847E;">
+            Hardware safety interlocks active (100% verified)
+        </div>
     </div>
-</div>
-""")
+    """)

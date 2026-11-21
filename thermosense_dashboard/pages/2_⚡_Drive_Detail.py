@@ -9,6 +9,7 @@ from pathlib import Path
 import sys
 import numpy as np
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from datetime import datetime
 
 # Add parent directory to path
@@ -299,63 +300,113 @@ def render_live_drive_detail():
 
     render_plate_open(f"T{sel_id} REAL-TIME TRANSIENT WAVEFORMS • SYNCHRONIZED MILL DYNAMICS", "TELEMETRY SCOPE")
 
-    # Chart 1: Transient Temperature
-    fig_tj = go.Figure()
-    fig_tj.add_trace(go.Scatter(
+    # Stacked Charts with Shared X-Axis & Shared Crosshair
+    fig_stacked = make_subplots(
+        rows=2, cols=1,
+        shared_xaxes=True,
+        vertical_spacing=0.08,
+        row_heights=[0.62, 0.38],
+        subplot_titles=(
+            f"TRANSIENT TEMPERATURE RESPONSE • T{sel_id} SILICON JUNCTION vs HEATSINK",
+            "ARMATURE CURRENT PROFILE (Id • SYNCHRONIZED ROLLING LOAD)"
+        )
+    )
+
+    # Row 1: Transient Temperature (Tj and Ts)
+    fig_stacked.add_trace(go.Scatter(
         x=t_sec, y=tj_sim, mode='lines',
         name=f'T{sel_id} Estimated Tj',
         line=dict(color='#FF5A1F', width=2.4),
         fill='tozeroy', fillcolor='rgba(255, 90, 31, 0.08)',
         hovertemplate="Time: %{x:.1f}s<br>Tj: %{y:.1f}°C<extra></extra>"
-    ))
-    fig_tj.add_trace(go.Scatter(
+    ), row=1, col=1)
+
+    fig_stacked.add_trace(go.Scatter(
         x=t_sec, y=hs_sim, mode='lines',
         name=f'T{sel_id} Measured Heatsink (Ts)',
         line=dict(color='#FFB020', width=1.8, dash='dot'),
         hovertemplate="Time: %{x:.1f}s<br>Ts: %{y:.1f}°C<extra></extra>"
-    ))
+    ), row=1, col=1)
 
-    # Bar bite annotation
-    fig_tj.add_annotation(
+    # Hot bar bite annotation
+    fig_stacked.add_annotation(
         x=11.2, y=max(tj_sim[impact_mask]),
         text="HOT BAR IMPACT SPIKE (+380A)",
         showarrow=True, arrowhead=2, arrowcolor="#FF5A1F", arrowsize=1,
         font=dict(family="IBM Plex Mono", size=9, color="#FFFFFF"),
-        bgcolor="#1A1918", bordercolor="#FF5A1F", borderwidth=1, borderpad=4
+        bgcolor="#1A1918", bordercolor="#FF5A1F", borderwidth=1, borderpad=4,
+        row=1, col=1
     )
 
-    apply_warm_plotly_layout(
-        fig=fig_tj,
-        title=f"TRANSIENT TEMPERATURE RESPONSE • T{sel_id} SILICON JUNCTION vs HEATSINK",
-        y_title="TEMPERATURE (°C)",
-        y_range=[30, 135],
-        height=260,
-        show_thresholds=True,
-        warning_val=105.0,
-        trip_val=125.0
+    # Shaded threshold bands on Row 1
+    fig_stacked.add_hrect(
+        y0=105.0, y1=125.0, fillcolor="rgba(255, 176, 32, 0.05)",
+        line_width=0, layer="below", row=1, col=1
     )
-    fig_tj.update_xaxes(showticklabels=False)  # Stacked shared x-axis
-    st.plotly_chart(fig_tj, use_container_width=True, config={'displayModeBar': False})
+    fig_stacked.add_hline(
+        y=105.0, line_dash="dash", line_color="rgba(255, 176, 32, 0.6)",
+        line_width=1, annotation_text="WARN 105°C", annotation_font_size=8.5,
+        annotation_font_color="#FFB020", annotation_position="bottom right",
+        row=1, col=1
+    )
+    fig_stacked.add_hrect(
+        y0=125.0, y1=140.0, fillcolor="rgba(224, 32, 27, 0.08)",
+        line_width=0, layer="below", row=1, col=1
+    )
+    fig_stacked.add_hline(
+        y=125.0, line_dash="dot", line_color="#E0201B",
+        line_width=1.2, annotation_text="TRIP 125°C", annotation_font_size=8.5,
+        annotation_font_color="#E0201B", annotation_position="top right",
+        row=1, col=1
+    )
 
-    # Chart 2: Armature Current Profile (Stacked below, shared range)
-    fig_cur = go.Figure()
-    fig_cur.add_trace(go.Scatter(
+    # Row 2: Armature Current Profile (Id)
+    fig_stacked.add_trace(go.Scatter(
         x=t_sec, y=i_arm, mode='lines',
         name='Armature Current (Id)',
         line=dict(color='#F2B533', width=2),
         fill='tozeroy', fillcolor='rgba(242, 181, 51, 0.07)',
         hovertemplate="Time: %{x:.1f}s<br>Id: %{y:.1f} A<extra></extra>"
-    ))
-    apply_warm_plotly_layout(
-        fig=fig_cur,
-        title="ARMATURE CURRENT PROFILE (Id • SYNCHRONIZED ROLLING LOAD)",
-        y_title="CURRENT (A)",
-        y_range=[500, 1300],
-        height=180,
-        show_thresholds=False
+    ), row=2, col=1)
+
+    # Synchronized vertical guide line across both charts
+    fig_stacked.add_vline(
+        x=11.2, line_dash="dash", line_color="rgba(255, 90, 31, 0.35)",
+        line_width=1.2
     )
-    fig_cur.update_xaxes(title="TIMELINE (SECONDS)")
-    st.plotly_chart(fig_cur, use_container_width=True, config={'displayModeBar': False})
+
+    # Unified layout configuration with shared crosshair
+    fig_stacked.update_layout(
+        height=450,
+        margin=dict(l=40, r=20, t=36, b=30),
+        paper_bgcolor="#151413",
+        plot_bgcolor="#0E0D0C",
+        font=dict(size=9.5, family="IBM Plex Mono, monospace", color="#88847E"),
+        hovermode="x unified",
+        hoverlabel=dict(
+            bgcolor="#1A1918",
+            bordercolor="#F2B533",
+            font=dict(family="IBM Plex Mono, monospace", size=10, color="#FFFFFF")
+        ),
+        showlegend=False
+    )
+
+    # Crosshair spike behavior across x axes
+    fig_stacked.update_xaxes(
+        showgrid=True, gridcolor="#282624", gridwidth=0.8, zeroline=False, color="#88847E",
+        showspikes=True, spikemode="across", spikesnap="cursor", spikethickness=1, spikecolor="#F2B533"
+    )
+    fig_stacked.update_yaxes(
+        showgrid=True, gridcolor="#282624", gridwidth=0.8, zeroline=False, color="#88847E",
+        row=1, col=1, title="TEMP (°C)", range=[30, 138]
+    )
+    fig_stacked.update_yaxes(
+        showgrid=True, gridcolor="#282624", gridwidth=0.8, zeroline=False, color="#88847E",
+        row=2, col=1, title="CURRENT (A)", range=[500, 1300]
+    )
+    fig_stacked.update_xaxes(title="TIMELINE (SECONDS)", row=2, col=1)
+
+    st.plotly_chart(fig_stacked, use_container_width=True, config={'displayModeBar': False})
     render_plate_close()
 
     render_html("<br>")

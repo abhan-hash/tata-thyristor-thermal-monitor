@@ -94,17 +94,30 @@ def render_live_trends():
         variant="ribbon"
     )
 
-    # 2. KPI TILES WITH SPARKLINES
+    # 2. FOCAL POINT: REMAINING-LIFE ARC GAUGES PER THYRISTOR (T1–T6)
+    render_plate_open("THYRISTOR HEALTH INDEX & REMAINING USEFUL LIFE (RUL)", "WEAR MATRIX")
+    gauge_cols = st.columns(6)
+    life_percentages = [86.4, 88.9, 81.2, 87.5, 79.8, 83.7]
+    rul_projections = [15.1, 16.4, 13.8, 15.8, 12.9, 14.2]
+
+    for i in range(6):
+        with gauge_cols[i]:
+            render_html(render_arc_gauge_svg(i + 1, life_percentages[i], rul_projections[i]))
+    render_plate_close()
+
+    render_html("<br>")
+
+    # 3. KPI TILES WITH SPARKLINES (THERMAL CYCLING COUNT & FLEET HEALTH)
     k1, k2, k3, k4 = st.columns(4)
     with k1:
         render_html(render_kpi_tile_html(
-            label="FATIGUE ACCELERATION FACTOR",
-            value="2.2",
-            unit="×",
-            delta="ELEVATED CYCLES",
-            delta_type="up-warn",
-            sparkline_values=[1.0, 1.3, 1.6, 1.9, 2.1, 2.3, 2.2],
-            color="#FF5A1F"
+            label="RECORDED THERMAL CYCLES",
+            value="184.2",
+            unit="k",
+            delta="+1,240 TODAY",
+            delta_type="up-good",
+            sparkline_values=[179, 180, 181, 182, 183, 183.8, 184.2],
+            color="#F2B533"
         ))
     with k2:
         render_html(render_kpi_tile_html(
@@ -114,17 +127,17 @@ def render_live_trends():
             delta="SAFE (> 12m)",
             delta_type="up-good",
             sparkline_values=[16.0, 15.6, 15.2, 14.8, 14.5, 14.3, 14.2],
-            color="#F2B533"
+            color="#FFB020"
         ))
     with k3:
         render_html(render_kpi_tile_html(
-            label="RECORDED THERMAL CYCLES",
-            value="184.2",
-            unit="k",
-            delta="+1,240 TODAY",
-            delta_type="up-good",
-            sparkline_values=[179, 180, 181, 182, 183, 183.8, 184.2],
-            color="#FFB020"
+            label="FATIGUE ACCELERATION FACTOR",
+            value="2.2",
+            unit="×",
+            delta="ELEVATED CYCLES",
+            delta_type="up-warn",
+            sparkline_values=[1.0, 1.3, 1.6, 1.9, 2.1, 2.3, 2.2],
+            color="#FF5A1F"
         ))
     with k4:
         render_html(render_kpi_tile_html(
@@ -136,19 +149,6 @@ def render_live_trends():
             sparkline_values=[87.2, 86.8, 86.1, 85.5, 85.0, 84.8, 84.6],
             color="#C4C1BA"
         ))
-
-    render_html("<br>")
-
-    # 3. FOCAL POINT: REMAINING-LIFE ARC GAUGES PER THYRISTOR (T1–T6)
-    render_plate_open("THYRISTOR HEALTH INDEX & REMAINING USEFUL LIFE (RUL)", "WEAR MATRIX")
-    gauge_cols = st.columns(6)
-    life_percentages = [86.4, 88.9, 81.2, 87.5, 79.8, 83.7]
-    rul_projections = [15.1, 16.4, 13.8, 15.8, 12.9, 14.2]
-
-    for i in range(6):
-        with gauge_cols[i]:
-            render_html(render_arc_gauge_svg(i + 1, life_percentages[i], rul_projections[i]))
-    render_plate_close()
 
     render_html("<br>")
 

@@ -626,36 +626,95 @@
    8. RESTYLED HARDWARE INPUTS (SLIDERS AS FADERS, TOGGLES AS SWITCHES)
    ----------------------------------------------------------------------------- */
 div[data-testid="stSlider"] {
+    padding: 8px 0;
+    margin-bottom: 8px;
+}
+
+/* Fader-style recessed groove rail */
+div[data-testid="stSlider"] div[data-baseweb="slider"] {
+    background: #0E0D0C !important;
+    border: 1px solid #282624 !important;
+    border-radius: 4px !important;
+    height: 10px !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Filled track in warm amber */
+div[data-testid="stSlider"] div[data-baseweb="slider"] > div:first-child {
+    background: linear-gradient(90deg, #FF5A1F 0%, #F2B533 100%) !important;
+    border-radius: 3px !important;
+}
+
+/* Machined console fader knob */
+div[data-testid="stSlider"] [role="slider"] {
+    background: linear-gradient(180deg, #2A2826 0%, #1A1918 50%, #141312 100%) !important;
+    border: 1.5px solid #F2B533 !important;
+    border-radius: 3px !important;
+    width: 22px !important;
+    height: 28px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), 0 0 8px rgba(242, 181, 51, 0.4) !important;
+    cursor: grab !important;
+    position: relative !important;
+}
+
+/* Center indicator notch on fader knob */
+div[data-testid="stSlider"] [role="slider"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    right: 4px;
+    height: 2px;
+    background: #F2B533;
+    border-radius: 1px;
+    transform: translateY(-50%);
+    box-shadow: 0 0 4px #F2B533;
+}
+
+/* Hardware toggle switches */
+div[data-testid="stToggle"] {
     padding: 6px 0;
 }
 
-div[data-testid="stSlider"] div[data-baseweb="slider"] {
-    background: #151413 !important;
+div[data-testid="stToggle"] [data-baseweb="checkbox"] {
+    background-color: #1A1918 !important;
+    border: 1.5px solid #383532 !important;
+    border-radius: 14px !important;
 }
 
-div[data-testid="stSlider"] [role="slider"] {
+div[data-testid="stToggle"] [data-baseweb="checkbox"]:has(input:checked) {
+    background-color: #242220 !important;
+    border-color: #F2B533 !important;
+    box-shadow: 0 0 10px rgba(242, 181, 51, 0.35) !important;
+}
+
+div[data-testid="stToggle"] [data-baseweb="checkbox"] span {
+    background-color: #88847E !important;
+}
+
+div[data-testid="stToggle"] [data-baseweb="checkbox"]:has(input:checked) span {
     background-color: #F2B533 !important;
-    border: 2px solid #FFFFFF !important;
-    box-shadow: 0 0 8px rgba(242, 181, 51, 0.6) !important;
-    width: 16px !important;
-    height: 16px !important;
-}
-
-div[data-testid="stToggle"] {
-    accent-color: #F2B533 !important;
+    box-shadow: 0 0 6px #F2B533 !important;
 }
 
 /* Sticky save bar */
 .sticky-save-bar {
     position: sticky;
-    bottom: 12px;
-    background: #151413;
-    border: 1px solid #F2B533;
+    bottom: 14px;
+    background: #141312;
+    border: 1px solid #383532;
     border-radius: 8px;
-    padding: 12px 20px;
+    padding: 14px 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.85);
     z-index: 999;
+    transition: all 200ms ease;
+}
+
+.sticky-save-bar.has-unsaved {
+    border-color: #F2B533;
+    background: #181614;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 14px rgba(242, 181, 51, 0.25);
 }
