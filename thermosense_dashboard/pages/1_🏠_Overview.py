@@ -20,6 +20,8 @@ from data.data_source import get_latest
 from components.thermal_visualizer import render_thermal_dial_svg
 from components.output_nav import render_output_nav
 from components.html_utils import render_html
+from components.output_ui_kit import render_plate_open, render_plate_close
+from components.svg_schematics import render_isometric_mill_cutaway_svg
 
 # Page configuration
 st.set_page_config(
@@ -302,6 +304,13 @@ def render_live_overview_dashboard():
                 showlegend=False
             )
             st.plotly_chart(fig_res, use_container_width=True, config={'displayModeBar': False})
+
+            # Stand-04 Hot Strip Mill Stand & Drive Cabinet Cutaway Illustration
+            render_html("<br>")
+            render_plate_open("STAND-04 HOT STRIP MILL PHYSICAL DEPLOYMENT", "PLANT INTEGRATION")
+            mill_svg = render_isometric_mill_cutaway_svg(option=1, height=270)
+            render_html(mill_svg)
+            render_plate_close()
 
     except Exception as e:
         st.error(f"Error loading overview telemetry: {e}")

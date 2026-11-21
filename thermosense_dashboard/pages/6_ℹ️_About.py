@@ -23,7 +23,8 @@ from components.output_ui_kit import (
 )
 from components.svg_schematics import (
     render_foster_ladder_svg,
-    render_isometric_mill_cutaway_svg
+    render_isometric_mill_cutaway_svg,
+    render_heat_exchanger_svg
 )
 
 st.set_page_config(
@@ -149,7 +150,15 @@ render_plate_close()
 
 render_html("<br>")
 
-# 6. SENSOR PROVENANCE & CONFIDENCE CLASSIFICATION
+# 6. FORCED-AIR HEAT EXCHANGER & COOLING DUCT SCHEMATIC
+render_plate_open("FORCED-AIR HEAT EXCHANGER & COOLING DUCT DYNAMICS", "COOLING SYSTEM")
+hx_svg = render_heat_exchanger_svg(inlet_temp=35.0, outlet_temp=46.8, fan_running=True, clogging_pct=0.15, height=190)
+render_html(hx_svg)
+render_plate_close()
+
+render_html("<br>")
+
+# 7. SENSOR PROVENANCE & CONFIDENCE CLASSIFICATION
 render_plate_open("SENSOR PROVENANCE & CALIBRATION CONFIDENCE MATRIX", "AUDIT TRAIL")
 render_html("""
 <table style="width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #FFFFFF;">

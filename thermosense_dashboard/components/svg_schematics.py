@@ -74,7 +74,7 @@ def render_bridge_schematic_svg(
         node_svg = f"""
         <!-- Thyristor T{t_id} -->
         <g transform="translate({cx}, {cy})" style="cursor: pointer;">
-            <a href="?t={t_id}" style="text-decoration: none;" aria-label="Select Thyristor T{t_id} ({t_temp:.1f}°C)">
+            <a href="?t={t_id}" target="_self" style="text-decoration: none;" aria-label="Select Thyristor T{t_id} ({t_temp:.1f}°C)">
                 <!-- Hit area & background plate -->
                 <rect x="-42" y="-36" width="84" height="72" rx="6" fill="#151413" stroke="{box_stroke}" stroke-width="{border_w}" />
                 {sel_glow}
@@ -198,6 +198,10 @@ def render_foster_ladder_svg(
     <svg width="100%" height="{height}" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" style="display: block; background: #0E0D0C; border-radius: 8px;">
         <defs>
             <style>
+                @keyframes particleFlow {{
+                    from {{ stroke-dashoffset: 42; }}
+                    to {{ stroke-dashoffset: 0; }}
+                }}
                 .heat-flow-line {{
                     stroke-dasharray: 6, 8;
                     animation: particleFlow {particle_speed:.2f}s linear infinite;
@@ -318,6 +322,24 @@ def render_heat_exchanger_svg(
     svg = f"""
     <svg width="100%" height="{height}" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg" style="display: block; background: #0E0D0C; border-radius: 8px;">
         <defs>
+            <style>
+                @keyframes fanSpin {{
+                    from {{ transform: rotate(0deg); }}
+                    to {{ transform: rotate(360deg); }}
+                }}
+                @keyframes airflowDrift {{
+                    from {{ stroke-dashoffset: 40; }}
+                    to {{ stroke-dashoffset: 0; }}
+                }}
+                .fan-blades-spin {{
+                    animation: fanSpin 1.4s linear infinite;
+                    transform-origin: 560px 95px;
+                }}
+                .airflow-stream-line {{
+                    stroke-dasharray: 6, 8;
+                    animation: airflowDrift 1.2s linear infinite;
+                }}
+            </style>
             <linearGradient id="airGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#C4C1BA" stop-opacity="0.3"/>
                 <stop offset="50%" stop-color="#FFB020" stop-opacity="0.5"/>
@@ -349,15 +371,22 @@ def render_heat_exchanger_svg(
             <text x="90" y="105" font-family="'IBM Plex Mono', monospace" font-size="8.5" font-weight="700" fill="#FFB020" text-anchor="middle">FORCED CONVECTION</text>
         </g>
 
+        <!-- ANIMATED AIRFLOW STREAM LINES -->
+        <line x1="75" y1="75" x2="520" y2="75" stroke="#F2B533" stroke-width="1.8" class="airflow-stream-line" opacity="0.6"/>
+        <line x1="75" y1="95" x2="520" y2="95" stroke="#FFB020" stroke-width="2" class="airflow-stream-line" opacity="0.7"/>
+        <line x1="75" y1="115" x2="520" y2="115" stroke="#FF5A1F" stroke-width="1.8" class="airflow-stream-line" opacity="0.6"/>
+
         <!-- COOLING BLOWER FAN -->
         <g transform="translate(560, 95)">
             <circle cx="0" cy="0" r="32" fill="#1A1918" stroke="{fan_col}" stroke-width="2"/>
-            <!-- Impeller Blades -->
-            <path d="M 0,0 L 0,-24 A 12,12 0 0,1 18,-16 Z" fill="{fan_col}" opacity="0.8"/>
-            <path d="M 0,0 L 24,0 A 12,12 0 0,1 16,18 Z" fill="{fan_col}" opacity="0.8"/>
-            <path d="M 0,0 L 0,24 A 12,12 0 0,1 -18,16 Z" fill="{fan_col}" opacity="0.8"/>
-            <path d="M 0,0 L -24,0 A 12,12 0 0,1 -16,-18 Z" fill="{fan_col}" opacity="0.8"/>
-            <circle cx="0" cy="0" r="6" fill="#FFFFFF"/>
+            <!-- Rotating Impeller Blades Group -->
+            <g class="{'fan-blades-spin' if fan_running else ''}">
+                <path d="M 0,0 L 0,-24 A 12,12 0 0,1 18,-16 Z" fill="{fan_col}" opacity="0.85"/>
+                <path d="M 0,0 L 24,0 A 12,12 0 0,1 16,18 Z" fill="{fan_col}" opacity="0.85"/>
+                <path d="M 0,0 L 0,24 A 12,12 0 0,1 -18,16 Z" fill="{fan_col}" opacity="0.85"/>
+                <path d="M 0,0 L -24,0 A 12,12 0 0,1 -16,-18 Z" fill="{fan_col}" opacity="0.85"/>
+                <circle cx="0" cy="0" r="6" fill="#FFFFFF"/>
+            </g>
             <text x="0" y="48" font-family="'IBM Plex Mono', monospace" font-size="8.5" font-weight="700" fill="{fan_col}" text-anchor="middle">BLOWER TACHO</text>
             <text x="0" y="58" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" fill="#88847E" text-anchor="middle">{fan_text}</text>
         </g>
