@@ -1,0 +1,421 @@
+/*
+ * Component token layer: per-component values built from semantic tokens
+ * (and the heat ramp where a component encodes temperature).
+ * The disc rim is the only component token that resolves to a raw gold stop,
+ * because the reference rim is a darker gold than any semantic accent.
+ */
+:root {
+  /* Rack row (DRUMS / BASS list rows) */
+  --rack-row-bg: var(--surface-raised);
+  --rack-row-bg-hover: var(--line-subtle);
+  --rack-row-border: var(--line-subtle);
+  --rack-row-label-color: var(--text-secondary);
+  --rack-row-label-tracking: var(--font-label-tracking);
+  --rack-row-height: 56px;
+
+  /* Status chip (icon + tracked caps text; fault sits on the hatch) */
+  --status-chip-tracking: 0.18em;
+  --status-chip-width: 112%;
+  --status-chip-weight: var(--font-label-weight);
+  --status-chip-highlight: color-mix(in srgb, var(--text-primary) 6%, transparent);
+  --status-chip-fault-bg: var(--status-fault-hatch);
+  /* Source button (gold outlined icon tiles) */
+  --source-btn-border: var(--accent);
+  --source-btn-bg: transparent;
+  --source-btn-fg: var(--accent);
+  --source-btn-bg-active: var(--accent);
+  --source-btn-fg-active: var(--on-accent);
+  --source-btn-radius: var(--r-1);
+
+  /* KPI tile */
+  --kpi-bg: var(--surface-panel);
+  --kpi-label-color: var(--text-muted);
+  --kpi-value-color: var(--text-primary);
+  --kpi-value-size: var(--text-40);
+  --kpi-unit-size: var(--text-14);
+
+  /* Crop bracket (panel corners) */
+  --crop-bracket-size: 14px;
+  --crop-bracket-stroke: var(--line-strong);
+  --crop-bracket-stroke-width: 1px;
+  --crop-label-color: var(--text-muted);
+
+  /* Chart bands */
+  --chart-band-warning: color-mix(in srgb, var(--heat-3) 10%, transparent);
+  --chart-band-trip: color-mix(in srgb, var(--heat-6) 14%, transparent);
+  --chart-grid: var(--line-subtle);
+  --chart-axis-text: var(--text-muted);
+
+  /* Fader */
+  --fader-track: var(--surface-sunken);
+  --fader-track-border: var(--line-subtle);
+  --fader-fill: var(--accent);
+  --fader-thumb: var(--text-primary);
+  --fader-thumb-border: var(--line-strong);
+
+  /* Toggle */
+  --toggle-housing: var(--surface-sunken);
+  --toggle-housing-border: var(--line-strong);
+  --toggle-knob: var(--text-secondary);
+  --toggle-knob-on: var(--accent);
+
+  /* Heat disc */
+  --disc-rim: var(--gold-700);
+  --disc-hub: var(--surface-page);
+}
+
+/*
+ * Rack row and source button: state and texture tokens (task 7.2).
+ * Kept in their own block so concurrent edits to the block above stay clean.
+ */
+:root {
+  /* Rack row: fill states. Active matches the reference VOCALS row: a lifted
+     fill, primary label and a thin gold edge on the inline-start side. */
+  --rack-row-bg-active: color-mix(in srgb, var(--text-primary) 7%, var(--surface-raised));
+  --rack-row-bg-pressed: var(--surface-panel);
+  --rack-row-label-color-active: var(--text-primary);
+  --rack-row-meta-color: var(--text-secondary);
+  --rack-row-chevron-color: var(--text-muted);
+  --rack-row-chevron-color-active: var(--accent);
+  --rack-row-indicator: var(--accent);
+  --rack-row-indicator-width: 2px;
+  /* Fine dot grain, the "subtle texture" on the reference rows. */
+  --rack-row-texture: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--text-primary) 5%, transparent) 0 0.6px,
+    transparent 0.9px
+  );
+  --rack-row-texture-size: 3px 3px;
+  /* Fluid label size: 12 px at 390 px viewports, 14 px from ~1100 px up. */
+  --rack-row-label-size: clamp(12px, 0.68rem + 0.28vw, 14px);
+  --rack-row-label-width: var(--font-label-width);
+  --rack-row-label-weight: var(--font-label-weight);
+  --rack-row-pad-x: var(--space-4);
+  /* Source button: hover wash, label and size */
+  --source-btn-bg-hover: color-mix(in srgb, var(--accent) 10%, transparent);
+  --source-btn-border-active: var(--accent);
+  --source-btn-label-size: clamp(10px, 0.58rem + 0.12vw, 11px);
+  --source-btn-label-tracking: 0.16em;
+  --source-btn-label-width: 112%;
+  --source-btn-label-weight: var(--font-label-weight);
+  --source-btn-icon-size: 24px;
+  --source-btn-min-height: 64px;
+  --source-btn-press-scale: 0.97;
+}
+/*
+ * Form controls: fader, hardware toggle, fields and filter chips (task 7.4).
+ * Kept in their own block so concurrent edits to the blocks above stay clean.
+ */
+:root {
+  /* Shared: 44 px minimum target and the tracked-caps control label */
+  --control-min-height: 44px;
+  --control-label-color: var(--text-secondary);
+  --control-label-size: var(--text-11);
+  --control-label-tracking: 0.2em;
+  --control-label-width: 112%;
+  --control-label-weight: var(--font-label-weight);
+  --control-disabled-opacity: 0.4;
+  /* Machined cap face shared by the fader cap and toggle knob: a brushed
+     grey gradient, fine ribs across the grip and a lit top edge. */
+  --control-cap-face: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--text-primary) 30%, var(--surface-raised)) 0%,
+    color-mix(in srgb, var(--text-primary) 12%, var(--surface-raised)) 48%,
+    var(--surface-raised) 100%
+  );
+  --control-cap-ribs: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, black 30%, transparent) 0 1px,
+    color-mix(in srgb, var(--text-primary) 6%, transparent) 1px 2px,
+    transparent 2px 4px
+  );
+  --control-cap-shadow: inset 0 1px 0 color-mix(in srgb, var(--text-primary) 28%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, black 40%, transparent),
+    0 3px 6px -1px color-mix(in srgb, black 70%, transparent),
+    0 1px 1px color-mix(in srgb, black 60%, transparent);
+  --control-cap-shadow-pressed: inset 0 1px 0 color-mix(in srgb, var(--text-primary) 18%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, black 40%, transparent),
+    0 1px 2px color-mix(in srgb, black 70%, transparent);
+  /* Recessed well: inner shadow at the top, faint lip highlight at the bottom */
+  --control-well-shadow: inset 0 2px 5px color-mix(in srgb, black 75%, transparent),
+    inset 0 1px 1px color-mix(in srgb, black 60%, transparent),
+    0 1px 0 color-mix(in srgb, var(--text-primary) 5%, transparent);
+
+  /* Fader (extends --fader-track / --fader-fill above) */
+  --fader-well-height: 44px;
+  --fader-well-pad-x: var(--space-3);
+  --fader-slot-height: 4px;
+  --fader-slot-bg: color-mix(in srgb, black 65%, var(--surface-sunken));
+  --fader-ticks: repeating-linear-gradient(
+    90deg,
+    var(--line-strong) 0 1px,
+    transparent 1px 10%
+  );
+  --fader-cap-width: 22px;
+  --fader-cap-height: 34px;
+  --fader-cap-index: var(--accent);
+  --fader-readout-color: var(--text-primary);
+  --fader-readout-size: var(--text-14);
+  --fader-unit-color: var(--text-muted);
+
+  /* Hardware toggle (extends --toggle-housing / --toggle-knob-on above) */
+  --toggle-width: 52px;
+  --toggle-height: 28px;
+  --toggle-inset: 3px;
+  --toggle-knob-width: 24px;
+  --toggle-travel: calc(var(--toggle-width) - var(--toggle-knob-width) - 2 * var(--toggle-inset) - 2px);
+  --toggle-led-size: 8px;
+  --toggle-led-off: var(--line-strong);
+  --toggle-led-on: var(--accent-strong);
+  --toggle-led-glow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent),
+    0 0 8px 1px color-mix(in srgb, var(--accent) 65%, transparent);
+  --toggle-state-color: var(--text-muted);
+  --toggle-state-color-on: var(--text-primary);
+
+  /* Field, NumberField, Select */
+  --field-bg: var(--surface-sunken);
+  --field-border: var(--line-strong);
+  --field-border-hover: var(--text-muted);
+  --field-border-error: var(--status-critical);
+  --field-text: var(--text-primary);
+  --field-text-size: var(--text-14);
+  --field-placeholder: var(--text-muted);
+  --field-suffix-color: var(--text-muted);
+  --field-hint-color: var(--text-muted);
+  --field-error-color: var(--status-critical-text);
+  --field-message-size: var(--text-12);
+  --field-shadow: inset 0 1px 3px color-mix(in srgb, black 60%, transparent);
+
+  /* Filter chip */
+  --filter-chip-bg: transparent;
+  --filter-chip-bg-hover: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  --filter-chip-border: var(--line-strong);
+  --filter-chip-fg: var(--text-secondary);
+  --filter-chip-bg-selected: color-mix(in srgb, var(--accent) 12%, transparent);
+  --filter-chip-border-selected: var(--accent);
+  --filter-chip-fg-selected: var(--text-primary);
+  --filter-chip-mark-selected: var(--accent);
+  --filter-chip-count-bg: var(--surface-sunken);
+  --filter-chip-count-fg: var(--text-secondary);
+  --filter-chip-press-scale: 0.97;
+}
+
+/*
+ * Layout and state components: crop panel, hero lockup, empty state,
+ * connection banner and stale chip (task 7.6).
+ * Kept in their own block so concurrent edits to the blocks above stay clean.
+ */
+:root {
+  /* Crop panel (extends --crop-bracket-* / --crop-label-color above).
+     Brackets sit inside the panel edge like printer's crop marks. */
+  --crop-panel-radius: var(--r-3);
+  --crop-panel-pad: var(--space-6);
+  --crop-panel-bg: var(--surface-panel);
+  --crop-panel-bg-raised: var(--surface-raised);
+  --crop-panel-border: color-mix(in srgb, var(--line-subtle) 70%, transparent);
+  --crop-panel-shadow: inset 0 1px 0 color-mix(in srgb, var(--text-primary) 5%, transparent),
+    0 18px 40px -12px color-mix(in srgb, black 80%, transparent);
+  --crop-bracket-inset: var(--space-3);
+  --crop-bracket-stroke-accent: var(--accent);
+  --crop-label-size: 10px;
+  --crop-label-tracking: 0.36em;
+  --crop-label-width: var(--font-label-width);
+  --crop-label-weight: var(--font-label-weight);
+  /* Labels start clear of the bracket arms. */
+  --crop-label-lane: calc(var(--crop-bracket-inset) + var(--crop-bracket-size) + var(--space-2));
+
+  /* Hero lockup: title | divider | secondary, two scales.
+     Full matches the reference "THERMAL" header; compact heads inner pages. */
+  --hero-title-size-full: clamp(40px, 1.6rem + 3.4vw, 72px);
+  --hero-title-size-compact: clamp(28px, 1.1rem + 1.4vw, 40px);
+  --hero-subtitle-size-full: clamp(16px, 0.8rem + 0.6vw, 22px);
+  --hero-subtitle-size-compact: var(--text-14);
+  --hero-subtitle-color: var(--text-secondary);
+  --hero-subtitle-weight: 700;
+  --hero-subtitle-width: 106%;
+  --hero-divider: var(--line-strong);
+  --hero-divider-width: 1px;
+  --hero-gap-full: var(--space-6);
+  --hero-gap-compact: var(--space-4);
+  --hero-secondary-color: var(--text-primary);
+
+  /* Empty state: contour illustration + gold heading */
+  --empty-heading-color: var(--accent);
+  --empty-heading-size: var(--text-20);
+  --empty-body-color: var(--text-secondary);
+  --empty-body-size: var(--text-14);
+  --empty-art-size: 112px;
+  --empty-art-stroke: var(--line-strong);
+  --empty-art-stroke-strong: var(--text-muted);
+  --empty-art-accent: var(--accent);
+  --empty-action-border: var(--accent);
+  --empty-action-fg: var(--accent);
+  --empty-action-bg-hover: color-mix(in srgb, var(--accent) 10%, transparent);
+  --empty-action-press-scale: 0.97;
+
+  /* Connection banner: a quiet strip under the nav, gold edge for attention */
+  --conn-banner-bg: color-mix(in srgb, var(--accent) 8%, var(--surface-raised));
+  --conn-banner-border: color-mix(in srgb, var(--accent) 40%, transparent);
+  --conn-banner-fg: var(--text-primary);
+  --conn-banner-icon: var(--accent);
+  --conn-banner-size: var(--text-12);
+  --conn-banner-height: 36px;
+
+  /* Stale chip: hue-free like the fault chip, dashed edge reads as "paused" */
+  --stale-chip-fg: var(--text-muted);
+  --stale-chip-border: var(--line-strong);
+  --stale-chip-bg: var(--surface-sunken);
+}
+
+/*
+ * KPI tile, sparkline and chart frame (task 7.5).
+ * Extends --kpi-* and --chart-* above; kept in its own block so concurrent
+ * edits to the blocks above stay clean.
+ */
+:root {
+  /* KPI tile: a panel with a lit top edge, tracked-caps label, a large
+     tabular readout with the unit set small beside it, and a sparkline. */
+  --kpi-border: var(--line-subtle);
+  --kpi-radius: var(--r-3);
+  --kpi-pad: var(--space-4);
+  --kpi-shadow: inset 0 1px 0 color-mix(in srgb, var(--text-primary) 5%, transparent),
+    0 18px 40px -16px color-mix(in srgb, black 80%, transparent);
+  --kpi-sheen: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--text-primary) 3%, transparent) 0%,
+    transparent 42%
+  );
+  --kpi-label-size: var(--text-11);
+  --kpi-label-tracking: 0.28em;
+  --kpi-label-width: var(--font-label-width);
+  --kpi-label-weight: var(--font-label-weight);
+  --kpi-value-weight: 700;
+  --kpi-value-width: 100%;
+  --kpi-value-tracking: -0.01em;
+  --kpi-unit-color: var(--text-muted);
+  /* Room after the digit cells for the unit, in the value's em. */
+  --kpi-unit-reserve: 1.75em;
+  --kpi-delta-color: var(--text-secondary);
+  --kpi-delta-size: var(--text-12);
+  --kpi-delta-caption-color: var(--text-muted);
+  --kpi-divider: color-mix(in srgb, var(--line-subtle) 70%, transparent);
+  /* Status edge: a 2 px hairline on the top edge, paired with the StatusChip. */
+  --kpi-edge-normal: transparent;
+  --kpi-edge-warning: var(--status-warning);
+  --kpi-edge-critical: var(--status-critical);
+  --kpi-edge-fault: var(--status-fault-hatch);
+
+  /* Sparkline: gold trace over a fading gold wash, live point with a halo. */
+  --sparkline-stroke: var(--accent);
+  --sparkline-stroke-width: 1.5px;
+  --sparkline-fill-top: color-mix(in srgb, var(--accent) 22%, transparent);
+  --sparkline-fill-bottom: color-mix(in srgb, var(--accent) 0%, transparent);
+  --sparkline-dot: var(--accent-strong);
+  --sparkline-dot-halo: color-mix(in srgb, var(--accent) 28%, transparent);
+
+  /* Chart frame */
+  --chart-grid-opacity: 0.55;
+  --chart-axis-line: var(--line-strong);
+  --chart-tick-size: var(--text-11);
+  --chart-crosshair: color-mix(in srgb, var(--text-primary) 45%, transparent);
+  --chart-crosshair-label-bg: var(--surface-raised);
+  --chart-crosshair-label-border: var(--line-strong);
+  --chart-crosshair-label-fg: var(--text-primary);
+  --chart-label-halo: var(--surface-panel);
+  --chart-band-warning-line: color-mix(in srgb, var(--status-warning) 70%, transparent);
+  --chart-band-trip-line: color-mix(in srgb, var(--status-critical) 80%, transparent);
+  --chart-band-warning-text: var(--status-warning);
+  --chart-band-trip-text: var(--status-critical-text);
+  --chart-band-label-size: var(--text-11);
+  --chart-band-label-tracking: 0.18em;
+}
+
+/*
+ * Shared heat visuals: disc marker and contour texture (task 7.7).
+ * Kept in their own block so concurrent edits to the blocks above stay clean.
+ */
+:root {
+  /* Small gold centre ring / status marker on the heat disc */
+  --disc-marker: var(--accent);
+  /* Contour texture line colour; the layer itself sits at --line-contour-opacity */
+  --contour-stroke: var(--text-primary);
+}
+/*
+ * App shell and top nav (task 7.8).
+ * Kept in their own block so concurrent edits to the blocks above stay clean.
+ */
+:root {
+  /* Bar: a thin translucent strip over the contours, like the reference nav */
+  --nav-height: 56px;
+  --nav-bg: color-mix(in srgb, var(--surface-page) 84%, transparent);
+  --nav-border: color-mix(in srgb, var(--line-subtle) 70%, transparent);
+  --nav-pad-x: clamp(16px, 4vw, 72px);
+  --nav-target: var(--control-min-height);
+  /* Wordmark: small lowercase bold, the reference "output" mark */
+  --nav-wordmark-color: var(--text-primary);
+  --nav-wordmark-size: var(--text-16);
+  --nav-wordmark-weight: var(--font-display-weight);
+  --nav-wordmark-width: var(--font-display-width);
+  --nav-wordmark-tracking: -0.01em;
+  /* Links: tiny tracked caps, primary text and a gold tick when active */
+  --nav-link-color: var(--text-secondary);
+  --nav-link-color-hover: var(--text-primary);
+  --nav-link-color-active: var(--text-primary);
+  --nav-link-indicator: var(--accent);
+  --nav-link-size: 10px;
+  --nav-link-tracking: 0.32em;
+  --nav-link-width: var(--font-label-width);
+  --nav-link-weight: var(--font-label-weight);
+  /* Utilities: MOCK badge, alarm count, clock, sync pulse */
+  --nav-badge-border: var(--accent);
+  --nav-badge-fg: var(--accent);
+  --nav-badge-size: 10px;
+  --nav-badge-tracking: 0.24em;
+  --nav-icon-color: var(--text-secondary);
+  --nav-icon-color-hover: var(--text-primary);
+  --nav-count-bg: var(--accent);
+  --nav-count-fg: var(--on-accent);
+  --nav-count-size: 10px;
+  --nav-clock-color: var(--text-secondary);
+  --nav-clock-size: var(--text-12);
+  --nav-pulse: var(--accent);
+  --nav-pulse-idle: var(--line-strong);
+  --nav-pulse-height: 12px;
+  --nav-hover-bg: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  /* Sheet: the link list below 1024 px */
+  --nav-sheet-bg: var(--surface-panel);
+  --nav-sheet-border: var(--line-subtle);
+  --nav-sheet-backdrop: color-mix(in srgb, black 60%, transparent);
+  --nav-sheet-link-size: var(--text-12);
+  --nav-sheet-link-height: 52px;
+  --nav-sheet-shadow: 0 24px 48px -16px color-mix(in srgb, black 85%, transparent);
+  /* Skip link */
+  --skip-link-bg: var(--accent);
+  --skip-link-fg: var(--on-accent);
+}
+
+/*
+ * Kit gallery (/kit): editorial chrome around the specimens. Specimens sit
+ * on a recessed stage so every component is judged against the same ground.
+ */
+:root {
+  --kit-page-max: 1320px;
+  --kit-scroll-offset: calc(var(--nav-height) + var(--space-6));
+  --kit-rule: color-mix(in srgb, var(--line-subtle) 80%, transparent);
+  --kit-eyebrow-color: var(--accent);
+  --kit-heading-color: var(--accent);
+  --kit-chapter-number-stroke: color-mix(in srgb, var(--accent) 55%, transparent);
+  --kit-caption-color: var(--text-secondary);
+  --kit-caption-mark: var(--accent);
+  --kit-stage-bg: color-mix(in srgb, var(--surface-sunken) 72%, transparent);
+  --kit-stage-border: color-mix(in srgb, var(--line-subtle) 65%, transparent);
+  --kit-stage-grid: color-mix(in srgb, var(--line-subtle) 22%, transparent);
+  --kit-stage-radius: var(--r-2);
+  --kit-index-link: var(--text-secondary);
+  --kit-index-link-hover: var(--text-primary);
+  --kit-glow: radial-gradient(
+    60% 80% at 18% 0%,
+    color-mix(in srgb, var(--accent) 9%, transparent),
+    transparent 70%
+  );
+}

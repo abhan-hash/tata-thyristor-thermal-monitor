@@ -1,0 +1,1550 @@
+{
+  "pbtResults": {
+    "6.2 [PBT] Write property test for ring buffer bounds": {
+      "status": "passed",
+      "lastRunTimestamp": 1795265867576
+    },
+    "3.8 [PBT] Write property test for formatting stability": {
+      "status": "passed",
+      "lastRunTimestamp": 1795267110838
+    },
+    "3.3 [PBT] Write property test for status monotonicity": {
+      "status": "passed",
+      "lastRunTimestamp": 1795267111341
+    },
+    "3.9 [PBT] Write property test for precision revealing differences": {
+      "status": "passed",
+      "lastRunTimestamp": 1795267117626
+    },
+    "3.4 [PBT] Write property test for status boundaries": {
+      "status": "passed",
+      "lastRunTimestamp": 1795267121477
+    },
+    "3.6 [PBT] Write property test for heat scale monotonicity and range": {
+      "status": "passed",
+      "lastRunTimestamp": 1795267219270
+    },
+    "4.3 [PBT] Write property test for margin consistency": {
+      "status": "passed",
+      "lastRunTimestamp": 1795268771589
+    },
+    "4.2 [PBT] Write property test for overall status": {
+      "status": "passed",
+      "lastRunTimestamp": 1795268773241
+    },
+    "4.4 [PBT] Write property test for decode robustness": {
+      "status": "passed",
+      "lastRunTimestamp": 1795270826823
+    },
+    "5.5 [PBT] Write property test for mock determinism": {
+      "status": "passed",
+      "lastRunTimestamp": 1795271255252
+    },
+    "5.4 [PBT] Write property test for mock physical bounds": {
+      "status": "passed",
+      "lastRunTimestamp": 1795271255874
+    },
+    "6.4 [PBT] Write property test for alarm hysteresis": {
+      "status": "passed",
+      "lastRunTimestamp": 1795283489912
+    },
+    "7.3 [PBT] Write property test for never colour-only (kit components)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795286056184
+    }
+  },
+  "executionHistory": {
+    "1.1 Create the Vite + React + TypeScript project in `web/`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261397773
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261444531
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262419125
+      }
+    ],
+    "1.2 Configure Vitest and the shared fast-check runner": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261397810
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262438674
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262933992
+      }
+    ],
+    "1.3 Configure ESLint and the token-usage check": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261397846
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262439136
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262934374
+      }
+    ],
+    "1.4 Configure Playwright and the phase screenshot capture": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261397892
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262440746
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262936152
+      }
+    ],
+    "1.5 Self-hosted fonts and production CSP": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261397930
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262441070
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262936769
+      }
+    ],
+    "2.1 Write the token CSS files": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261397983
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262955989
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265681969
+      }
+    ],
+    "2.2 Map the Tailwind theme to semantic variables": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398038
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265736200
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266553971
+      }
+    ],
+    "2.3 Write unit tests for the token system": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398079
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267388124
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268031050
+      }
+    ],
+    "3.1 Define domain types and thresholds": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398123
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262957520
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265683392
+      }
+    ],
+    "3.2 Implement the Status_Classifier": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398162
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265737452
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266554727
+      }
+    ],
+    "3.3 [PBT] Write property test for status monotonicity": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398203
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266667956
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267349124
+      }
+    ],
+    "3.4 [PBT] Write property test for status boundaries": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398239
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266666408
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267350392
+      }
+    ],
+    "3.5 Implement the Heat_Scale": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398277
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265739198
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266556455
+      }
+    ],
+    "3.6 [PBT] Write property test for heat scale monotonicity and range": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398315
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266668241
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267351926
+      }
+    ],
+    "3.7 Implement the Formatter": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398355
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265739746
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266556935
+      }
+    ],
+    "3.8 [PBT] Write property test for formatting stability": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398392
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266668553
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267352840
+      }
+    ],
+    "3.9 [PBT] Write property test for precision revealing differences": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398429
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266668642
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267353463
+      }
+    ],
+    "3.10 Implement derived frame helpers": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398471
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267389608
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268032479
+      }
+    ],
+    "4.1 Write `decodeDriveFrame`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398507
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267390640
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268030062
+      }
+    ],
+    "4.2 [PBT] Write property test for overall status": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398546
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268068928
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795269629377
+      }
+    ],
+    "4.3 [PBT] Write property test for margin consistency": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398586
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268069350
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795269630702
+      }
+    ],
+    "4.4 [PBT] Write property test for decode robustness": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398622
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795269734787
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270920605
+      }
+    ],
+    "4.5 Write unit tests for each decoder rejection and normalisation rule": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398660
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795269735061
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270921254
+      }
+    ],
+    "5.1 Define ports and the seeded PRNG": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398698
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262958474
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265684448
+      }
+    ],
+    "5.2 Implement the Foster simulation step": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398739
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795267387243
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268032848
+      }
+    ],
+    "5.3 Implement scenarios and `MockTelemetrySource`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398779
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268071372
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795269632780
+      }
+    ],
+    "5.4 [PBT] Write property test for mock physical bounds": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398815
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270945679
+      },
+      {
+        "executionId": "415e895f-246a-4f53-803d-9c537e97dd50",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282324414
+      }
+    ],
+    "5.5 [PBT] Write property test for mock determinism": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398856
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270946385
+      },
+      {
+        "executionId": "415e895f-246a-4f53-803d-9c537e97dd50",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282324570
+      }
+    ],
+    "5.6 Implement mock fixtures and `MockHistoryRepository`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398897
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270947853
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282446818
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282478288
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284491414
+      }
+    ],
+    "5.7 Implement the Source_Factory": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398937
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795285712238
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286165914
+      }
+    ],
+    "5.8 Write unit tests for scenarios, history repository and factory": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261398976
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795285713475
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286167986
+      }
+    ],
+    "6.1 Implement the Ring_Buffer": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399021
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262959123
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265685062
+      }
+    ],
+    "6.2 [PBT] Write property test for ring buffer bounds": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399058
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795265740198
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795266557935
+      }
+    ],
+    "6.3 Implement the Alarm_Engine": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399095
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268072399
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795269632042
+      }
+    ],
+    "6.4 [PBT] Write property test for alarm hysteresis": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399136
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270949619
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282446922
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282478829
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284491968
+      }
+    ],
+    "6.5 Write unit tests for each alarm kind": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399176
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282447023
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284493199
+      }
+    ],
+    "6.6 Implement the Telemetry_Store": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399218
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795285714468
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286165206
+      }
+    ],
+    "6.7 Implement data hooks and providers": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399258
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286186126
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286800933
+      }
+    ],
+    "6.8 Write unit tests for the store and hooks": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399296
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286829159
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795287403794
+      }
+    ],
+    "7.1 Implement `StatusChip` and status icons": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399335
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268072818
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795269628184
+      }
+    ],
+    "7.2 Implement `RackRow`, `SourceButton` and `SourceGrid`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399374
+      },
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270950059
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282479359
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284494184
+      }
+    ],
+    "7.3 [PBT] Write property test for never colour-only (kit components)": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399415
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795285715371
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286167419
+      }
+    ],
+    "7.4 Implement form controls": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399455
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795282447141
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284494959
+      }
+    ],
+    "7.5 Implement `KpiTile`, `Sparkline` and `ChartFrame`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399499
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284534220
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795285691860
+      }
+    ],
+    "7.6 Implement layout and state components": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399539
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284535766
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795285692114
+      }
+    ],
+    "7.7 Implement shared heat visuals": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399587
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795284536292
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795285692716
+      }
+    ],
+    "7.8 Implement `AppShell` and `TopNav`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399624
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286829871
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795287906156
+      }
+    ],
+    "7.9 Write unit tests for the kit": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399673
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795287936924
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795288522326
+      }
+    ],
+    "8.1 Wire the app entry and a minimal router": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399712
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795287937469
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795288523248
+      }
+    ],
+    "8.2 Implement the Kit_Gallery page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399753
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795288524082
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795294655014
+      }
+    ],
+    "8.3 Write unit tests for the gallery": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399806
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795294655567
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795294892556
+      }
+    ],
+    "9. Checkpoint – Phase 1": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399859
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795294893619
+      }
+    ],
+    "10.1 Sketch the console, bridge and Foster ladder": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399903
+      }
+    ],
+    "10.2 Sketch the mill cutaway and airflow diagram": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261399989
+      }
+    ],
+    "10.3 Record the art-direction selection": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400030
+      }
+    ],
+    "11.1 Implement the heat field": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400072
+      }
+    ],
+    "11.2 Implement the `HeatBlobs` component": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400114
+      }
+    ],
+    "11.3 Write unit tests for the heat field and blobs": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400159
+      }
+    ],
+    "12.1 Implement isometric geometry": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400204
+      }
+    ],
+    "12.2 Implement the console component from the chosen sketch": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400250
+      }
+    ],
+    "12.3 Write unit tests for console bindings": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400291
+      }
+    ],
+    "13.1 Implement the bridge from the chosen sketch": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400331
+      }
+    ],
+    "13.2 [PBT] Extend the never colour-only property test to bridge devices": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400375
+      }
+    ],
+    "13.3 Write unit tests for the bridge": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400419
+      }
+    ],
+    "14.1 Implement node temperatures and the ladder component": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400459
+      }
+    ],
+    "14.2 Write unit tests for the Foster ladder": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400503
+      }
+    ],
+    "15.1 Implement spike detection and the mill cutaway": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400545
+      }
+    ],
+    "15.2 Implement the airflow diagram": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400587
+      }
+    ],
+    "15.3 Write unit tests for spikes, mill and airflow": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400627
+      }
+    ],
+    "16.1 Apply the sensor-fault treatment across visuals and kit": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400670
+      }
+    ],
+    "16.2 Add a visuals section to `/kit`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400709
+      }
+    ],
+    "16.3 Write unit tests for fault presentation": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400753
+      }
+    ],
+    "17. Checkpoint – Phase 2": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400796
+      }
+    ],
+    "18.1 Register all routes": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400838
+      }
+    ],
+    "18.2 Implement the Selection_Hook and wire selection": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400881
+      }
+    ],
+    "18.3 [PBT] Write property test for selection consistency": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261400926
+      }
+    ],
+    "18.4 Implement error boundaries, query states and layout utilities": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401229
+      }
+    ],
+    "18.5 Implement the dev overlay": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401366
+      }
+    ],
+    "18.6 Write unit tests for routing and error isolation": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401432
+      }
+    ],
+    "19.1 Implement the Overview hero": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401501
+      }
+    ],
+    "19.2 Implement the Overview second panel and rack rows": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401557
+      }
+    ],
+    "19.3 Make the Overview responsive": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401613
+      }
+    ],
+    "19.4 Write unit tests for the Overview": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401674
+      }
+    ],
+    "20.1 Implement the transient and current charts": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401729
+      }
+    ],
+    "20.2 Implement the Drive Detail page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401780
+      }
+    ],
+    "20.3 Write unit tests for Drive Detail": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401840
+      }
+    ],
+    "21.1 Implement alarm filtering and URL state": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401894
+      }
+    ],
+    "21.2 Implement the `SeverityTimeline`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261401946
+      }
+    ],
+    "21.3 Implement the event list and event trace": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402009
+      }
+    ],
+    "21.4 Implement the Alarms page and acknowledge flow": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402096
+      }
+    ],
+    "21.5 Write unit tests for the Alarms page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402158
+      }
+    ],
+    "22.1 Implement the trends charts": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402211
+      }
+    ],
+    "22.2 Implement the Trends page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402264
+      }
+    ],
+    "22.3 Write unit tests for the Trends page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402328
+      }
+    ],
+    "23.1 Implement settings validation and persistence": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402397
+      }
+    ],
+    "23.2 [PBT] Write property test for settings validation": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402468
+      }
+    ],
+    "23.3 Implement the Settings page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402529
+      }
+    ],
+    "23.4 Write unit tests for the Settings page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402598
+      }
+    ],
+    "24.1 Implement the About page": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402662
+      }
+    ],
+    "25.1 Test navigation and selection sync": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402730
+      }
+    ],
+    "25.2 Test acknowledge and settings flows": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402783
+      }
+    ],
+    "26. Checkpoint – Phase 3": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402849
+      }
+    ],
+    "27.1 Implement motion tokens and the reduced-motion bridge": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402909
+      }
+    ],
+    "27.2 Implement page entrances": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261402964
+      }
+    ],
+    "27.3 Implement `AnimatedNumber`": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403017
+      }
+    ],
+    "27.4 Write unit tests for entrances and numbers": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403109
+      }
+    ],
+    "28.1 Interpolate heat fills and pulse critical glows": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403180
+      }
+    ],
+    "28.2 Animate charts and blob morphs": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403311
+      }
+    ],
+    "28.3 Implement the sync pulse and reduced-motion substitutions": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403374
+      }
+    ],
+    "28.4 Animate alarm arrivals and press/hover feedback": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403440
+      }
+    ],
+    "28.5 Write unit tests for live and event motion": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403498
+      }
+    ],
+    "29.1 Write the motion audit and enforce animated-property limits": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403563
+      }
+    ],
+    "30. Checkpoint – Phase 4": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403635
+      }
+    ],
+    "31.1 Implement `?mock=` stress fixtures": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403708
+      }
+    ],
+    "31.2 Write Playwright stress specs": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403775
+      }
+    ],
+    "32.1 Write the visual regression suite": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403834
+      }
+    ],
+    "33.1 Write the keyboard traversal spec": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403893
+      }
+    ],
+    "33.2 Write the axe spec and fix violations": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261403951
+      }
+    ],
+    "33.3 Write the token contrast test": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404011
+      }
+    ],
+    "33.4 Write the 390 px target-size check": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404066
+      }
+    ],
+    "34.1 Write the soak spec": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404127
+      }
+    ],
+    "34.2 Write frame-budget and blob-cost benchmarks": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404180
+      }
+    ],
+    "34.3 Profile charts and apply the uPlot fallback if needed": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404246
+      }
+    ],
+    "34.4 Check bundle size and filter placement": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404307
+      }
+    ],
+    "35.1 Write security and isolation checks": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404362
+      }
+    ],
+    "35.2 Close coverage gaps": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404423
+      }
+    ],
+    "36.1 Create the side-by-side comparison and gap list": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404479
+      }
+    ],
+    "37. Final checkpoint – Phase 5": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795261404541
+      }
+    ],
+    "1. Scaffold the `web/` project": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795262937081
+      }
+    ],
+    "2. Build the three-layer token system": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268031141
+      }
+    ],
+    "3. Implement domain types, status, heat scale and formatting": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795268032608
+      }
+    ],
+    "4. Implement the Frame_Decoder": [
+      {
+        "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795270921325
+      }
+    ],
+    "5. Implement the data ports and mock telemetry": [
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795286168168
+      }
+    ],
+    "6. Implement the ring buffer, alarm engine and telemetry store": [
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795287403968
+      }
+    ],
+    "7. Build the component kit": [
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795288522498
+      }
+    ],
+    "8. Build the `/kit` gallery route": [
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795294892756
+      }
+    ]
+  }
+}
