@@ -13,6 +13,10 @@ import streamlit as st
 import numpy as np
 import textwrap
 from typing import List
+try:
+    from components.html_utils import render_html
+except ImportError:
+    from thermosense_dashboard.components.html_utils import render_html
 
 try:
     from components.output_console import render_3d_hardware_console_html
@@ -138,20 +142,21 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
 
 </div>
 """).strip()
-        st.markdown(left_col_html, unsafe_allow_html=True)
+        render_html(left_col_html)
 
     # -------------------------------------------------------------------------
     # RIGHT COLUMN: Tasks 7, 8, 9, 10
     # -------------------------------------------------------------------------
     with right_hero:
         # Build 2x3 Button Grid HTML (Tasks 7 & 8)
+        # Compact labels prevent mid-word wrapping and overflow
         sources_def = [
             ("BRIDGE", "BRIDGE", '<rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>'),
             ("ARMATURE", "ARMATURE", '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>'),
             ("FOSTER RC", "FOSTER_RC", '<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline>'),
-            ("EXCHANGER", "EXCHANGER", '<path d="M17.7 7.7A2.5 2.5 0 1 1 19 12H2"></path><path d="M12.6 19.4A2 2 0 1 0 14 16H2"></path><path d="M9.8 4.6A2 2 0 1 1 11 8H2"></path>'),
+            ("HEAT EXCH", "EXCHANGER", '<path d="M17.7 7.7A2.5 2.5 0 1 1 19 12H2"></path><path d="M12.6 19.4A2 2 0 1 0 14 16H2"></path><path d="M9.8 4.6A2 2 0 1 1 11 8H2"></path>'),
             ("BLOWER", "BLOWER", '<circle cx="12" cy="12" r="3"></circle><path d="M12 9a4 4 0 0 0-4-4H4v4a4 4 0 0 0 4 4"></path><path d="M15 12a4 4 0 0 0 4-4V4h-4a4 4 0 0 0-4 4"></path><path d="M12 15a4 4 0 0 0 4 4h4v-4a4 4 0 0 0-4-4"></path><path d="M9 12a4 4 0 0 0-4 4v4h4a4 4 0 0 0 4-4"></path>'),
-            ("CURRENT SHUNT", "CURRENT_SHUNT", '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>'),
+            ("SHUNT", "CURRENT_SHUNT", '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>'),
         ]
 
         buttons_html_list = []
@@ -163,7 +168,7 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
                 f'<svg class="source-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">'
                 f'{svg_paths}'
                 f'</svg>'
-                f'<span class="source-item-label" style="text-decoration: none; overflow-wrap: anywhere;">{label}</span>'
+                f'<span class="source-item-label" style="text-decoration: none; white-space: nowrap; word-break: keep-all; overflow-wrap: normal;">{label}</span>'
                 f'</a>'
             )
             buttons_html_list.append(btn_html)
@@ -178,7 +183,7 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
             t_num = i + 1
             phase = phase_map[i % 6]
             arm = arm_map[i % 2]
-            ch_title = f"T{t_num} &bull; {arm} {phase}"
+            ch_title = f"T{t_num} • {arm} {phase}"
             channels.append((ch_title, t_num, clean_tj[i], clean_hs[i]))
 
         rack_rows_list = []
@@ -211,7 +216,7 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
                 f'<span>HEATSINK: <strong style="color: #FFFFFF;">{hs_val:.1f}&deg;C</strong></span>'
                 f'<span>Zth: <strong style="color: #FFB020;">0.040 K/W</strong></span>'
                 f'<span>MARGIN: <strong style="color: #C4C1BA;">+{thermal_margin:.1f} K</strong></span>'
-                f'<a href="?t={t_num}" target="_self" style="color: #FF5A1F; text-decoration: none; font-weight: 700; border-bottom: 1px dotted #FF5A1F;">SELECT CHANNEL &rarr;</a>'
+                f'<span>STATUS: <strong style="color: {dot_col};">{status_label}</strong></span>'
                 f'</div>'
                 f'</div>'
                 f'</div>'
@@ -239,9 +244,9 @@ In hot rolling mills, 1000A DC drives endure 2.4s bar entry current spikes. Phys
 <path d="M 140 152 L 152 152 L 152 140" stroke="#5A5752" stroke-width="1.2" fill="none"/>
 </svg>
 
-<!-- Rotated 90° Vertical Micro-Labels -->
-<div style="position: absolute; left: -14px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: center center; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 7.5px; font-weight: 700; letter-spacing: 0.2em; color: #88847E; white-space: nowrap; text-transform: uppercase;">
-STAND-04 &bull; 6-PULSE &bull; TATA STEEL
+<!-- Rotated 90° Vertical Micro-Labels (Optimized length prevents clipping) -->
+<div style="position: absolute; left: -10px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: center center; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 7px; font-weight: 700; letter-spacing: 0.12em; color: #88847E; white-space: nowrap; text-transform: uppercase;">
+STAND-04 • TATA STEEL
 </div>
 
 <!-- Circular Heat Disc Graphic Inside Card -->
@@ -293,10 +298,7 @@ Physical actual heatsink temperature is compared against predicted baseline (R<s
 
 </div>
 """).strip()
-        if hasattr(st, "html"):
-            st.html(right_col_html)
-        else:
-            st.markdown(right_col_html, unsafe_allow_html=True)
+        render_html(right_col_html)
 
     # =========================================================================
     # 4. BOTTOM LIVE TELEMETRY STRIP (Task 10 - 4 Machined Warm Rack Cards)
@@ -308,7 +310,7 @@ Physical actual heatsink temperature is compared against predicted baseline (R<s
 Real-Time Mill Stand-04 Telemetry Bus
 </div>
 <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #88847E; letter-spacing: 0.1em; text-transform: uppercase;">
-SAMPLING: <strong style="color: #FFB020;">10 Hz TRANSIENT</strong> &bull; STATUS: <strong style="color: #C4C1BA;">SYNCHRONIZED</strong>
+SAMPLING: <strong style="color: #FFB020;">10 Hz TRANSIENT</strong> • STATUS: <strong style="color: #C4C1BA;">SYNCHRONIZED</strong>
 </div>
 </div>
 
@@ -367,7 +369,4 @@ COFFIN-MANSON MODEL ACCEL
 </div>
 </div>
 """).strip()
-    if hasattr(st, "html"):
-        st.html(telemetry_strip_html)
-    else:
-        st.markdown(telemetry_strip_html, unsafe_allow_html=True)
+    render_html(telemetry_strip_html)

@@ -11,6 +11,7 @@
    IBM Plex Mono: Tabular Numerical Telemetry & Timecodes
    ----------------------------------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Montserrat:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+@import url('ui_kit.css');
 
 /* -----------------------------------------------------------------------------
    2. DESIGN TOKEN ARCHITECTURE (Strict Warm Spectrum: R >= B, Zero Blue/Teal)
@@ -634,11 +635,42 @@ button:active,
     font-family: var(--font-body);
     font-size: 8.5px;
     font-weight: 700;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--primitive-gold-500);
     line-height: 1.1;
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    hyphens: none;
     transition: color 140ms var(--ease-out);
+}
+
+.channel-card-btn {
+    transition: 
+        border-color 140ms var(--ease-out),
+        background-color 140ms var(--ease-out),
+        box-shadow 140ms var(--ease-out),
+        transform 100ms var(--ease-out);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .channel-card-btn:hover {
+        border-color: rgba(242, 181, 51, 0.6) !important;
+        background: #252321 !important;
+    }
+}
+
+.channel-card-btn:focus-visible {
+    outline: 2px solid var(--primitive-gold-500) !important;
+    outline-offset: 2px !important;
+}
+
+.channel-card-btn:active {
+    transform: scale(0.96);
 }
 
 .source-item-btn.active .source-icon-svg {

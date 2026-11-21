@@ -1,0 +1,661 @@
+/* =============================================================================
+   THERMOSENSE — OUTPUT THERMAL COMPONENT KIT STYLES (ui_kit.css)
+   Pure Warm Spectrum Tokens (R >= B, Zero Blue/Teal)
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1. ANIMATION KEYFRAMES & ACCELERATED COMPOSITING
+   ----------------------------------------------------------------------------- */
+@keyframes smearSweep {
+    0% {
+        opacity: 0;
+        transform: translateX(-16px) scaleX(0.92);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scaleX(1);
+    }
+}
+
+@keyframes panelStaggerIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes criticalPulseSlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(224, 32, 27, 0.4);
+        border-color: rgba(224, 32, 27, 0.9);
+    }
+    50% {
+        box-shadow: 0 0 14px 2px rgba(224, 32, 27, 0.6);
+        border-color: #FF5A1F;
+    }
+}
+
+@keyframes syncPulseDot {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.35;
+        transform: scale(0.75);
+    }
+}
+
+@keyframes particleFlow {
+    0% {
+        stroke-dashoffset: 60;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes heatIdleShimmer {
+    0%, 100% {
+        filter: drop-shadow(0 0 6px rgba(255, 90, 31, 0.3));
+    }
+    50% {
+        filter: drop-shadow(0 0 16px rgba(242, 181, 51, 0.55));
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* -----------------------------------------------------------------------------
+   2. PAGE HEADER VARIANTS
+   ----------------------------------------------------------------------------- */
+
+/* Variant A: Compact Industrial Ribbon (Default) */
+.page-header-ribbon {
+    background: #151413;
+    border: 1px solid #282624;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    animation: smearSweep 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.page-header-ribbon .header-title-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.page-header-ribbon .header-heat-accent {
+    width: 6px;
+    height: 38px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #FFE600 0%, #FF5A1F 60%, #E0201B 100%);
+    box-shadow: 0 0 10px rgba(255, 90, 31, 0.5);
+}
+
+.page-header-ribbon .header-title-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #FFFFFF 20%, #F2B533 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.page-header-ribbon .header-subtitle {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    color: #88847E;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.page-header-ribbon .header-right-flank {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.page-header-ribbon .header-divider {
+    width: 1px;
+    height: 34px;
+    background: #282624;
+}
+
+.page-header-ribbon .header-metric-cluster {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.page-header-ribbon .header-metric-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 9.5px;
+    color: #88847E;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.page-header-ribbon .header-metric-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+
+/* Variant B: Machined Rack HUD */
+.page-header-hud {
+    background: #11100F;
+    border: 1px solid #33312E;
+    border-radius: 6px;
+    padding: 14px 22px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 24px rgba(0, 0, 0, 0.5);
+    animation: smearSweep 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.page-header-hud .hud-top-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: #88847E;
+    letter-spacing: 0.14em;
+    border-bottom: 1px solid #201F1D;
+    padding-bottom: 6px;
+}
+
+.page-header-hud .hud-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Variant C: Dual-Flank Split Bar */
+.page-header-split {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 22px;
+    animation: smearSweep 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.page-header-split .split-title-card {
+    flex: 1;
+    background: #1A1918;
+    border: 1px solid #282624;
+    border-radius: 8px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.page-header-split .split-telemetry-capsule {
+    background: #151413;
+    border: 1px solid #282624;
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+/* -----------------------------------------------------------------------------
+   3. STATUS CHIPS (Never color alone: icon + text + color + slow pulse for CRITICAL)
+   ----------------------------------------------------------------------------- */
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.status-chip.nominal {
+    background: rgba(196, 193, 186, 0.08);
+    border: 1px solid rgba(196, 193, 186, 0.25);
+    color: #C4C1BA;
+}
+
+.status-chip.elevated {
+    background: rgba(255, 176, 32, 0.1);
+    border: 1px solid rgba(255, 176, 32, 0.4);
+    color: #FFB020;
+}
+
+.status-chip.warning {
+    background: rgba(255, 90, 31, 0.12);
+    border: 1px solid rgba(255, 90, 31, 0.5);
+    color: #FF9A3C;
+}
+
+.status-chip.critical {
+    background: rgba(224, 32, 27, 0.15);
+    border: 1px solid #E0201B;
+    color: #FFA59E;
+    animation: criticalPulseSlow 2.2s infinite ease-in-out;
+}
+
+.status-chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-chip.nominal .status-chip-dot { background: #C4C1BA; }
+.status-chip.elevated .status-chip-dot { background: #FFB020; }
+.status-chip.warning .status-chip-dot { background: #FF5A1F; }
+.status-chip.critical .status-chip-dot { background: #E0201B; box-shadow: 0 0 6px #E0201B; }
+
+/* -----------------------------------------------------------------------------
+   4. MATTE PLATE PANEL WITH CORNER CROP-BRACKETS
+   ----------------------------------------------------------------------------- */
+.plate-panel {
+    position: relative;
+    background: #1A1918;
+    border: 1px solid #282624;
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Corner crop bracket marks */
+.plate-panel::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 10px;
+    height: 10px;
+    border-top: 1.5px solid #F2B533;
+    border-left: 1.5px solid #F2B533;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.plate-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    border-bottom: 1.5px solid #F2B533;
+    border-right: 1.5px solid #F2B533;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.plate-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #201F1D;
+    padding-bottom: 10px;
+}
+
+.plate-panel-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.plate-vertical-badge {
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7.5px;
+    font-weight: 700;
+    color: #575450;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* -----------------------------------------------------------------------------
+   5. KPI TILES WITH SPARKLINE
+   ----------------------------------------------------------------------------- */
+.kpi-tile-wrap {
+    background: #1A1918;
+    border: 1px solid #282624;
+    border-radius: 8px;
+    padding: 14px 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 160ms ease-out, border-color 160ms ease-out;
+}
+
+.kpi-tile-wrap:hover {
+    transform: translateY(-2px);
+    border-color: #383532;
+}
+
+.kpi-tile-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+
+.kpi-tile-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 9.5px;
+    color: #88847E;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.kpi-tile-delta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 600;
+}
+.kpi-tile-delta.up-warn { color: #FF5A1F; }
+.kpi-tile-delta.up-good { color: #C4C1BA; }
+.kpi-tile-delta.down-good { color: #FFB020; }
+
+.kpi-tile-mid {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.kpi-tile-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 26px;
+    font-weight: 800;
+    color: #FFFFFF;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.kpi-tile-unit {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #88847E;
+    font-weight: 600;
+}
+
+.kpi-tile-sparkline-box {
+    width: 100%;
+    height: 28px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+/* -----------------------------------------------------------------------------
+   6. CHANNEL CARDS WITH MINI HEAT DISC (3 VARIANTS)
+   ----------------------------------------------------------------------------- */
+
+/* Variant A: Integrated Heat Disc Plate (Reference Match) */
+.channel-card-plate {
+    display: block;
+    text-decoration: none !important;
+    background: #1A1918;
+    border: 1px solid #282624;
+    border-radius: 8px;
+    padding: 14px 12px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 160ms ease-out, border-color 160ms ease-out, background 160ms ease-out;
+}
+
+.channel-card-plate:hover {
+    border-color: #3D3935;
+    background: #201F1D;
+    transform: translateY(-2px);
+}
+
+.channel-card-plate:focus-visible {
+    outline: none;
+    border-color: #F2B533 !important;
+    box-shadow: 0 0 0 2px rgba(242, 181, 51, 0.45);
+}
+
+.channel-card-plate.selected {
+    border-color: #F2B533 !important;
+    background: rgba(242, 181, 51, 0.05);
+    box-shadow: inset 0 0 0 1px #F2B533;
+}
+
+.channel-card-plate .channel-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.channel-card-plate .channel-id-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.channel-card-plate .channel-disc-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6px 0;
+}
+
+.channel-card-plate .channel-tj-readout {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    font-weight: 800;
+    color: #F2B533;
+    font-variant-numeric: tabular-nums;
+    margin-top: 4px;
+}
+
+.channel-card-plate .channel-ts-readout {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: #88847E;
+    margin-top: 2px;
+}
+
+/* Variant B: Vertical Channel Bay / Strip */
+.channel-card-fader {
+    display: block;
+    text-decoration: none !important;
+    background: #141312;
+    border: 1px solid #282624;
+    border-radius: 6px;
+    padding: 12px 10px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 160ms ease-out, border-color 160ms ease-out;
+}
+
+.channel-card-fader:hover {
+    border-color: #FFB020;
+    transform: translateY(-2px);
+}
+
+.channel-card-fader.selected {
+    border-color: #F2B533;
+    background: #1C1A17;
+    box-shadow: 0 0 12px rgba(242, 181, 51, 0.25);
+}
+
+/* Variant C: Horizontal Compact Capsule */
+.channel-card-capsule {
+    display: flex;
+    text-decoration: none !important;
+    align-items: center;
+    gap: 12px;
+    background: #1A1918;
+    border: 1px solid #282624;
+    border-radius: 6px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: transform 160ms ease-out, border-color 160ms ease-out;
+}
+
+.channel-card-capsule:hover {
+    border-color: #F2B533;
+    transform: translateX(2px);
+}
+
+.channel-card-capsule.selected {
+    border-color: #F2B533;
+    background: rgba(242, 181, 51, 0.08);
+}
+
+/* -----------------------------------------------------------------------------
+   7. TIMELINE RAIL (FOR ALARMS & HISTORY)
+   ----------------------------------------------------------------------------- */
+.timeline-rail {
+    position: relative;
+    padding-left: 28px;
+}
+
+.timeline-rail::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: #282624;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -28px;
+    top: 14px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1A1918;
+    border: 2px solid #88847E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.timeline-marker.critical {
+    border-color: #E0201B;
+    background: #E0201B;
+    box-shadow: 0 0 8px rgba(224, 32, 27, 0.6);
+}
+
+.timeline-marker.warning {
+    border-color: #FFB020;
+    background: #FFB020;
+    box-shadow: 0 0 8px rgba(255, 176, 32, 0.5);
+}
+
+.timeline-marker.cleared {
+    border-color: #C4C1BA;
+    background: #282624;
+}
+
+.timeline-content-card {
+    background: #1A1918;
+    border: 1px solid #282624;
+    border-radius: 8px;
+    padding: 14px 18px;
+    transition: border-color 160ms ease-out;
+}
+
+.timeline-content-card:hover {
+    border-color: #383532;
+}
+
+/* -----------------------------------------------------------------------------
+   8. RESTYLED HARDWARE INPUTS (SLIDERS AS FADERS, TOGGLES AS SWITCHES)
+   ----------------------------------------------------------------------------- */
+div[data-testid="stSlider"] {
+    padding: 6px 0;
+}
+
+div[data-testid="stSlider"] div[data-baseweb="slider"] {
+    background: #151413 !important;
+}
+
+div[data-testid="stSlider"] [role="slider"] {
+    background-color: #F2B533 !important;
+    border: 2px solid #FFFFFF !important;
+    box-shadow: 0 0 8px rgba(242, 181, 51, 0.6) !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+div[data-testid="stToggle"] {
+    accent-color: #F2B533 !important;
+}
+
+/* Sticky save bar */
+.sticky-save-bar {
+    position: sticky;
+    bottom: 12px;
+    background: #151413;
+    border: 1px solid #F2B533;
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}

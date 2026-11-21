@@ -47,7 +47,7 @@ async def capture(url="http://localhost:8501/", output_path="screenshot_verified
             return False
 
         ws_url = target_tab["webSocketDebuggerUrl"]
-        async with websockets.connect(ws_url) as ws:
+        async with websockets.connect(ws_url, max_size=20 * 1024 * 1024) as ws:
             # Poll until Streamlit main element exists and has content
             for _ in range(int(wait_secs * 4)):
                 await asyncio.sleep(0.25)

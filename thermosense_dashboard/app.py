@@ -95,7 +95,7 @@ render_output_hero("STAND-04")
 # =============================================================================
 render_output_thermal_showcase(data)
 
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.html("<br><br>")
 
 # =============================================================================
 # 4. OPERATIONAL MODULE NAVIGATION DECK (Pure Warm Tokens, No Emojis, No Syne)
@@ -171,4 +171,4 @@ Thermo-mechanical fatigue damage accumulation, bond wire solder stress velocity,
     if st.button("Inspect Wear Analytics", key="btn_nav_wear", use_container_width=True):
         st.switch_page("pages/4_📊_Trends_Wear.py")
 
-st.markdown("<br><br>", unsafe_allow_html=True)
+st.html("<br><br>")

@@ -29,9 +29,9 @@ def render_output_hero(
     """
     # SVG play triangle icon
     play_icon_svg = (
-        '<svg width="8" height="9" viewBox="0 0 8 9" fill="#FF5A1F" '
-        'style="margin-left: 1.5px; display: block;" xmlns="http://www.w3.org/2000/svg">'
-        '<path d="M0 0 L8 4.5 L0 9 Z"/>'
+        '<svg width="9" height="10" viewBox="0 0 24 24" fill="#FF5A1F" '
+        'style="margin-left: 2px; display: block;" xmlns="http://www.w3.org/2000/svg">'
+        '<polygon points="6 4 20 12 6 20 6 4" fill="#FF5A1F"></polygon>'
         '</svg>'
     )
 

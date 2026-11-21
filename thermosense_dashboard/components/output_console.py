@@ -30,7 +30,7 @@ def render_3d_hardware_console_html(initial_tj: float = 72.4, cooling_residual: 
 <div class="chassis-noise-overlay"></div>
 <div class="chassis-header-row">
 <div>
-<div class="chassis-title-label">THERMAL CORE &bull; VIRTUAL RTD</div>
+<div class="chassis-title-label">THERMAL CORE • VIRTUAL RTD</div>
 <div class="chassis-subtitle-label">MODEL: FOSTER 3-STAGE IMPEDANCE</div>
 </div>
 <div class="controls-deck">
@@ -66,9 +66,9 @@ def render_3d_hardware_console_html(initial_tj: float = 72.4, cooling_residual: 
 </div>
 </div>
 <div class="chassis-bottom-row">
-<span>THERMAL IMPEDANCE: <strong style="color: #FFFFFF;">0.04 K/W</strong></span>
-<span>COOLING DELTA: <strong style="color: #FFB020;" id="spec-cooling-delta">+{cooling_residual:.1f} K</strong></span>
-<span>CHASSIS: <strong style="color: #C4C1BA;">STAND-04</strong></span>
+<span>Zth: <strong style="color: #FFFFFF;">0.04 K/W</strong></span>
+<span>&Delta;T: <strong style="color: #FFB020;" id="spec-cooling-delta">+{cooling_residual:.1f} K</strong></span>
+<span>STAND-04</span>
 </div>
 </div>
 </div>
