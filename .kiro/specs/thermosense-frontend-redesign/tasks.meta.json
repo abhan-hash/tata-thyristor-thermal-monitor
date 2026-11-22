@@ -55,6 +55,14 @@
     "13.2 [PBT] Extend the never colour-only property test to bridge devices": {
       "status": "passed",
       "lastRunTimestamp": 1795349726393
+    },
+    "23.2 [PBT] Write property test for settings validation": {
+      "status": "passed",
+      "lastRunTimestamp": 1795353901650
+    },
+    "18.3 [PBT] Write property test for selection consistency": {
+      "status": "passed",
+      "lastRunTimestamp": 1795355455451
     }
   },
   "executionHistory": {
@@ -1347,6 +1355,11 @@
         "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795352789296
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353390472
       }
     ],
     "18.1 Register all routes": [
@@ -1354,6 +1367,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400838
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353410748
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353745659
       }
     ],
     "18.2 Implement the Selection_Hook and wire selection": [
@@ -1361,6 +1384,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400881
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353768484
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354210765
       }
     ],
     "18.3 [PBT] Write property test for selection consistency": [
@@ -1368,6 +1401,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400926
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355226348
+      },
+      {
+        "executionId": "c23fa7ce-b9f7-4d55-a011-ca0e3d181aba",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355760258
       }
     ],
     "18.4 Implement error boundaries, query states and layout utilities": [
@@ -1375,6 +1418,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401229
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353769954
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354207770
       }
     ],
     "18.5 Implement the dev overlay": [
@@ -1382,6 +1435,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401366
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353770977
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354209286
       }
     ],
     "18.6 Write unit tests for routing and error isolation": [
@@ -1389,6 +1452,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401432
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355227281
+      },
+      {
+        "executionId": "c23fa7ce-b9f7-4d55-a011-ca0e3d181aba",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355761245
       }
     ],
     "19.1 Implement the Overview hero": [
@@ -1396,6 +1469,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401501
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354231674
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355200575
       }
     ],
     "19.2 Implement the Overview second panel and rack rows": [
@@ -1403,6 +1486,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401557
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355868408
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356902522
       }
     ],
     "19.3 Make the Overview responsive": [
@@ -1410,6 +1503,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401613
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356926062
       }
     ],
     "19.4 Write unit tests for the Overview": [
@@ -1417,6 +1515,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401674
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356927550
       }
     ],
     "20.1 Implement the transient and current charts": [
@@ -1424,6 +1527,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401729
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354233149
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355201561
       }
     ],
     "20.2 Implement the Drive Detail page": [
@@ -1431,6 +1544,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401780
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355869416
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356903565
       }
     ],
     "20.3 Write unit tests for Drive Detail": [
@@ -1438,6 +1561,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401840
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356928618
       }
     ],
     "21.1 Implement alarm filtering and URL state": [
@@ -1445,6 +1573,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401894
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353411728
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353746879
       }
     ],
     "21.2 Implement the `SeverityTimeline`": [
@@ -1452,6 +1590,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261401946
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354234382
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355203069
       }
     ],
     "21.3 Implement the event list and event trace": [
@@ -1459,6 +1607,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402009
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355871412
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356905002
       }
     ],
     "21.4 Implement the Alarms page and acknowledge flow": [
@@ -1466,6 +1624,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402096
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356930064
       }
     ],
     "21.5 Write unit tests for the Alarms page": [
@@ -1473,6 +1636,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402158
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356931549
       }
     ],
     "22.1 Implement the trends charts": [
@@ -1480,6 +1648,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402211
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354235649
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355204604
       }
     ],
     "22.2 Implement the Trends page": [
@@ -1487,6 +1665,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402264
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355871706
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356905319
       }
     ],
     "22.3 Write unit tests for the Trends page": [
@@ -1494,6 +1682,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402328
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356931997
       }
     ],
     "23.1 Implement settings validation and persistence": [
@@ -1501,6 +1694,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402397
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353412226
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353748123
       }
     ],
     "23.2 [PBT] Write property test for settings validation": [
@@ -1508,6 +1711,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402468
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795353772064
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354206774
       }
     ],
     "23.3 Implement the Settings page": [
@@ -1515,6 +1728,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402529
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795354236348
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355205571
       }
     ],
     "23.4 Write unit tests for the Settings page": [
@@ -1522,6 +1745,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402598
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356925058
       }
     ],
     "24.1 Implement the About page": [
@@ -1529,6 +1757,26 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402662
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355228009
+      },
+      {
+        "executionId": "c23fa7ce-b9f7-4d55-a011-ca0e3d181aba",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355762245
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355867432
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356901398
       }
     ],
     "25.1 Test navigation and selection sync": [
@@ -1536,6 +1784,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402730
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356951694
       }
     ],
     "25.2 Test acknowledge and settings flows": [
@@ -1837,6 +2090,55 @@
         "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795352764910
+      }
+    ],
+    "18. Complete routing, selection and error isolation": [
+      {
+        "executionId": "c23fa7ce-b9f7-4d55-a011-ca0e3d181aba",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795355761303
+      }
+    ],
+    "24. Build the About page": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356901592
+      }
+    ],
+    "23. Build the Settings page": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356925126
+      }
+    ],
+    "19. Build the Overview page": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356927614
+      }
+    ],
+    "20. Build the Drive Detail page": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356928682
+      }
+    ],
+    "21. Build the Alarms page": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356931613
+      }
+    ],
+    "22. Build the Trends page": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795356932069
       }
     ]
   }

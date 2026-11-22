@@ -8,6 +8,8 @@ if (!/^[A-Za-z0-9_-]+$/.test(PHASE)) {
   throw new Error('PHASE is required, e.g. `PHASE=1 npm run screenshots`')
 }
 
+/** Simulated time run before each capture: fills the 60 s charts and resolves history queries. */
+const CAPTURE_WARMUP_MS = 62_000
 const WEB_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const OUT_DIR = path.join(WEB_ROOT, 'docs', 'screenshots', `phase-${PHASE}`)
 
@@ -18,6 +20,10 @@ for (const route of CAPTURE_ROUTES) {
 
     await page.goto(route)
     await page.waitForLoadState('networkidle')
+    // The fixture pauses the clock, so the 10 Hz mock source and the mock History_Repository
+    // never fire on their own. Advance just past the 60 s chart window so live pages show data.
+    // The kit gallery is captured as in earlier phases (static specimens, and slow to advance).
+    if (!route.startsWith('/kit')) await page.clock.runFor(CAPTURE_WARMUP_MS)
     await page.evaluate(() => document.fonts.ready.then(() => undefined))
 
     const file = path.join(OUT_DIR, `${routeSlug(route)}-${String(width)}.png`)

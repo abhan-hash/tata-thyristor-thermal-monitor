@@ -8,8 +8,15 @@ const VISUAL_SECTIONS = [
   'airflow-diagram',
 ] as const
 
+/** Phase 3 page routes. */
+const PAGE_ROUTES = ['/', '/drive', '/alarms', '/trends', '/settings', '/about'] as const
+
 /** Routes captured by `npm run screenshots`. Later phases append their routes here. */
-export const CAPTURE_ROUTES: readonly string[] = ['/kit', ...VISUAL_SECTIONS.map((id) => `/kit?section=${id}`)]
+export const CAPTURE_ROUTES: readonly string[] = [
+  '/kit',
+  ...VISUAL_SECTIONS.map((id) => `/kit?section=${id}`),
+  ...PAGE_ROUTES,
+]
 
 /** The `?section=` value of a route, if any. */
 export function routeSection(route: string): string | undefined {

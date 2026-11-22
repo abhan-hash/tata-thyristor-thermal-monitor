@@ -400,7 +400,7 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - A faulted channel renders hatch, "SENSOR FAULT" and `— —`, is excluded from hottest Tj, and restores after healthy frames
     - _Requirements: 21.1, 21.2, 21.4_
 
-- [-] 17. Checkpoint – Phase 2
+- [x] 17. Checkpoint – Phase 2
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:property` and `npm run coverage`; fix failures before continuing
   - Add the `/kit?section=visuals` route to `tests/visual/routes.ts`, run `PHASE=2 npm run screenshots`, confirm PNGs in `web/docs/screenshots/phase-2/`
@@ -410,146 +410,146 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
 
 ### Phase 3: Shell, routing and pages
 
-- [ ] 18. Complete routing, selection and error isolation
-  - [~] 18.1 Register all routes
+- [x] 18. Complete routing, selection and error isolation
+  - [x] 18.1 Register all routes
     - `src/routes.tsx`: `/` (eager Overview), lazy `/drive`, `/alarms`, `/trends`, `/settings`, `/about`, `/kit`, and a catch-all rendering `EmptyState` with a link to `/`; `AppShell` stays mounted as the layout route; create placeholder page modules so routes resolve
     - _Requirements: 22.1, 22.2, 22.3, 22.4_
 
-  - [~] 18.2 Implement the Selection_Hook and wire selection
+  - [x] 18.2 Implement the Selection_Hook and wire selection
     - `src/data/selection.ts`: `useSelectedChannel()` parsing `?ch=T1..T6`; missing or invalid values select T1 and rewrite the URL with `replace`; `useSelectChannel()` writes `?ch=` with `replace` while preserving other params
     - Pass `selected`/`onSelect` from the hook into `BridgeSchematic` and `RackRow` call sites
     - _Requirements: 17.5, 23.1, 23.2, 23.3_
 
-  - [~] 18.3 [PBT] Write property test for selection consistency
+  - [x] 18.3 [PBT] Write property test for selection consistency
     - **Property 12: Selection consistency**
     - File `tests/property/p12-selection-consistency.test.tsx`; use `fc.commands` over a `MemoryRouter` harness rendering the bridge, rack rows, a readout probe and a chart probe; commands: bridge click, rack row click, keyboard activation, URL edit, invalid `?ch=`; assert exactly one channel in 1..6 is selected and every view reports `useSelectedChannel()`
     - **Validates: Requirements 17.5, 17.6, 23.1, 23.2, 23.3, 23.4**
 
-  - [~] 18.4 Implement error boundaries, query states and layout utilities
+  - [x] 18.4 Implement error boundaries, query states and layout utilities
     - `src/kit/RegionErrorBoundary.tsx` showing `EmptyState` (error) with a reload control that resets the region
     - `src/kit/QueryState.tsx` rendering loading, inline `EmptyState` error with Retry calling `refetch`, and empty states
     - `src/styles/layout.css` grid utilities: 12 columns at 1440 (24 px gutter, 72 px margin), 8 at 1024, 4 at 390
     - `src/kit/FluidLabel.tsx`: wraps or uses `clamp()` sizing; when truncation is unavoidable it sets `title` and full `aria-label`
     - _Requirements: 30.1, 30.5, 30.6, 31.1, 31.2, 31.3_
 
-  - [~] 18.5 Implement the dev overlay
+  - [x] 18.5 Implement the dev overlay
     - `src/kit/DevOverlay.tsx` shown with `?dev=1`: dropped-frame counter, connection status, frame rate; mounted in `AppShell`
     - _Requirements: 9.9_
 
-  - [~] 18.6 Write unit tests for routing and error isolation
+  - [x] 18.6 Write unit tests for routing and error isolation
     - Unknown path shows `EmptyState` with home link; a throwing child is contained by its boundary while siblings render; Retry re-issues a failed query; invalid `?ch=` normalises to T1 with replace
     - _Requirements: 22.4, 23.2, 31.1, 31.2, 31.3_
 
-- [ ] 19. Build the Overview page
-  - [~] 19.1 Implement the Overview hero
+- [x] 19. Build the Overview page
+  - [x] 19.1 Implement the Overview hero
     - `src/pages/Overview/OverviewPage.tsx` + `Hero.tsx`: full-scale `HeroLockup` with `HeatSmearTitle` "STAND-04" (intensity from hottest Tj), subtitle "Mill Drive Thyristor Monitor", vertical divider, live hottest Tj in tabular figures or "TRIP" when every Tj ≥ 125 °C
     - Gold-ringed play button "Watch the virtual sensor work" running a 20 s guided replay (`src/data/mock/replay.ts`, MOCK header: bar entry → fan failure → recovery with timed captions) through `setScenario`
     - `HeatBlobs` layered behind `IsometricConsole`; gold callout "Junction Heat, Finally Visible" with a two-line body about estimating Tj from heatsink RTDs
     - _Requirements: 22.7, 24.1, 24.2, 24.3, 24.4, 24.9_
 
-  - [~] 19.2 Implement the Overview second panel and rack rows
+  - [x] 19.2 Implement the Overview second panel and rack rows
     - `src/pages/Overview/ScenarioPanel.tsx`: `CropPanel` artwork card with live `HeatDisc` and rotated micro-labels CH, Tj, MARGIN; heading "Inspect Stand-04 in action"; prompt "Choose a drive scenario…"; 2 × 3 `SourceGrid` (NORMAL, BAR ENTRY, FAN FAIL, CLOGGING, OVERLOAD, CLEAR with icons) calling `setScenario`
     - `src/pages/Overview/RackList.tsx`: six `RackRow`s with tracked label, Tj at 0.1 °C, signed delta-from-mean bar, `StatusChip`, chevron; selected row active; click selects via `useSelectChannel`
     - `src/pages/Overview/TripPanel.tsx`: "Know Before It Trips" with margin to 125 °C, time-to-warning estimate and a link to `/drive?ch=`
     - _Requirements: 23.3, 23.4, 24.5, 24.6, 24.7, 24.8_
 
-  - [~] 19.3 Make the Overview responsive
+  - [x] 19.3 Make the Overview responsive
     - At 1024 px the second panel moves below the hero; at 390 px the console is full width, the `SourceGrid` is 3 × 2, rack rows are full width, and all targets are at least 44 × 44 px
     - _Requirements: 30.2, 30.3, 30.4_
 
-  - [~] 19.4 Write unit tests for the Overview
+  - [x] 19.4 Write unit tests for the Overview
     - Source selection calls `setScenario` with the right scenario; replay calls scenarios in order with captions (fake timers); "TRIP" appears when all Tj ≥ 125; rack row click updates `?ch=`
     - _Requirements: 24.2, 24.6, 24.7, 24.9_
 
-- [ ] 20. Build the Drive Detail page
-  - [~] 20.1 Implement the transient and current charts
+- [x] 20. Build the Drive Detail page
+  - [x] 20.1 Implement the transient and current charts
     - `src/charts/series.ts`: pure `windowSeries(buffer, windowS)` and min/max `downsample` to at most 600 points, memoised by buffer revision
     - `src/charts/TransientChart.tsx` (Tj + heatsink) and `src/charts/CurrentChart.tsx` (armature current with rated reference line) in `ChartFrame` with WARN/TRIP bands, a shared crosshair via context, and labelled vertical bar-bite markers at `detectSpikeOnsets` indices
     - Unit test that paths never exceed 600 points
     - _Requirements: 25.2, 25.4, 25.5, 40.5_
 
-  - [~] 20.2 Implement the Drive Detail page
+  - [x] 20.2 Implement the Drive Detail page
     - `src/pages/DriveDetail/DriveDetailPage.tsx`: compact `HeroLockup`; `BridgeSchematic` across 7 columns next to a 96 px tabular Tj readout (unit at 40%), `StatusChip` and margin-to-trip bar for the selected channel; charts stacked with shared crosshair; `?window=60|300` (default 60); `KpiTile` strip for heatsink, power loss, residual and R_sa with 60 s sparklines; compact `FosterLadder` bound to the selected channel; each region inside `RegionErrorBoundary`
     - _Requirements: 23.5, 25.1, 25.2, 25.3, 25.6, 25.7_
 
-  - [~] 20.3 Write unit tests for Drive Detail
+  - [x] 20.3 Write unit tests for Drive Detail
     - `?window=` switches the chart window and defaults to 60; changing `?ch=` re-binds readout and charts without remounting `AppShell` (mount counter)
     - _Requirements: 23.5, 25.3_
 
-- [ ] 21. Build the Alarms page
-  - [~] 21.1 Implement alarm filtering and URL state
+- [x] 21. Build the Alarms page
+  - [x] 21.1 Implement alarm filtering and URL state
     - `src/domain/alarmFilters.ts`: pure `filterEvents(events, { severities, channels, kinds, from, to })`, plus parse/serialise helpers for `?sev=`, `?ch=`, `?from=`, `?to=`, `?event=`
     - Unit tests for filtering and round-trip of params
     - _Requirements: 26.2, 26.4, 26.5_
 
-  - [~] 21.2 Implement the `SeverityTimeline`
+  - [x] 21.2 Implement the `SeverityTimeline`
     - `src/charts/SeverityTimeline.tsx`: 24 h, one lane per channel (plus drive), severity marks with icons, brush writing `?from=`/`?to=`; bins events into time buckets when there are 200 or more
     - _Requirements: 26.3, 26.4, 26.10_
 
-  - [~] 21.3 Implement the event list and event trace
+  - [x] 21.3 Implement the event list and event trace
     - `src/pages/Alarms/EventList.tsx`: virtualised with `@tanstack/react-virtual` at ≥ 200 events; rows expand in place, writing `?event=`, to show `src/charts/EventTrace.tsx` (Tj ±60 s via `useTrace`) and details; loading and error via `QueryState`
     - _Requirements: 26.5, 26.10, 31.2_
 
-  - [~] 21.4 Implement the Alarms page and acknowledge flow
+  - [x] 21.4 Implement the Alarms page and acknowledge flow
     - `src/pages/Alarms/AlarmsPage.tsx`: compact `HeroLockup` with active count and "Acknowledge all visible"; `FilterChip` rows for severity, channel and kind; timeline above the list
     - Acknowledge opens an inline confirmation; confirming calls `acknowledge` with the mock session user from `uiStore` (name only, no credentials) and shows user and time; all controls keyboard operable
     - Live alarms from the store are merged at the top of the list and announced in an `aria-live="polite"` region
     - _Requirements: 26.1, 26.2, 26.6, 26.7, 26.8, 26.9, 26.11_
 
-  - [~] 21.5 Write unit tests for the Alarms page
+  - [x] 21.5 Write unit tests for the Alarms page
     - Filter chips update params and list; inline confirm then acknowledge shows user and time; keyboard-only acknowledge; new alarm inserted at top and announced; 200 events use the virtualiser and binned timeline
     - _Requirements: 26.2, 26.6, 26.7, 26.8, 26.9, 26.10_
 
-- [ ] 22. Build the Trends page
-  - [~] 22.1 Implement the trends charts
+- [x] 22. Build the Trends page
+  - [x] 22.1 Implement the trends charts
     - `src/charts/LifeArcGauge.tsx` (remaining life % as text), `src/charts/ChannelDayHeatmap.tsx` (rows per channel, cells per day, heat tokens, focusable cells showing peak Tj and date on hover/focus), `src/charts/WearProjection.tsx` (consumed-life line, p10–p90 band, advisory line at 2× baseline)
     - _Requirements: 27.1, 27.2, 27.3, 27.5_
 
-  - [~] 22.2 Implement the Trends page
+  - [x] 22.2 Implement the Trends page
     - `src/pages/Trends/TrendsPage.tsx`: compact `HeroLockup`; six gauges; heatmap with `?days=7|30` (default 30); wear projection; advisory icon and text for channels with `wear_rate_vs_baseline` > 2.0; `QueryState` for loading and errors
     - _Requirements: 27.1, 27.4, 27.6, 31.2_
 
-  - [~] 22.3 Write unit tests for the Trends page
+  - [x] 22.3 Write unit tests for the Trends page
     - `?days=` controls cell count; focusing a cell shows peak and date; advisory shown only above 2.0
     - _Requirements: 27.3, 27.4, 27.6_
 
-- [ ] 23. Build the Settings page
-  - [~] 23.1 Implement settings validation and persistence
+- [x] 23. Build the Settings page
+  - [x] 23.1 Implement settings validation and persistence
     - `src/domain/settings.ts`: `validate(draft)` returning per-field errors (warning < critical, 0 ≤ hysteresis < critical − warning for every band), `isDirty(draft, saved)`, `canSave(draft, saved)`
     - `src/state/uiStore.ts` (Zustand): saved settings persisted to `localStorage`, draft, session user, ack state, `entrancePlayed` flags; a `useThresholds()` hook that the store's status classification and alarm engine read so saved thresholds apply immediately
     - _Requirements: 4.4, 28.3, 28.6, 28.7_
 
-  - [~] 23.2 [PBT] Write property test for settings validation
+  - [x] 23.2 [PBT] Write property test for settings validation
     - **Property 15: Settings validation**
     - File `tests/property/p15-settings-validation.test.ts`; arbitrary drafts (including invalid bands) and saved settings; assert `validate` accepts iff the band rule holds for every band and `canSave` iff valid and dirty
     - **Validates: Requirements 28.3, 28.6**
 
-  - [~] 23.3 Implement the Settings page
+  - [x] 23.3 Implement the Settings page
     - `src/pages/Settings/SettingsPage.tsx`: `CropPanel` groups for thresholds (`Fader` + `NumberField`), display, data source ("Mock", WebSocket URL `Field` disabled with "backend phase" note) and scenario defaults (`HardwareToggle`, `Select`); inline errors on offending fields; sticky Save/Discard bar while dirty; Save enabled iff `canSave`; Save persists and applies thresholds; Discard restores saved; `useBlocker` confirmation offering Stay or Discard on navigation with a dirty draft
     - _Requirements: 28.1, 28.2, 28.4, 28.5, 28.6, 28.7, 28.8, 28.9_
 
-  - [~] 23.4 Write unit tests for the Settings page
+  - [x] 23.4 Write unit tests for the Settings page
     - Invalid input shows inline error and disables Save; Save writes `localStorage` and changes classification; Discard restores; blocker dialog appears on dirty navigation
     - _Requirements: 28.4, 28.5, 28.7, 28.8, 28.9_
 
-- [ ] 24. Build the About page
-  - [~] 24.1 Implement the About page
+- [x] 24. Build the About page
+  - [x] 24.1 Implement the About page
     - Copy `thermosense_dashboard/assets/about_hero_banner.webp` to `web/public/about_hero_banner.webp` (copy only; leave the source untouched)
     - `src/pages/About/AboutPage.tsx`: compact `HeroLockup`, banner image with alt text, annotated `FosterLadder`, 4-step "How the virtual sensor works" flow (Measure, Model, Estimate, Validate), `MillCutaway` and `AirflowDiagram`
     - _Requirements: 1.2, 29.1, 29.2, 29.3, 29.4_
 
 - [ ] 25. Write Playwright end-to-end tests for core flows
-  - [~] 25.1 Test navigation and selection sync
+  - [-] 25.1 Test navigation and selection sync
     - `tests/e2e/navigation.spec.ts`: clicking every nav link changes route with `performance.getEntriesByType("navigation").length === 1` and a window marker that survives; Top_Nav stays mounted
     - `tests/e2e/selection.spec.ts`: select T3 on the bridge, check the Overview rack row, Drive Detail readout and charts agree; invalid `?ch=` becomes T1
     - _Requirements: 22.2, 23.2, 23.4, 41.5_
 
-  - [~] 25.2 Test acknowledge and settings flows
+  - [ ] 25.2 Test acknowledge and settings flows
     - `tests/e2e/alarms.spec.ts`: keyboard-only acknowledge with inline confirm shows user and time
     - `tests/e2e/settings.spec.ts`: invalid band shows inline error and disables Save; edit shows the unsaved bar; navigating away shows the blocker; Save persists across reload
     - _Requirements: 26.6, 26.7, 26.8, 28.4, 28.5, 28.9, 41.5_
 
-- [~] 26. Checkpoint – Phase 3
+- [ ] 26. Checkpoint – Phase 3
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:property`, `npm run coverage` and `npm run test:e2e`; fix failures before continuing
   - Add `/`, `/drive`, `/alarms`, `/trends`, `/settings`, `/about` to `tests/visual/routes.ts`, run `PHASE=3 npm run screenshots`, confirm PNGs in `web/docs/screenshots/phase-3/`
@@ -560,59 +560,59 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
 ### Phase 4: Motion system
 
 - [ ] 27. Build motion foundations
-  - [~] 27.1 Implement motion tokens and the reduced-motion bridge
+  - [ ] 27.1 Implement motion tokens and the reduced-motion bridge
     - `src/motion/tokens.ts`: durations and easings matching the CSS tokens; `src/motion/presets.ts`: entrance, press, arrival presets using only `transform`, `opacity`, small-element `filter`, SVG `fill`/`stop-color`
     - `src/motion/useReducedMotion.ts` wrapping Motion's hook; `MotionConfig reducedMotion="user"` in `main.tsx`
     - _Requirements: 34.1, 35.1, 35.2_
 
-  - [~] 27.2 Implement page entrances
+  - [ ] 27.2 Implement page entrances
     - `src/motion/useEntrance.ts(pageKey)`: plays once per session using `uiStore.entrancePlayed`; order hero lockup → main visual → secondary panels with offsets ≤ 60 ms and total < 700 ms; children of an entering container animate with the container (no child stagger); skipped under reduced motion
     - Apply to all six pages
     - _Requirements: 32.1, 32.2, 32.3, 35.1_
 
-  - [~] 27.3 Implement `AnimatedNumber`
+  - [ ] 27.3 Implement `AnimatedNumber`
     - `src/motion/AnimatedNumber.tsx`: tweens a MotionValue over 200 ms with `--ease-out`, writes formatted text directly to the DOM node with `.num` and fixed width; instant under reduced motion
     - Use it in `KpiTile`, the Overview hero readout, the Drive Detail readout and rack rows (text driven by Display_Tick values)
     - _Requirements: 33.1, 35.2_
 
-  - [~] 27.4 Write unit tests for entrances and numbers
+  - [ ] 27.4 Write unit tests for entrances and numbers
     - Entrance plays once per session and its timeline satisfies < 700 ms and ≤ 60 ms offsets; second visit renders final state; `AnimatedNumber` width is constant and reduced motion sets value immediately
     - _Requirements: 32.1, 32.2, 33.1, 35.2_
 
 - [ ] 28. Add live-value and event motion
-  - [~] 28.1 Interpolate heat fills and pulse critical glows
+  - [ ] 28.1 Interpolate heat fills and pulse critical glows
     - `src/motion/useHeatFill.ts`: interpolates in heat-scale index space over 300 ms and outputs a fill colour; used by `HeatDisc` and bridge devices
     - Glow pulse only while a channel is critical; static for normal and warning; status changes still render under reduced motion
     - _Requirements: 33.2, 33.3, 33.4, 35.4_
 
-  - [~] 28.2 Animate charts and blob morphs
+  - [ ] 28.2 Animate charts and blob morphs
     - Charts: `pathLength` draw-in over 600 ms on first data, then translate the path left by one sample step per new sample; disabled under reduced motion
     - `HeatBlobs`: morph between 1 Hz updates with fixed topology (resample each band to a fixed point count before interpolating)
     - _Requirements: 33.5, 33.6, 34.2, 35.1_
 
-  - [~] 28.3 Implement the sync pulse and reduced-motion substitutions
+  - [ ] 28.3 Implement the sync pulse and reduced-motion substitutions
     - `src/kit/SyncPulse.tsx`: 1 px gold tick flashes once per Display_Tick, stops while stale, replaced by a static "LIVE" label under reduced motion; replace the placeholder in `TopNav`
     - Stale readouts dim to `--text-muted` with `StaleChip`
     - Disable Foster dash flow and airflow particles under reduced motion
     - _Requirements: 12.4, 33.7, 35.1, 35.3_
 
-  - [~] 28.4 Animate alarm arrivals and press/hover feedback
+  - [ ] 28.4 Animate alarm arrivals and press/hover feedback
     - `src/domain/coalesceAlarms.ts`: pure merge of repeats of the same channel+kind within 5 s into one row with a repeat count
     - One 240 ms slide-and-highlight per new (coalesced) alarm row via `AnimatePresence`
     - Global press `scale(0.97)` over 120 ms on interactive kit components; hover styles inside `@media (hover: hover)` only
     - _Requirements: 33.8, 33.9, 33.10, 33.11_
 
-  - [~] 28.5 Write unit tests for live and event motion
+  - [ ] 28.5 Write unit tests for live and event motion
     - Coalescing within 5 s yields one row; pulse class only on critical; reduced motion disables draw-in, dash flow and particles and shows "LIVE"; sync pulse stops when stale
     - _Requirements: 12.4, 33.3, 33.4, 33.9, 35.1, 35.3_
 
 - [ ] 29. Audit motion
-  - [~] 29.1 Write the motion audit and enforce animated-property limits
+  - [ ] 29.1 Write the motion audit and enforce animated-property limits
     - `web/docs/motion-audit.md`: every remaining animation with the state, arrival or causality it communicates; remove any animation that communicates none
     - `scripts/check-motion.mjs` (wired into `npm run lint`): fails when Motion `animate`/`transition` targets or CSS `transition`/`@keyframes` use layout properties (width, height, top, left, margin, padding)
     - _Requirements: 34.1, 34.3_
 
-- [~] 30. Checkpoint – Phase 4
+- [ ] 30. Checkpoint – Phase 4
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:property`, `npm run coverage` and `npm run test:e2e`; fix failures before continuing
   - Run `PHASE=4 npm run screenshots` (frozen clock, final states), confirm PNGs in `web/docs/screenshots/phase-4/`
@@ -623,65 +623,65 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
 ### Phase 5: QA
 
 - [ ] 31. Add stress fixtures
-  - [~] 31.1 Implement `?mock=` stress fixtures
+  - [ ] 31.1 Implement `?mock=` stress fixtures
     - `src/data/mock/stress.ts` (MOCK header): `stress-trip` (all Tj ≥ 125), `stress-ambient` (Tj ≈ ambient), `stress-nan` (two or more unhealthy channels with NaN readings), `stress-200-alarms`, `stress-long-labels` (long channel and event names); selected in `createSource.ts` from `?mock=`
     - _Requirements: 36.1_
 
-  - [~] 31.2 Write Playwright stress specs
+  - [ ] 31.2 Write Playwright stress specs
     - `tests/e2e/stress.spec.ts`: trip shows critical chips on every channel, "TRIP" in the hero and saturated blobs, with element bounding boxes equal to the normal layout; ambient renders the disc at heat stops 0–1 and six bands; nan shows the fault presentation per affected channel; 200 alarms renders the virtualised list and binned timeline; long labels are fully readable (no clipped text, or `title` + `aria-label` when truncated)
     - _Requirements: 30.5, 30.6, 36.2, 36.3, 36.4, 36.5, 36.6_
 
 - [ ] 32. Add visual regression and viewport coverage
-  - [~] 32.1 Write the visual regression suite
+  - [ ] 32.1 Write the visual regression suite
     - `tests/visual/regression.spec.ts`: `toHaveScreenshot` for every route and `/kit` at 1440, 1024 and 390 px and at 200% zoom (half-width viewport with `deviceScaleFactor: 2`), frozen clock, fixed seed, animations disabled; baselines committed under `tests/visual/`
     - At 200% zoom, assert nav links (via the sheet), primary actions and page content are reachable
     - _Requirements: 30.7, 37.1_
 
 - [ ] 33. Verify keyboard access and WCAG AA
-  - [~] 33.1 Write the keyboard traversal spec
+  - [ ] 33.1 Write the keyboard traversal spec
     - `tests/e2e/keyboard.spec.ts`: per route, Tab through every focus stop; assert visual order (top-to-bottom, left-to-right within rows), a visible focus ring from `--focus-ring` (computed outline or box-shadow), and Enter/Space activation on sampled controls; arrow keys on `SourceGrid` and `Fader`
     - Fix any order or focus-ring defects found
     - _Requirements: 2.6, 38.1, 38.2, 38.3, 38.4_
 
-  - [~] 33.2 Write the axe spec and fix violations
+  - [ ] 33.2 Write the axe spec and fix violations
     - `tests/e2e/a11y.spec.ts`: `@axe-core/playwright` with WCAG 2.1 A/AA tags on every route and `/kit`; zero violations; every interactive element has an accessible name
     - Fix violations in the components
     - _Requirements: 39.1, 39.3_
 
-  - [~] 33.3 Write the token contrast test
+  - [ ] 33.3 Write the token contrast test
     - `tests/unit/contrast.test.ts`: compute contrast for semantic text/surface pairs (≥ 4.5:1 for body text including `--text-muted` on panel, ≥ 3:1 for large text and component boundaries such as source-button borders and the focus ring); adjust semantic mappings if a pair fails
     - _Requirements: 39.2_
 
-  - [~] 33.4 Write the 390 px target-size check
+  - [ ] 33.4 Write the 390 px target-size check
     - `tests/e2e/targets.spec.ts`: at 390 px, every visible interactive element on every route has a bounding box of at least 44 × 44 px
     - _Requirements: 30.4_
 
 - [ ] 34. Verify soak and performance budgets
-  - [~] 34.1 Write the soak spec
+  - [ ] 34.1 Write the soak spec
     - `tests/e2e/soak.spec.ts` (tagged `@soak`, run with `npm run test:soak`): 5 minutes on `/` and `/drive` at 10 Hz; sample `performance.memory.usedJSHeapSize` after forced GC via CDP at start and end (growth ≤ 10%); `PerformanceObserver` for `longtask` after the entrance must record zero tasks > 50 ms
     - _Requirements: 40.1, 40.2_
 
-  - [~] 34.2 Write frame-budget and blob-cost benchmarks
+  - [ ] 34.2 Write frame-budget and blob-cost benchmarks
     - Playwright spec with CDP `Emulation.setCPUThrottlingRate(4)` measuring per-frame store update + MotionValue writes + SVG attribute changes via `performance.measure` marks in the store (dev-only); assert p95 < 4 ms
     - Vitest test timing `buildField` + contour computation over 100 runs; assert median < 2 ms
     - _Requirements: 40.3, 40.6_
 
-  - [~] 34.3 Profile charts and apply the uPlot fallback if needed
+  - [ ] 34.3 Profile charts and apply the uPlot fallback if needed
     - Measure `TransientChart` and `CurrentChart` per-frame cost at 10 Hz with 4× throttle; if either exceeds 4 ms, install `uplot` and implement canvas versions behind the same props, keeping band labels as text; record the measurement in `web/docs/perf.md`
     - _Requirements: 40.4, 40.5_
 
-  - [~] 34.4 Check bundle size and filter placement
+  - [ ] 34.4 Check bundle size and filter placement
     - `scripts/check-bundle.mjs` (wired into `npm run check`): gzip size of the initial route's JS + CSS from the Vite manifest < 250 KB
     - Unit test that `feTurbulence` and large-radius blur filters are referenced only from components marked static (e.g. `data-layer="static"`)
     - _Requirements: 40.7, 40.8_
 
 - [ ] 35. Verify security, isolation and coverage
-  - [~] 35.1 Write security and isolation checks
+  - [ ] 35.1 Write security and isolation checks
     - `tests/e2e/security.spec.ts` against the production preview: CSP meta present with `default-src 'self'`, no inline scripts, no requests to external hosts (fonts included), no `localStorage`/`sessionStorage` keys containing passwords or tokens after the acknowledge flow
     - `scripts/check-isolation.mjs`: `git diff --name-only <commit before phase 1>..HEAD -- thermosense_dashboard model.py 'stage*.py'` is empty, and `grep` finds no `dangerouslySetInnerHTML` in `web/src`
     - _Requirements: 1.2, 1.3, 1.4, 1.5, 26.11_
 
-  - [~] 35.2 Close coverage gaps
+  - [ ] 35.2 Close coverage gaps
     - Run `npm run coverage`; add unit tests until `src/domain` and `src/data` each reach at least 90% line coverage
     - _Requirements: 41.2_
 
@@ -690,12 +690,12 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - _Requirements: 41.3_
 
 - [ ] 36. Produce the reference comparison and gap list
-  - [~] 36.1 Create the side-by-side comparison and gap list
+  - [ ] 36.1 Create the side-by-side comparison and gap list
     - `tests/visual/compare.spec.ts`: capture the Overview at 1440 px, render it next to `reference/Screenshot from 2026-11-20 20-43-12.png` in a local HTML page, save `web/docs/comparison/overview-vs-reference.png` (read the reference image only; do not commit `reference/`)
     - `web/docs/gap-list.md`: an honest list of visual and behavioural gaps against the reference and the requirements
     - _Requirements: 37.3_
 
-- [~] 37. Final checkpoint – Phase 5
+- [ ] 37. Final checkpoint – Phase 5
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run check`, `npm run coverage`, `npm run test:e2e` (including stress, keyboard, a11y, security) and `npm run test:soak`; fix failures before continuing
   - Run `PHASE=5 npm run screenshots`, confirm PNGs in `web/docs/screenshots/phase-5/`, and update the visual regression baselines

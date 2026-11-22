@@ -168,7 +168,7 @@ export class TelemetryStore {
   readonly source: TelemetrySource
   readonly live: LiveValues
 
-  readonly #thresholds: Readonly<Thresholds>
+  #thresholds: Readonly<Thresholds>
   readonly #now: () => number
   readonly #decodeLogger: DecodeLogger | undefined
   readonly #ratedCurrent: number
@@ -311,6 +311,16 @@ export class TelemetryStore {
     if (this.source.setScenario === undefined) return
     this.source.setScenario(s, severity)
     this.#set({ ...this.#snapshot, scenario: s })
+  }
+
+  /** Thresholds used by the alarm engine. */
+  get thresholds(): Readonly<Thresholds> {
+    return this.#thresholds
+  }
+
+  /** Replaces the alarm thresholds; applies from the next frame (Requirement 28.7). */
+  setThresholds(thresholds: Readonly<Thresholds>): void {
+    this.#thresholds = thresholds
   }
 
   /** Decodes and applies one frame. Called by the source subscription; public for tests. */

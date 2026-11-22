@@ -7,6 +7,7 @@ import App from './App.tsx'
 import { createHistoryRepository, createTelemetrySource } from './data/createSource'
 import { TelemetryStore } from './data/store'
 import { createAppRouter } from './routes'
+import { bindThresholds } from './state/uiStore'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
@@ -16,6 +17,8 @@ if (!rootElement) {
 // Created once per page load, outside React, so StrictMode's double mount
 // restarts the same store instead of creating a second one.
 const store = new TelemetryStore(createTelemetrySource(import.meta.env))
+// Saved Settings thresholds drive the alarm engine and apply on every save.
+bindThresholds(store)
 const repository = createHistoryRepository(import.meta.env)
 const queryClient = new QueryClient()
 const router = createAppRouter()

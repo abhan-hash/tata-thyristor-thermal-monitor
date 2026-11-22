@@ -16,7 +16,7 @@
     "test:property": "vitest run tests/property",
     "test:property:nightly": "FC_NUM_RUNS=2000 vitest run tests/property",
     "coverage": "vitest run --coverage",
-    "test:e2e": "playwright test tests/e2e",
+    "test:e2e": "playwright test tests/e2e --project=w1440",
     "screenshots": "playwright test tests/visual/capture.spec.ts",
     "check:tokens": "node scripts/check-tokens.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run check:tokens"

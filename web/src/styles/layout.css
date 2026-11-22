@@ -1,0 +1,78 @@
+/*
+ * Page grid (Requirement 30.1).
+ *
+ *   ≥ 1440 px  12 columns, 24 px gutter, 72 px margin
+ *   ≥ 1024 px   8 columns, 24 px gutter, 48 px margin
+ *   <  1024 px  4 columns, 16 px gutter, 16 px margin (390 px phone)
+ *
+ * `.layout-page` sets the side margins and centres the content;
+ * `.layout-grid` is the column grid. Children span the full row by default
+ * so nothing overflows when the column count drops; set the span per
+ * breakpoint with Tailwind (`col-span-4 lg:col-span-4 wide:col-span-7`) or
+ * the `.layout-span-*` helpers. `lg` is 1024 px; `wide` is 1440 px.
+ */
+
+@theme {
+  --breakpoint-wide: 90rem;
+}
+
+:root {
+  --layout-columns: 4;
+  --layout-gutter: var(--space-4);
+  --layout-margin: var(--space-4);
+  --layout-max-width: 1680px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --layout-columns: 8;
+    --layout-gutter: var(--space-6);
+    --layout-margin: var(--space-12);
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --layout-columns: 12;
+    --layout-gutter: var(--space-6);
+    --layout-margin: 72px;
+  }
+}
+
+@layer components {
+  .layout-page {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: calc(var(--layout-max-width) + 2 * var(--layout-margin));
+    margin-inline: auto;
+    padding-inline: var(--layout-margin);
+  }
+
+  .layout-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+    column-gap: var(--layout-gutter);
+    row-gap: var(--layout-gutter);
+  }
+
+  .layout-grid > * {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  .layout-grid > .layout-span-half {
+    grid-column: span 2;
+  }
+
+  @media (min-width: 1024px) {
+    .layout-grid > .layout-span-half {
+      grid-column: span 4;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .layout-grid > .layout-span-half {
+      grid-column: span 6;
+    }
+  }
+}

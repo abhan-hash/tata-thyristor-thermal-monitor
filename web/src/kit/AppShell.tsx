@@ -1,8 +1,10 @@
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import { useConnection } from '../data/hooks'
 import { ContourBackground } from '../visuals/heat/ContourBackground'
 import { ConnectionBanner } from './ConnectionBanner'
 import { cx } from './controlStyles'
+import { DevOverlay } from './DevOverlay'
+import { RegionErrorBoundary } from './RegionErrorBoundary'
 import { TopNav } from './TopNav'
 
 /** Id of the page's main landmark, the skip link's target. */
@@ -15,6 +17,7 @@ export const MAIN_ID = 'main'
  */
 export function AppShell() {
   const { status, lastFrameAt } = useConnection()
+  const { pathname } = useLocation()
   return (
     <div className="relative isolate flex min-h-screen flex-col">
       <a
@@ -32,8 +35,11 @@ export function AppShell() {
         <ConnectionBanner status={status} lastFrameAt={lastFrameAt} />
       </div>
       <main id={MAIN_ID} tabIndex={-1} className="relative flex-1 outline-none">
-        <Outlet />
+        <RegionErrorBoundary region="page" resetKeys={[pathname]}>
+          <Outlet />
+        </RegionErrorBoundary>
       </main>
+      <DevOverlay />
     </div>
   )
 }

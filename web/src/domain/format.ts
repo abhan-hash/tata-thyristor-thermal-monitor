@@ -112,3 +112,21 @@ export function formatValue(value: number, spec: FormatSpec): string {
   const full = formatFixed(value, spec)
   return full.slice(0, full.length - UNIT_SEPARATOR.length - spec.unit.length)
 }
+
+/**
+ * Moves a leading minus sign next to the first digit, keeping the string length:
+ * "−\u2007\u20070.4" → "\u2007\u2007−0.4". For readouts where the fixed sign slot would
+ * read as a detached dash. Strings without a leading minus are returned unchanged.
+ */
+export function hugSign(text: string): string {
+  const m = /^\u2212(\u2007+)/.exec(text)
+  return m ? `${m[1] ?? ''}${MINUS_SIGN}${text.slice(m[0].length)}` : text
+}
+
+/**
+ * `formatValue` with the sign hugging the digits and the leading padding removed, for
+ * readouts that reserve the fixed width in their own box: −0.4 → "−0.4", 84.25 → "84.3".
+ */
+export function formatValueFlush(value: number, spec: FormatSpec): string {
+  return hugSign(formatValue(value, spec)).replace(/^\u2007+/, '')
+}

@@ -4,11 +4,12 @@ import { describe, expect, it } from 'vitest'
 import {
   formattedLength,
   formatValue,
+  hugSign,
   POWER_W_SPEC,
   TEMP_C_SPEC,
   valueLength,
 } from '../../src/domain/format'
-import { formatDelta, KpiTile, kpiValueWidthCh } from '../../src/kit/KpiTile'
+import { formatDelta, KpiTile, kpiValueText, kpiValueWidthCh } from '../../src/kit/KpiTile'
 
 describe('formatValue', () => {
   it('drops the unit and keeps a constant width', () => {
@@ -16,6 +17,21 @@ describe('formatValue', () => {
     expect(formatValue(-12, TEMP_C_SPEC)).toBe('\u2212\u200712.0')
     expect(formatValue(NaN, TEMP_C_SPEC)).toHaveLength(valueLength(TEMP_C_SPEC))
     expect(valueLength(TEMP_C_SPEC)).toBe(formattedLength(TEMP_C_SPEC) - ' °C'.length)
+  })
+})
+
+describe('kpiValueText', () => {
+  it('keeps the minus sign next to the first digit', () => {
+    expect(kpiValueText(-0.4, TEMP_C_SPEC)).toBe('\u22120.4')
+    expect(kpiValueText(-12, TEMP_C_SPEC)).toBe('\u221212.0')
+    expect(kpiValueText(-123.4, TEMP_C_SPEC)).toBe('\u2212123.4')
+    expect(kpiValueText(84.25, TEMP_C_SPEC)).toBe('84.3')
+  })
+  it('hugSign moves the padding before the sign and keeps the length', () => {
+    const raw = formatValue(-0.4, TEMP_C_SPEC)
+    expect(hugSign(raw)).toBe('\u2007\u2007\u22120.4')
+    expect(hugSign(raw)).toHaveLength(raw.length)
+    expect(hugSign(formatValue(5, TEMP_C_SPEC))).toBe(formatValue(5, TEMP_C_SPEC))
   })
 })
 

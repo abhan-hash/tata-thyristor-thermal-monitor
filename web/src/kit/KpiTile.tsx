@@ -1,7 +1,7 @@
 import { useMotionValueEvent, type MotionValue } from 'motion/react'
 import { useRef } from 'react'
 import type { ChartBand } from '../charts/chartTheme'
-import { formatValue, MINUS_SIGN, valueLength, type FormatSpec } from '../domain/format'
+import { formatValue, formatValueFlush, MINUS_SIGN, valueLength, type FormatSpec } from '../domain/format'
 import type { Status } from '../domain/types'
 import { cx } from './controlStyles'
 import { Sparkline } from './Sparkline'
@@ -41,12 +41,13 @@ export function kpiValueWidthCh(spec: FormatSpec): number {
 }
 
 /**
- * Readout text: the Formatter's fixed-width number with its leading figure-space
- * padding removed, so the number sits flush with the label. The width stays
- * reserved by the readout box, not by the padding.
+ * Readout text: the Formatter's fixed-width number with the minus sign moved
+ * next to the first digit (padding goes before the sign) and the leading
+ * figure-space padding removed, so the number sits flush with the label:
+ * −0.4 → "−0.4", never "−  0.4". The width stays reserved by the readout box.
  */
 export function kpiValueText(value: number, spec: FormatSpec): string {
-  return formatValue(value, spec).replace(/^\u2007+/, '')
+  return formatValueFlush(value, spec)
 }
 
 /** Signed delta text, e.g. "+1.2", "−0.4", "±0.0"; "— —" when non-finite. */
