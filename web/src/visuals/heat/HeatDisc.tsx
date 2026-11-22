@@ -1,4 +1,5 @@
-import { animate, useMotionValue, useMotionValueEvent, useReducedMotion } from 'motion/react'
+import { useMotionValueEvent } from 'motion/react'
+import { useHeatPosition } from '../../motion/useHeatFill'
 import { useId, useMemo, useRef, useState } from 'react'
 import { formatTempC } from '../../domain/format'
 import { statusFor, type StatusBand } from '../../domain/status'
@@ -8,7 +9,6 @@ import { StatusIcon } from '../../kit/icons/StatusIcon'
 import { STATUS_LABEL } from '../../kit/StatusChip'
 import { blobPath, discModel, type DiscModel } from './discGeometry'
 import { HeatDefs, heatDefIds, svgUrl } from './HeatDefs'
-import { heatPosition } from './heatRamp'
 import { useMotionSource, type NumberSource } from './useMotionSource'
 
 /**
@@ -42,7 +42,6 @@ const FACE_R = 94
 const RIM_R = 99
 const BRACKET_INSET = 6
 const BRACKET_LEN = 18
-const TWEEN = { duration: 0.3, ease: [0.23, 1, 0.32, 1] } as const
 
 /** Status shown by the disc: fault for non-finite readings, otherwise the band classifier. */
 export function discStatus(tempC: number, band: StatusBand = DEFAULT_THRESHOLDS.junction_temp): Status {
@@ -133,8 +132,8 @@ export function HeatDisc({
   className,
 }: HeatDiscProps) {
   const source = useMotionSource(tj)
-  const position = useMotionValue(heatPosition(source.get()))
-  const reduceMotion = useReducedMotion() === true
+  // Tweened in heat-scale space over 300 ms (Requirement 33.2).
+  const position = useHeatPosition(source)
   const [status, setStatus] = useState<Status>(() => discStatus(source.get(), band))
 
   const raw = useId()
@@ -159,9 +158,6 @@ export function HeatDisc({
     const next = discStatus(v, band)
     setStatus(next)
     svgRef.current?.setAttribute('aria-label', discLabel(label, v, next))
-    const target = heatPosition(v)
-    if (reduceMotion || next === 'fault') position.jump(target)
-    else void animate(position, target, TWEEN)
   })
   useMotionValueEvent(position, 'change', (p) => {
     applyModel(refs.current, discModel(p))
@@ -204,7 +200,9 @@ export function HeatDisc({
       </defs>
 
       {!fault && (
+        // The glow pulses only while critical (Requirements 33.3, 33.4).
         <circle
+          className={status === 'critical' ? 'motion-critical-pulse' : undefined}
           ref={(el) => {
             refs.current.glow = el
           }}

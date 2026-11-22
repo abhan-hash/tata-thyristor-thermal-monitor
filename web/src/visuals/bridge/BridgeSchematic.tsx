@@ -1,9 +1,11 @@
-import { useMemo, type CSSProperties, type KeyboardEvent } from 'react'
+import { useMotionValueEvent } from 'motion/react'
+import { useMemo, useRef, type CSSProperties, type KeyboardEvent } from 'react'
 import { formatCurrentA, formatTempC, formatValue, PLACEHOLDER, TEMP_C_SPEC } from '../../domain/format'
 import { heatStopIndex, heatToken } from '../../domain/heatScale'
 import type { ChannelId, Status, ThyristorFrame } from '../../domain/types'
 import { StatusIcon } from '../../kit/icons/StatusIcon'
 import { STATUS_LABEL } from '../../kit/StatusChip'
+import { useHeatFill } from '../../motion/useHeatFill'
 import { HeatDefs, useHeatDefIds, svgUrl } from '../heat/HeatDefs'
 
 /**
@@ -157,7 +159,6 @@ const STATUS_WORD: CSSProperties = {
   textTransform: 'uppercase',
 }
 const NUM: CSSProperties = { fontVariantNumeric: 'tabular-nums', fontWeight: 600 }
-const FILL_TRANSITION: CSSProperties = { transition: 'fill var(--dur-3) var(--ease-out)' }
 
 const STATUS_COLOR: Readonly<Record<Status, string>> = {
   normal: 'var(--status-normal)',
@@ -264,6 +265,15 @@ function DeviceSymbol({ device, thumbnail, ids }: Omit<DeviceProps, 'selected' |
   const { x, row } = placement(device.id)
   const d = trianglePath(x, row)
   const t = deviceTreatment(device.tj_estimated, device.status)
+  // Fill tweens between heat stops in heat-scale space (Requirement 33.2); at rest it is `t.fill`.
+  const fill = useHeatFill(device.tj_estimated)
+  // Written to `style.fill` (not the attribute), so `var()` and `color-mix()` resolve.
+  const glowRef = useRef<SVGPathElement>(null)
+  const bodyRef = useRef<SVGPathElement>(null)
+  useMotionValueEvent(fill, 'change', (v) => {
+    glowRef.current?.style.setProperty('fill', v)
+    bodyRef.current?.style.setProperty('fill', v)
+  })
   const { apex, base } = ROW[row]
   // Incentre of the triangle, for the inset rim.
   const side = Math.hypot(HALF_W, base - apex)
@@ -287,7 +297,8 @@ function DeviceSymbol({ device, thumbnail, ids }: Omit<DeviceProps, 'selected' |
       ) : (
         <>
           {t.glow === 'halo' ? (
-            <>
+            // Pulses only while the channel is critical (Requirements 33.3, 33.4).
+            <g data-part="halo-group" className={device.status === 'critical' ? 'motion-critical-pulse' : undefined}>
               {/* Critical fix: a wide, bright --heat-5 halo so maroon never reads cool. */}
               <path
                 d={d}
@@ -297,22 +308,23 @@ function DeviceSymbol({ device, thumbnail, ids }: Omit<DeviceProps, 'selected' |
                 style={{ fill: 'var(--heat-5)' }}
               />
               <path d={d} filter={svgUrl(ids.local.glowTight)} opacity={0.75} style={{ fill: 'var(--heat-5)' }} />
-            </>
+            </g>
           ) : (
             <path
+              ref={glowRef}
               d={d}
               data-part="glow"
               filter={svgUrl(ids.local.glow)}
               opacity={t.glow === 'warning' ? 0.6 : 0.35}
-              style={{ ...FILL_TRANSITION, fill: t.fill }}
+              style={{ fill: fill.get() }}
             />
           )}
           <path
+            ref={bodyRef}
             d={d}
             data-part="body"
             style={{
-              ...FILL_TRANSITION,
-              fill: t.fill,
+              fill: fill.get(),
               stroke: 'var(--surface-page)',
               strokeOpacity: 0.4,
               strokeWidth: 1.5,

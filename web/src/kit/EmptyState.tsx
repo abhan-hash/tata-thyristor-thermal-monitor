@@ -160,7 +160,7 @@ const ACTION = [
   '[border-color:var(--empty-action-border)] [color:var(--empty-action-fg)]',
   'text-12 uppercase [font-weight:var(--font-label-weight)] [font-stretch:var(--control-label-width)]',
   'tracking-[var(--control-label-tracking)]',
-  'transition-[background-color,transform] duration-1 ease-out',
+  'transition-[background-color,scale] duration-1 ease-out',
 ].join(' ')
 const ACTION_ENABLED =
   'cursor-pointer hover:[background-color:var(--empty-action-bg-hover)] active:scale-[var(--empty-action-press-scale)]'

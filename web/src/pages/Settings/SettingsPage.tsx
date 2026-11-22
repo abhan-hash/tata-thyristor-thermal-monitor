@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { useState, type ReactNode } from 'react'
 import { useBlocker, type BlockerFunction } from 'react-router'
 import { mockSeed } from '../../config'
@@ -18,6 +19,7 @@ import { Field } from '../../kit/Field'
 import { HardwareToggle } from '../../kit/HardwareToggle'
 import { HeroLockup } from '../../kit/HeroLockup'
 import { Select } from '../../kit/Select'
+import { useEntrance } from '../../motion/useEntrance'
 import { useUiStore } from '../../state/uiStore'
 import { BandEditor } from './BandEditor'
 import { LeaveDialog } from './LeaveDialog'
@@ -110,6 +112,7 @@ function SaveState({ dirty, justSaved }: { dirty: boolean; justSaved: boolean })
  * to status classification and the alarm engine.
  */
 export function SettingsPage() {
+  const entrance = useEntrance('settings')
   const draft = useUiStore((s) => s.draft)
   const saved = useUiStore((s) => s.saved)
   const [justSaved, setJustSaved] = useState(false)
@@ -142,13 +145,15 @@ export function SettingsPage() {
 
   return (
     <div className="layout-page flex flex-col gap-8 pt-8 pb-12 lg:gap-10 lg:pt-10">
-      <HeroLockup
-        title="SETTINGS"
-        subtitle="Thresholds, display and data source"
-        secondary={<SaveState dirty={dirty} justSaved={justSaved} />}
-      />
+      <motion.div {...entrance.slot('hero')}>
+        <HeroLockup
+          title="SETTINGS"
+          subtitle="Thresholds, display and data source"
+          secondary={<SaveState dirty={dirty} justSaved={justSaved} />}
+        />
+      </motion.div>
 
-      <div className="layout-grid items-start">
+      <motion.div {...entrance.slot('visual')} className="layout-grid items-start">
         <SettingsGroup
           index={1}
           kicker="Thresholds"
@@ -263,7 +268,7 @@ export function SettingsPage() {
             />
           </SettingsGroup>
         </div>
-      </div>
+      </motion.div>
 
       {dirty && (
         <UnsavedBar errorCount={errorCount} canSave={saveable} onSave={onSave} onDiscard={onDiscard} />

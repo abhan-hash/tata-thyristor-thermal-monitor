@@ -220,6 +220,11 @@ export function useConnection(): ConnectionInfo {
   return useTelemetry(selectConnection, shallowEqual)
 }
 
+const selectStale = (s: TelemetrySnapshot) => s.connection === 'stale'
+/** True while the connection is `stale`: live readouts dim and show a STALE chip (Requirement 12.4). */
+export function useIsStale(): boolean {
+  return useTelemetry(selectStale)
+}
 /** The latest 1 Hz Display_Tick (peak-hold readouts), or null before the first tick. */
 export function useDisplayTick(): DisplayTick | null {
   return useTelemetry(selectDisplayTick)

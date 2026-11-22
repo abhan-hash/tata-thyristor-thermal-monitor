@@ -1,10 +1,10 @@
-import { motion, useMotionValueEvent, useTransform, type MotionValue } from 'motion/react'
+import { motion, useTransform, type MotionValue } from 'motion/react'
 import { useMemo, useRef, type CSSProperties } from 'react'
 import { thresholdBands } from '../../charts/chartTheme'
 import { CurrentChart } from '../../charts/CurrentChart'
 import { CrosshairProvider } from '../../charts/sharedCrosshair'
 import { TransientChart } from '../../charts/TransientChart'
-import { useChannel, useFrame, useLiveValue, useSeries } from '../../data/hooks'
+import { useChannel, useFrame, useIsStale, useLiveValue, useSeries } from '../../data/hooks'
 import { useChannelSelection } from '../../data/selection'
 import {
   DELTA_K_SPEC,
@@ -23,6 +23,8 @@ import { HeroLockup } from '../../kit/HeroLockup'
 import { KpiTile } from '../../kit/KpiTile'
 import { RegionErrorBoundary } from '../../kit/RegionErrorBoundary'
 import { StatusChip } from '../../kit/StatusChip'
+import { AnimatedNumber } from '../../motion/AnimatedNumber'
+import { useEntrance } from '../../motion/useEntrance'
 import { useUiStore } from '../../state/uiStore'
 import { BridgeSchematic } from '../../visuals/bridge/BridgeSchematic'
 import { FosterLadder } from '../../visuals/foster/FosterLadder'
@@ -71,14 +73,8 @@ function TjReadout({ channel }: { channel: ChannelId }) {
   const status = useChannel(channel, pickStatus)
   const junction = useUiStore((s) => s.saved.thresholds.junction_temp)
   const trip = junction.critical
-  const valueRef = useRef<HTMLSpanElement>(null)
-  const marginRef = useRef<HTMLSpanElement>(null)
   const fault = status === 'fault'
   const fill = useTransform(tj, (v) => tripFill(v, trip, BAR_FLOOR_C))
-  useMotionValueEvent(tj, 'change', (v) => {
-    if (valueRef.current) valueRef.current.textContent = trimmed(fault ? Number.NaN : v, TEMP_C_SPEC)
-    if (marginRef.current) marginRef.current.textContent = trimmed(fault ? Number.NaN : trip - v, DELTA_K_SPEC)
-  })
   const warnAt = tripFill(junction.warning, trip, BAR_FLOOR_C)
   const tone =
     status === 'critical'
@@ -99,13 +95,12 @@ function TjReadout({ channel }: { channel: ChannelId }) {
       <div>
         <p className="m-0 text-14 font-[600] text-text-secondary">Estimated junction</p>
         <p className="m-0 mt-2 flex items-baseline gap-2 leading-none" data-testid="drive-tj">
-          <span
-            ref={valueRef}
+          <AnimatedNumber
+            value={tj}
+            format={(v) => trimmed(fault ? Number.NaN : v, TEMP_C_SPEC)}
             data-part="drive-tj-value"
-            className="num text-[length:var(--drive-tj-size)] font-[800] tracking-[-0.01em] tabular-nums [font-stretch:106%]"
-          >
-            {trimmed(fault ? Number.NaN : tj.get(), TEMP_C_SPEC)}
-          </span>
+            className="text-[length:var(--drive-tj-size)] font-[800] tracking-[-0.01em] tabular-nums [font-stretch:106%]"
+          />
           <span className="text-[length:calc(var(--drive-tj-size)*0.4)] font-[700] text-text-secondary">°C</span>
         </p>
       </div>
@@ -113,9 +108,11 @@ function TjReadout({ channel }: { channel: ChannelId }) {
         <div className="flex items-baseline justify-between gap-3">
           <span className={MICRO}>Margin to trip</span>
           <span className="num text-16 font-[700] tabular-nums">
-            <span ref={marginRef} data-testid="drive-margin">
-              {trimmed(fault ? Number.NaN : trip - tj.get(), DELTA_K_SPEC)}
-            </span>{' '}
+            <AnimatedNumber
+              value={tj}
+              format={(v) => trimmed(fault ? Number.NaN : trip - v, DELTA_K_SPEC)}
+              data-testid="drive-margin"
+            />{' '}
             <span className="text-12 text-text-secondary">K</span>
           </span>
         </div>
@@ -201,6 +198,7 @@ function KpiStrip({ channel }: { channel: ChannelId }) {
 
   const tjBands = useMemo(() => thresholdBands(thresholds.junction_temp, '°C'), [thresholds.junction_temp])
   const sensor: Status | undefined = healthy ? undefined : 'fault'
+  const stale = useIsStale()
   const hsStatus = sensor ?? statusFor(heatsinkNow, thresholds.heatsink_temp)
   const residualStatus = sensor ?? statusFor(residualNow, thresholds.cooling_residual)
 
@@ -250,6 +248,7 @@ function KpiStrip({ channel }: { channel: ChannelId }) {
           series={t.series}
           delta={seriesDelta(t.series)}
           deltaLabel="60 S"
+          stale={stale}
           {...(t.status ? { status: t.status } : {})}
           {...(t.bands ? { bands: t.bands } : {})}
         />
@@ -326,6 +325,7 @@ function FosterPanel({ channel }: { channel: ChannelId }) {
 export function DriveDetailPage() {
   const { selected, select } = useChannelSelection()
   const [windowS, setWindow] = useChartWindow()
+  const entrance = useEntrance('drive')
 
   const secondary = (
     <div className="flex flex-col gap-2">
@@ -347,36 +347,38 @@ export function DriveDetailPage() {
 
   return (
     <div className="layout-page flex flex-col gap-8 py-8" style={PAGE_VARS} data-page="drive-detail">
-      <HeroLockup title="DRIVE" subtitle={`Thyristor T${String(selected)} · Stand-04`} secondary={secondary} />
+      <motion.div {...entrance.slot('hero')}>
+        <HeroLockup title="DRIVE" subtitle={`Thyristor T${String(selected)} · Stand-04`} secondary={secondary} />
+      </motion.div>
 
       <div className="layout-grid items-stretch">
-        <div className="lg:col-span-5 wide:col-span-7">
+        <motion.div className="lg:col-span-5 wide:col-span-7" {...entrance.slot('visual')}>
           <RegionErrorBoundary region="bridge">
             <BridgePanel selected={selected} onSelect={select} />
           </RegionErrorBoundary>
-        </div>
-        <div className="lg:col-span-3 wide:col-span-5">
+        </motion.div>
+        <motion.div className="lg:col-span-3 wide:col-span-5" {...entrance.slot('secondary')}>
           <RegionErrorBoundary region="readout">
             <TjReadout channel={selected} />
           </RegionErrorBoundary>
-        </div>
+        </motion.div>
 
-        <div>
+        <motion.div {...entrance.slot('secondary')}>
           <RegionErrorBoundary region="kpis">
             <KpiStrip channel={selected} />
           </RegionErrorBoundary>
-        </div>
+        </motion.div>
 
-        <div>
+        <motion.div {...entrance.slot('secondary')}>
           <RegionErrorBoundary region="charts">
             <ChartsPanel channel={selected} windowS={windowS} />
           </RegionErrorBoundary>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div {...entrance.slot('secondary')}>
           <RegionErrorBoundary region="foster">
             <FosterPanel channel={selected} />
           </RegionErrorBoundary>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

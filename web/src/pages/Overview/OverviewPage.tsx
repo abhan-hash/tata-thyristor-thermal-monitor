@@ -1,3 +1,5 @@
+import { motion } from 'motion/react'
+import { useEntrance } from '../../motion/useEntrance'
 import { Hero } from './Hero'
 import { RackList } from './RackList'
 import { ScenarioPanel } from './ScenarioPanel'
@@ -9,13 +11,15 @@ import { TripPanel } from './TripPanel'
  * under the hero; it lays itself out by its own width (container queries).
  */
 export function OverviewPage() {
+  const entrance = useEntrance('overview')
   return (
     <div className="layout-page py-8">
       <div className="layout-grid items-start">
         <div className="col-span-full wide:col-span-7">
-          <Hero />
+          <Hero entrance={entrance} />
         </div>
-        <section
+        <motion.section
+          {...entrance.slot('secondary')}
           aria-label="Drive scenarios and channels"
           data-slot="overview-secondary"
           className="@container col-span-full flex flex-col gap-6 rounded-3 bg-surface-panel p-4 sm:p-6 wide:col-span-5 wide:mt-[136px]"
@@ -25,7 +29,7 @@ export function OverviewPage() {
             <RackList className="-mx-4 sm:-mx-6 @min-[44rem]:me-0" />
             <TripPanel />
           </div>
-        </section>
+        </motion.section>
       </div>
     </div>
   )

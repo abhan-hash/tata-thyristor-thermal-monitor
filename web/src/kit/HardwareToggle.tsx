@@ -33,7 +33,7 @@ const KNOB = [
   'relative block h-full w-[var(--toggle-knob-width)] rounded-1',
   '[background-image:var(--control-cap-ribs),var(--control-cap-face)]',
   'shadow-[var(--control-cap-shadow)]',
-  'transition-[translate,box-shadow] duration-2 ease-out',
+  'transition-[translate] duration-2 ease-out',
   'group-aria-checked:translate-x-[var(--toggle-travel)]',
   'group-enabled:group-active:shadow-[var(--control-cap-shadow-pressed)]',
 ].join(' ')
@@ -41,7 +41,7 @@ const KNOB = [
 const LED = [
   'block size-[var(--toggle-led-size)] rounded-pill',
   '[background-color:var(--toggle-led-off)]',
-  'transition-[background-color,box-shadow] duration-1 ease-out',
+  'transition-[background-color] duration-1 ease-out',
   'group-aria-checked:[background-color:var(--toggle-led-on)]',
   'group-aria-checked:shadow-[var(--toggle-led-glow)]',
 ].join(' ')

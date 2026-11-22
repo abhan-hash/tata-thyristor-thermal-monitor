@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { heatStopIndex, heatToken } from '../../src/domain/heatScale'
@@ -108,14 +108,17 @@ describe('BridgeSchematic', () => {
     expect(notCancelled).toBe(false)
   })
 
-  it('re-fills a device when its Tj crosses into another heat stop', () => {
+  it('re-fills a device when its Tj crosses into another heat stop, tweening through heat-scale mixes', async () => {
     const cool: BridgeDevice[] = [{ id: 2, tj_estimated: 60, status: 'normal' }]
     const hot: BridgeDevice[] = [{ id: 2, tj_estimated: 125, status: 'critical' }]
     const { rerender } = render(<BridgeSchematic devices={cool} />)
     expect(bodyFill(2)).toBe(heatToken(heatStopIndex(60)))
     rerender(<BridgeSchematic devices={hot} />)
     expect(heatStopIndex(125)).not.toBe(heatStopIndex(60))
-    expect(bodyFill(2)).toBe(heatToken(heatStopIndex(125)))
+    // Settles on the new stop's token once the 300 ms fill tween ends.
+    await waitFor(() => {
+      expect(bodyFill(2)).toBe(heatToken(heatStopIndex(125)))
+    })
   })
 
   it('is reachable with Tab in T1…T6 order', async () => {

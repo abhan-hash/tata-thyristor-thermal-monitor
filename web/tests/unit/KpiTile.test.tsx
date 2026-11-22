@@ -1,5 +1,6 @@
 import { act, render, screen } from '@testing-library/react'
-import { motionValue } from 'motion/react'
+import { MotionConfig, motionValue } from 'motion/react'
+import type { ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 import {
   formattedLength,
@@ -43,6 +44,11 @@ describe('formatDelta', () => {
   })
 })
 
+/** These tests check the text binding, so live values apply without the tween. */
+function Instant({ children }: { children: ReactNode }) {
+  return <MotionConfig reducedMotion="always">{children}</MotionConfig>
+}
+
 describe('KpiTile', () => {
   it('renders label, formatted value, unit and status', () => {
     const value = motionValue(72.46)
@@ -55,7 +61,7 @@ describe('KpiTile', () => {
 
   it('reserves a fixed ch width for the value (Requirement 6.9)', () => {
     const value = motionValue(5)
-    render(<KpiTile label="Power loss" value={value} spec={POWER_W_SPEC} />)
+    render(<KpiTile label="Power loss" value={value} spec={POWER_W_SPEC} />, { wrapper: Instant })
     const readout = screen.getByTestId('kpi-readout')
     const width = kpiValueWidthCh(POWER_W_SPEC)
     expect(width).toBe(valueLength(POWER_W_SPEC))
@@ -71,7 +77,7 @@ describe('KpiTile', () => {
 
   it('updates the value text from the MotionValue without a React render', () => {
     const value = motionValue(100)
-    render(<KpiTile label="Tj" value={value} spec={TEMP_C_SPEC} />)
+    render(<KpiTile label="Tj" value={value} spec={TEMP_C_SPEC} />, { wrapper: Instant })
     act(() => {
       value.set(118.04)
     })

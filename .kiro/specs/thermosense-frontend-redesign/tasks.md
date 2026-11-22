@@ -538,18 +538,18 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - `src/pages/About/AboutPage.tsx`: compact `HeroLockup`, banner image with alt text, annotated `FosterLadder`, 4-step "How the virtual sensor works" flow (Measure, Model, Estimate, Validate), `MillCutaway` and `AirflowDiagram`
     - _Requirements: 1.2, 29.1, 29.2, 29.3, 29.4_
 
-- [ ] 25. Write Playwright end-to-end tests for core flows
-  - [-] 25.1 Test navigation and selection sync
+- [x] 25. Write Playwright end-to-end tests for core flows
+  - [x] 25.1 Test navigation and selection sync
     - `tests/e2e/navigation.spec.ts`: clicking every nav link changes route with `performance.getEntriesByType("navigation").length === 1` and a window marker that survives; Top_Nav stays mounted
     - `tests/e2e/selection.spec.ts`: select T3 on the bridge, check the Overview rack row, Drive Detail readout and charts agree; invalid `?ch=` becomes T1
     - _Requirements: 22.2, 23.2, 23.4, 41.5_
 
-  - [ ] 25.2 Test acknowledge and settings flows
+  - [x] 25.2 Test acknowledge and settings flows
     - `tests/e2e/alarms.spec.ts`: keyboard-only acknowledge with inline confirm shows user and time
     - `tests/e2e/settings.spec.ts`: invalid band shows inline error and disables Save; edit shows the unsaved bar; navigating away shows the blocker; Save persists across reload
     - _Requirements: 26.6, 26.7, 26.8, 28.4, 28.5, 28.9, 41.5_
 
-- [ ] 26. Checkpoint – Phase 3
+- [x] 26. Checkpoint – Phase 3
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:property`, `npm run coverage` and `npm run test:e2e`; fix failures before continuing
   - Add `/`, `/drive`, `/alarms`, `/trends`, `/settings`, `/about` to `tests/visual/routes.ts`, run `PHASE=3 npm run screenshots`, confirm PNGs in `web/docs/screenshots/phase-3/`
@@ -559,28 +559,28 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
 
 ### Phase 4: Motion system
 
-- [ ] 27. Build motion foundations
-  - [ ] 27.1 Implement motion tokens and the reduced-motion bridge
+- [x] 27. Build motion foundations
+  - [x] 27.1 Implement motion tokens and the reduced-motion bridge
     - `src/motion/tokens.ts`: durations and easings matching the CSS tokens; `src/motion/presets.ts`: entrance, press, arrival presets using only `transform`, `opacity`, small-element `filter`, SVG `fill`/`stop-color`
     - `src/motion/useReducedMotion.ts` wrapping Motion's hook; `MotionConfig reducedMotion="user"` in `main.tsx`
     - _Requirements: 34.1, 35.1, 35.2_
 
-  - [ ] 27.2 Implement page entrances
+  - [x] 27.2 Implement page entrances
     - `src/motion/useEntrance.ts(pageKey)`: plays once per session using `uiStore.entrancePlayed`; order hero lockup → main visual → secondary panels with offsets ≤ 60 ms and total < 700 ms; children of an entering container animate with the container (no child stagger); skipped under reduced motion
     - Apply to all six pages
     - _Requirements: 32.1, 32.2, 32.3, 35.1_
 
-  - [ ] 27.3 Implement `AnimatedNumber`
+  - [x] 27.3 Implement `AnimatedNumber`
     - `src/motion/AnimatedNumber.tsx`: tweens a MotionValue over 200 ms with `--ease-out`, writes formatted text directly to the DOM node with `.num` and fixed width; instant under reduced motion
     - Use it in `KpiTile`, the Overview hero readout, the Drive Detail readout and rack rows (text driven by Display_Tick values)
     - _Requirements: 33.1, 35.2_
 
-  - [ ] 27.4 Write unit tests for entrances and numbers
+  - [x] 27.4 Write unit tests for entrances and numbers
     - Entrance plays once per session and its timeline satisfies < 700 ms and ≤ 60 ms offsets; second visit renders final state; `AnimatedNumber` width is constant and reduced motion sets value immediately
     - _Requirements: 32.1, 32.2, 33.1, 35.2_
 
 - [ ] 28. Add live-value and event motion
-  - [ ] 28.1 Interpolate heat fills and pulse critical glows
+  - [-] 28.1 Interpolate heat fills and pulse critical glows
     - `src/motion/useHeatFill.ts`: interpolates in heat-scale index space over 300 ms and outputs a fill colour; used by `HeatDisc` and bridge devices
     - Glow pulse only while a channel is critical; static for normal and warning; status changes still render under reduced motion
     - _Requirements: 33.2, 33.3, 33.4, 35.4_

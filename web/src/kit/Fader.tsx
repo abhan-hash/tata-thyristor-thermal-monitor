@@ -71,7 +71,6 @@ const CAP = [
   'left-[calc(var(--fader-pos)*(100%-var(--fader-cap-width)))]',
   '[background-image:var(--control-cap-ribs),var(--control-cap-face)]',
   'shadow-[var(--control-cap-shadow)]',
-  'transition-[box-shadow] duration-1 ease-out',
   'peer-active:shadow-[var(--control-cap-shadow-pressed)]',
 ].join(' ')
 

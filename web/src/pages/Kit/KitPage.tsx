@@ -1,4 +1,4 @@
-import { useReducedMotion } from 'motion/react'
+import { useReducedMotion } from '../../motion/useReducedMotion'
 import { useEffect, type ComponentType, type ReactNode } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router'
 import { cx } from '../../kit/controlStyles'
@@ -58,7 +58,7 @@ const SPECIMENS: Readonly<Record<KitSectionId, { body: ComponentType; states: re
 function useSectionScroll() {
   const [params] = useSearchParams()
   const { key } = useLocation()
-  const reduceMotion = useReducedMotion() === true
+  const reduceMotion = useReducedMotion()
   const param = params.get('section')
   useEffect(() => {
     const target = resolveSection(param)

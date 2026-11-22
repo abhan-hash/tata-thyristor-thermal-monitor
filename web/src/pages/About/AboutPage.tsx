@@ -1,9 +1,11 @@
+import { motion } from 'motion/react'
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useDisplayTick, useTelemetryStore } from '../../data/hooks'
 import type { DriveFrame } from '../../domain/types'
 import { cx } from '../../kit/controlStyles'
 import { CropPanel } from '../../kit/CropPanel'
 import { HeroLockup } from '../../kit/HeroLockup'
+import { useEntrance } from '../../motion/useEntrance'
 import { AirflowDiagram } from '../../visuals/airflow/AirflowDiagram'
 import { hottestChannelOf } from '../../visuals/console/IsometricConsole'
 import { FosterLadder } from '../../visuals/foster/FosterLadder'
@@ -319,21 +321,28 @@ function PlantSection() {
  * diagram. All visuals are bound to the live store.
  */
 export function AboutPage() {
+  const entrance = useEntrance('about')
   return (
     <div className="layout-page flex flex-col gap-16 py-8 pb-24" style={PAGE_VARS}>
-      <HeroLockup
-        title="ABOUT"
-        subtitle="How the virtual sensor works"
-        secondary={
-          <p className="m-0 max-w-[26rem] text-14 leading-snug text-text-secondary">
-            Junction temperature, estimated every 100 ms from signals the drive already has.
-          </p>
-        }
-      />
-      <Banner />
-      <StepsSection />
-      <FosterSection />
-      <PlantSection />
+      <motion.div {...entrance.slot('hero')}>
+        <HeroLockup
+          title="ABOUT"
+          subtitle="How the virtual sensor works"
+          secondary={
+            <p className="m-0 max-w-[26rem] text-14 leading-snug text-text-secondary">
+              Junction temperature, estimated every 100 ms from signals the drive already has.
+            </p>
+          }
+        />
+      </motion.div>
+      <motion.div {...entrance.slot('visual')}>
+        <Banner />
+      </motion.div>
+      <motion.div {...entrance.slot('secondary')} className="flex flex-col gap-16">
+        <StepsSection />
+        <FosterSection />
+        <PlantSection />
+      </motion.div>
     </div>
   )
 }

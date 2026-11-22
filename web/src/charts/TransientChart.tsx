@@ -129,8 +129,8 @@ export function TransientChart({
       >
         {(s) => (
           <>
-            <ChartTrace points={hsPoints} x={s.x} y={s.y} className={traceClass.heatsink} />
-            <ChartTrace points={tjPoints} x={s.x} y={s.y} className={traceClass.tj} />
+            <ChartTrace points={hsPoints} x={s.x} y={s.y} className={traceClass.heatsink} live />
+            <ChartTrace points={tjPoints} x={s.x} y={s.y} className={traceClass.tj} live />
             <BarBiteMarkers
               times={biteTimes}
               x={s.x}

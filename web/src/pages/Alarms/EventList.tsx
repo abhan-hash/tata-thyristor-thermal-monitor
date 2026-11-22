@@ -1,4 +1,5 @@
 import { useVirtualizer } from '@tanstack/react-virtual'
+import { motion } from 'motion/react'
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { EventTrace } from '../../charts/EventTrace'
 import { useTrace } from '../../data/historyHooks'
@@ -8,6 +9,7 @@ import { EmptyState } from '../../kit/EmptyState'
 import { ChevronIcon } from '../../kit/icons/ChevronIcon'
 import { QueryState } from '../../kit/QueryState'
 import { StatusChip } from '../../kit/StatusChip'
+import { ARRIVAL, ARRIVAL_HIGHLIGHT } from '../../motion/presets'
 import type { Acknowledgement } from '../../state/uiStore'
 import {
   KIND_LABEL,
@@ -29,6 +31,8 @@ export interface EventListProps {
   onToggle: (id: string) => void
   /** Live session ids. They have no recorded trace yet, so the trace query is skipped. */
   liveIds: ReadonlySet<string>
+  /** Rows that just arrived; each plays one slide-and-highlight when it mounts. */
+  arrivals?: ReadonlySet<string>
   acks: Readonly<Record<string, Acknowledgement>>
   /** Acknowledge as the session user. Resolves when recorded. */
   onAcknowledge: (event: AlarmEvent) => Promise<void>
@@ -136,20 +140,40 @@ function VirtualList({ events, className, expandedId, ...row }: EventListProps) 
 
 type RowProps = Omit<EventListProps, 'events' | 'className'> & { event: AlarmEvent }
 
-function EventRow({ event, expandedId, onToggle, liveIds, acks, onAcknowledge, userName }: RowProps) {
+/** Events merged into a coalesced row (`coalesceAlarms`), 1 for a plain event. */
+export function repeatsOf(event: AlarmEvent): number {
+  return 'repeats' in event && typeof event.repeats === 'number' ? event.repeats : 1
+}
+
+function EventRow({ event, expandedId, onToggle, liveIds, arrivals, acks, onAcknowledge, userName }: RowProps) {
   const expanded = expandedId === event.id
+  const arriving = arrivals?.has(event.id) === true
+  const repeats = repeatsOf(event)
   const detailsId = `event-details-${event.id.replace(/[^a-zA-Z0-9_-]/g, '')}`
   const ack = ackOf(event, acks)
   const active = isActive(event)
   return (
-    <article
+    <motion.article
       data-event-id={event.id}
       data-expanded={expanded}
+      data-arriving={arriving || undefined}
+      // One 240 ms slide-in on mount for a new row (Requirement 33.8); `initial` is read on mount only.
+      initial={arriving ? ARRIVAL.initial : false}
+      animate={ARRIVAL.animate}
+      transition={ARRIVAL.transition}
       className={cx(
-        'rounded-1 border bg-surface-panel',
+        'relative rounded-1 border bg-surface-panel',
         expanded ? 'border-line-strong' : 'border-line-subtle',
       )}
     >
+      {arriving && (
+        <motion.span
+          aria-hidden="true"
+          data-part="arrival-highlight"
+          {...ARRIVAL_HIGHLIGHT}
+          className="pointer-events-none absolute inset-0 rounded-1 bg-accent/12"
+        />
+      )}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 p-2 sm:flex-nowrap">
         <button
           type="button"
@@ -172,6 +196,7 @@ function EventRow({ event, expandedId, onToggle, liveIds, acks, onAcknowledge, u
             <span className="block truncate text-14 text-text-primary">{describeEvent(event)}</span>
             <span className="block text-12 text-text-secondary tabular-nums">
               {formatEventTime(event.raised_at)} · peak {event.peak_value.toFixed(1)} {event.unit}
+              {repeats > 1 ? ` · ×${String(repeats)}` : ''}
               {active ? ' · ACTIVE' : ''}
               {liveIds.has(event.id) ? ' · LIVE' : ''}
             </span>
@@ -184,7 +209,7 @@ function EventRow({ event, expandedId, onToggle, liveIds, acks, onAcknowledge, u
           <EventDetails event={event} live={liveIds.has(event.id)} ack={ack} />
         </div>
       ) : null}
-    </article>
+    </motion.article>
   )
 }
 

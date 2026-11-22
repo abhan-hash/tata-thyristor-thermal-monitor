@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query'
+import { MotionConfig } from 'motion/react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/fonts.css'
@@ -25,6 +26,9 @@ const router = createAppRouter()
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App store={store} repository={repository} queryClient={queryClient} router={router} />
+    {/* Motion follows the device's reduced-motion preference (Requirement 35). */}
+    <MotionConfig reducedMotion="user">
+      <App store={store} repository={repository} queryClient={queryClient} router={router} />
+    </MotionConfig>
   </StrictMode>,
 )

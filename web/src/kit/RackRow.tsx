@@ -43,7 +43,7 @@ const BASE = [
   'group relative flex w-full items-center gap-3 text-start font-sans',
   'min-h-[var(--rack-row-height)] px-[var(--rack-row-pad-x)] py-2',
   'border-b [border-color:var(--rack-row-border)]',
-  'transition-[background-color] duration-1 ease-out',
+  'transition-[background-color,scale] duration-1 ease-out',
   // Lift the focused row so its ring is not painted over by the next row.
   'focus-visible:z-10',
   // Gold edge on the inline-start side; only visible when selected.

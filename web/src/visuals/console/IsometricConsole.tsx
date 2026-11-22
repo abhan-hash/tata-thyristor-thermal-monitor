@@ -1,4 +1,5 @@
-import { animate, useMotionValue, useMotionValueEvent, useReducedMotion, type MotionValue } from 'motion/react'
+import { useMotionValueEvent, type MotionValue } from 'motion/react'
+import { useHeatPosition } from '../../motion/useHeatFill'
 import { useId, useMemo, useRef, useState, type SVGProps } from 'react'
 import { hottestTj } from '../../domain/derive'
 import { formatTempC, formatValue, TEMP_C_SPEC } from '../../domain/format'
@@ -95,7 +96,6 @@ const DISC_C = DISC_VIEW / 2
 const DISC_HALF = (L.disc.radius * DISC_C) / DISC_FACE_R
 const DISC_T = discTransform(SLAB, L.disc.cx, L.disc.cy, DISC_HALF, DISC_VIEW)
 
-const TWEEN = { duration: 0.3, ease: [0.23, 1, 0.32, 1] } as const
 
 /* Matte material, from semantic tokens only. */
 const MAT = {
@@ -549,8 +549,7 @@ export function IsometricConsole({
   const arm = useMotionSource(armature)
   const amb = useMotionSource(ambient)
   const air = useMotionSource(airflow)
-  const reduceMotion = useReducedMotion() === true
-  const position = useMotionValue(heatPosition(hot.get()))
+  const position = useHeatPosition(hot)
   const [status, setStatus] = useState<Status>(() => discStatus(hot.get()))
   const svgRef = useRef<SVGSVGElement>(null)
   const edgeStops = useRef<(SVGStopElement | null)[]>([])
@@ -570,9 +569,6 @@ export function IsometricConsole({
   useMotionValueEvent(hot, 'change', (v) => {
     setStatus(discStatus(v))
     relabel()
-    const target = heatPosition(v)
-    if (reduceMotion || !Number.isFinite(v)) position.jump(target)
-    else void animate(position, target, TWEEN)
   })
   useMotionValueEvent(position, 'change', (p) => {
     edgeStops.current.forEach((el, i) => {

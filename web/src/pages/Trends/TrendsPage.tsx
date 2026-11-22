@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { useState, useSyncExternalStore, type ReactNode } from 'react'
 import { useSearchParams } from 'react-router'
 import { ChannelDayHeatmap } from '../../charts/ChannelDayHeatmap'
@@ -11,6 +12,7 @@ import { FilterChip } from '../../kit/FilterChip'
 import { HeroLockup } from '../../kit/HeroLockup'
 import { StatusIcon } from '../../kit/icons/StatusIcon'
 import { QueryState } from '../../kit/QueryState'
+import { useEntrance } from '../../motion/useEntrance'
 import { useThresholds } from '../../state/uiStore'
 
 /** Wear rate (× baseline) above which a channel carries a wear advisory (Requirement 27.6). */
@@ -131,7 +133,7 @@ function LedgerRow({ record, selected, onSelect }: { record: WearRecord; selecte
         className={cx(
           'grid min-h-[var(--control-min-height)] w-full cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-x-4 gap-y-1',
           'rounded-1 border px-3 py-2.5 text-start font-sans',
-          'transition-[background-color,border-color] duration-1 ease-out',
+          'transition-[background-color,border-color,scale] duration-1 ease-out',
           selected
             ? '[border-color:var(--filter-chip-border-selected)] [background-color:var(--filter-chip-bg-selected)]'
             : '[border-color:var(--line-subtle)] hover:[background-color:var(--filter-chip-bg-hover)]',
@@ -170,6 +172,7 @@ function LedgerRow({ record, selected, onSelect }: { record: WearRecord; selecte
  * than 2× baseline carry an advisory icon and text.
  */
 export function TrendsPage() {
+  const entrance = useEntrance('trends')
   const [params, setParams] = useSearchParams()
   const days = parseTrendsDays(params.get('days'))
   const peaks = useDailyPeaks(days)
@@ -210,9 +213,11 @@ export function TrendsPage() {
 
   return (
     <div className="layout-page flex flex-col gap-8 pt-8 pb-12 lg:gap-10 lg:pt-10">
-      <HeroLockup title="TRENDS" subtitle="Trends and wear" secondary={<FleetSummary wear={records} />} />
+      <motion.div {...entrance.slot('hero')}>
+        <HeroLockup title="TRENDS" subtitle="Trends and wear" secondary={<FleetSummary wear={records} />} />
+      </motion.div>
 
-      <div className="layout-grid items-start">
+      <motion.div {...entrance.slot('visual')} className="layout-grid items-start">
         <Section
           index={1}
           kicker="Life"
@@ -301,7 +306,7 @@ export function TrendsPage() {
             )}
           </QueryState>
         </Section>
-      </div>
+      </motion.div>
     </div>
   )
 }

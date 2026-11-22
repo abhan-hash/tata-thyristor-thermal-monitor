@@ -1,7 +1,9 @@
-import { useFrame } from '../../data/hooks'
+import { useFrame, useLiveValue } from '../../data/hooks'
+import { formatValue, PLACEHOLDER, TEMP_C_SPEC } from '../../domain/format'
 import { formatChannelParam, useChannelSelection } from '../../data/selection'
 import { cx } from '../../kit/controlStyles'
 import { RackRow } from '../../kit/RackRow'
+import { AnimatedNumber } from '../../motion/AnimatedNumber'
 import { rackRows, rowsEqual, type RackRowModel } from './overviewModel'
 
 /** Signed bar centred on the channel mean: fills right when hotter, left when cooler. */
@@ -20,10 +22,17 @@ function DeltaBar({ frac }: { frac: number }) {
 }
 
 function RowMeta({ row }: { row: RackRowModel }) {
+  const tj = useLiveValue(`tj.${row.id}` as const)
+  // The model decides when the reading is untrustworthy; the live value only supplies the digits.
+  const unknown = row.tj === PLACEHOLDER
   return (
     <span className="flex items-center gap-3">
       <span className="inline-block min-w-[7ch] text-end tabular-nums">
-        <span className="text-14 font-[700] text-text-primary">{row.tj}</span>
+        <AnimatedNumber
+          value={tj}
+          format={(v) => (unknown ? PLACEHOLDER : formatValue(v, TEMP_C_SPEC).trimStart())}
+          className="text-14 font-[700] text-text-primary"
+        />
         <span className="text-text-secondary"> °C</span>
       </span>
       <span className="flex items-center gap-2" aria-label={`${row.delta} K from mean`}>

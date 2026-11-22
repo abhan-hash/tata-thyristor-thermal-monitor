@@ -79,7 +79,7 @@ export function CurrentChart({
                   {label}
                 </text>
               </g>
-              <ChartTrace points={points} x={s.x} y={s.y} className={traceClass.current} />
+              <ChartTrace points={points} x={s.x} y={s.y} className={traceClass.current} live />
             </>
           )
         }}

@@ -1789,6 +1789,11 @@
         "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795356951694
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795358700734
       }
     ],
     "25.2 Test acknowledge and settings flows": [
@@ -1796,6 +1801,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402783
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795358701956
       }
     ],
     "26. Checkpoint – Phase 3": [
@@ -1803,6 +1813,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402849
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795358703558
       }
     ],
     "27.1 Implement motion tokens and the reduced-motion bridge": [
@@ -1810,6 +1825,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402909
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795358729692
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795359757421
       }
     ],
     "27.2 Implement page entrances": [
@@ -1817,6 +1842,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261402964
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795359758106
       }
     ],
     "27.3 Implement `AnimatedNumber`": [
@@ -1824,6 +1854,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403017
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795359759609
       }
     ],
     "27.4 Write unit tests for entrances and numbers": [
@@ -1831,6 +1866,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403109
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795359760758
       }
     ],
     "28.1 Interpolate heat fills and pulse critical glows": [
@@ -1838,6 +1878,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403180
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795359761340
       }
     ],
     "28.2 Animate charts and blob morphs": [
@@ -2139,6 +2184,20 @@
         "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795356932069
+      }
+    ],
+    "25. Write Playwright end-to-end tests for core flows": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795358702018
+      }
+    ],
+    "27. Build motion foundations": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795359760805
       }
     ]
   }

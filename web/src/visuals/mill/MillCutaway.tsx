@@ -1,4 +1,4 @@
-import { useReducedMotion } from 'motion/react'
+import { useReducedMotion } from '../../motion/useReducedMotion'
 import { useEffect, useId, useMemo, useRef, type CSSProperties } from 'react'
 import { formatCurrentA } from '../../domain/format'
 import { heatToken } from '../../domain/heatScale'
@@ -115,7 +115,7 @@ export function MillCutaway({
   spikeOptions,
   className,
 }: MillCutawayProps) {
-  const reduceMotion = useReducedMotion() === true
+  const reduceMotion = useReducedMotion()
   const raw = useId()
   const ids = useMemo(() => {
     const defs = heatDefIds(raw)

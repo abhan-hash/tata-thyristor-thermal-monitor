@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "lint": "eslint . && node scripts/check-tokens.mjs",
+    "lint": "eslint . && node scripts/check-tokens.mjs && node scripts/check-motion.mjs",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",
     "test:property": "vitest run tests/property",

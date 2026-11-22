@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { Link, NavLink } from 'react-router'
-import { useAlarms, useConnection, useSourceKind } from '../data/hooks'
+import { motion } from 'motion/react'
+import { useAlarms, useSourceKind } from '../data/hooks'
+import { ARRIVAL_POP } from '../motion/presets'
 import { cx } from './controlStyles'
+import { SyncPulse } from './SyncPulse'
 
 /** Route links, in reference order (Requirement 22.5). */
 export const NAV_LINKS: readonly { to: string; label: string; end?: boolean }[] = [
@@ -61,7 +64,7 @@ const CAPS = [
 const ICON_TARGET = [
   'relative inline-flex size-[var(--nav-target)] shrink-0 items-center justify-center rounded-2',
   '[color:var(--nav-icon-color)] hover:[color:var(--nav-icon-color-hover)] hover:[background-color:var(--nav-hover-bg)]',
-  'transition-[color,background-color] duration-1 ease-out',
+  'transition-[color,background-color,scale] duration-1 ease-out',
 ].join(' ')
 
 const BAR_LINK = [
@@ -130,27 +133,6 @@ function SourceBadge() {
   )
 }
 
-/**
- * Sync_Pulse placeholder: a 1 px gold tick that reads as idle unless frames
- * are live. The per-Display_Tick flash and the reduced-motion "LIVE" label
- * arrive with the motion phase.
- */
-function SyncPulse() {
-  const { status } = useConnection()
-  const live = status === 'live'
-  return (
-    <span
-      aria-hidden="true"
-      data-part="sync-pulse"
-      data-state={live ? 'live' : 'stopped'}
-      className={cx(
-        'inline-block h-[var(--nav-pulse-height)] w-px shrink-0 transition-colors duration-2 ease-out',
-        live ? '[background-color:var(--nav-pulse)]' : '[background-color:var(--nav-pulse-idle)]',
-      )}
-    />
-  )
-}
-
 function BellIcon() {
   return (
     <svg
@@ -171,14 +153,32 @@ function BellIcon() {
   )
 }
 
+/**
+ * Counts increases of `count` after mount: 0 until the first new alarm, then
+ * +1 per rise. A falling count (an alarm clears) is not an arrival.
+ */
+function useArrivalCount(count: number): number {
+  const [prev, setPrev] = useState(count)
+  const [arrivals, setArrivals] = useState(0)
+  if (prev !== count) {
+    // Adjusting state while rendering: React re-renders before committing.
+    setPrev(count)
+    if (count > prev) setArrivals((a) => a + 1)
+  }
+  return arrivals
+}
 /** Bell linking to the Alarms page, with the active alarm count. */
 function AlarmBell() {
   const count = useAlarms().length
+  const arrivals = useArrivalCount(count)
   return (
     <Link to="/alarms" aria-label={alarmBellLabel(count)} data-testid="alarm-bell" className={ICON_TARGET}>
       <BellIcon />
       {count > 0 && (
-        <span
+        // Re-keyed on each new alarm, so the badge pops once per arrival (Requirement 33.8).
+        <motion.span
+          key={arrivals}
+          {...(arrivals > 0 ? ARRIVAL_POP : {})}
           aria-hidden="true"
           data-part="alarm-count"
           className={cx(
@@ -188,7 +188,7 @@ function AlarmBell() {
           )}
         >
           {count > 99 ? '99+' : count}
-        </span>
+        </motion.span>
       )}
     </Link>
   )

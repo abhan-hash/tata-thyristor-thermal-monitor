@@ -1,4 +1,5 @@
-import { useAnimationFrame, useMotionValueEvent, useReducedMotion } from 'motion/react'
+import { useAnimationFrame, useMotionValueEvent } from 'motion/react'
+import { useReducedMotion } from '../../motion/useReducedMotion'
 import { useId, useMemo, useRef, type CSSProperties } from 'react'
 import {
   dashSpeed,
@@ -254,7 +255,7 @@ export function FosterLadder({
   const nodes = fosterNodeTemps(frame, ambient, params)
   const powerInput = power ?? frame.power_loss
   const powerSource = useMotionSource(powerInput)
-  const reduceMotion = useReducedMotion() === true
+  const reduceMotion = useReducedMotion()
 
   const raw = useId()
   const ids = useMemo(() => {

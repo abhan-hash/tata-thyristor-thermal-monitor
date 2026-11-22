@@ -1,12 +1,15 @@
-import { useMotionValueEvent, useTransform } from 'motion/react'
+import { motion, useTransform } from 'motion/react'
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { formatValueFlush, TEMP_C_SPEC } from '../../domain/format'
 import { DEFAULT_THRESHOLDS } from '../../domain/thresholds'
 import type { DriveFrame } from '../../domain/types'
-import { useDisplayTick, useFrame, useLiveValue, useScenario, useTelemetryStore } from '../../data/hooks'
+import { useDisplayTick, useFrame, useIsStale, useLiveValue, useScenario, useTelemetryStore } from '../../data/hooks'
 import { REPLAY_STEPS, runReplay, type ReplayStep } from '../../data/mock/replay'
 import { cx } from '../../kit/controlStyles'
 import { HeroLockup } from '../../kit/HeroLockup'
+import { StaleChip } from '../../kit/StaleChip'
+import { AnimatedNumber } from '../../motion/AnimatedNumber'
+import type { Entrance } from '../../motion/useEntrance'
 import { LiveIsometricConsole } from '../../visuals/console/IsometricConsole'
 import { HeatBlobs } from '../../visuals/heat/HeatBlobs'
 
@@ -36,10 +39,7 @@ export function hottestText(c: number): string {
 function LiveHottest() {
   const hottest = useLiveValue('hottest')
   const tripped = useFrame(isAllTripped)
-  const ref = useRef<HTMLSpanElement>(null)
-  useMotionValueEvent(hottest, 'change', (v) => {
-    if (ref.current) ref.current.textContent = hottestText(v)
-  })
+  const stale = useIsStale()
   if (tripped) {
     return (
       <p className="m-0 flex items-baseline gap-2 leading-none" data-part="hero-trip">
@@ -52,17 +52,21 @@ function LiveHottest() {
   }
   return (
     <p className="m-0 flex items-baseline gap-2 leading-none" aria-label="Hottest junction temperature">
-      <span
-        ref={ref}
+      <AnimatedNumber
+        value={hottest}
+        format={hottestText}
         data-part="hero-hottest"
-        className="text-[length:var(--hero-figure-size)] font-[800] tabular-nums [font-stretch:106%]"
-      >
-        {hottestText(hottest.get())}
-      </span>
+        {...(stale ? { 'data-stale': 'true' } : {})}
+        className={cx(
+          'text-[length:var(--hero-figure-size)] font-[800] tabular-nums [font-stretch:106%]',
+          stale && 'text-text-muted',
+        )}
+      />
       <span className="text-[length:calc(var(--hero-figure-size)*0.55)] font-[700] text-text-secondary">°C</span>
       <span className="ms-1 self-center text-11 font-[600] tracking-[0.24em] text-text-muted uppercase [font-stretch:125%]">
         Peak Tj
       </span>
+      {stale && <StaleChip size="sm" className="self-center" />}
     </p>
   )
 }
@@ -73,7 +77,7 @@ function PlayGlyph({ playing }: { playing: boolean }) {
       aria-hidden="true"
       className={cx(
         'grid size-9 shrink-0 place-items-center rounded-pill border-[1.5px] border-accent',
-        'transition-[background-color,box-shadow] duration-2 ease-out',
+        'transition-[background-color] duration-2 ease-out',
         'group-hover:[box-shadow:0_0_0_4px_color-mix(in_srgb,var(--accent)_18%,transparent)]',
         playing && 'bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]',
       )}
@@ -205,7 +209,7 @@ const HERO_VARS = {
  * replay button, huge live heat blobs bleeding behind a large isometric
  * console, and the gold editorial callout over the blob.
  */
-export function Hero() {
+export function Hero({ entrance }: { entrance?: Entrance }) {
   const hottest = useLiveValue('hottest')
   const intensity = useTransform(hottest, smearIntensity)
   const replay = useGuidedReplay()
@@ -243,7 +247,10 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[46%] [background:radial-gradient(60%_70%_at_50%_100%,color-mix(in_srgb,var(--heat-4)_26%,transparent),transparent_70%)]"
       />
 
-      <div className="relative z-10 flex flex-col items-center gap-2 px-8 pt-[var(--overview-hero-pad-top)]">
+      <motion.div
+        {...entrance?.slot('hero')}
+        className="relative z-10 flex flex-col items-center gap-2 px-8 pt-[var(--overview-hero-pad-top)]"
+      >
         <HeroLockup
           title="STAND-04"
           subtitle="Mill Drive Thyristor Monitor"
@@ -252,10 +259,10 @@ export function Hero() {
           secondary={secondary}
         />
         <ReplayCaption state={replay.state} />
-      </div>
+      </motion.div>
 
       {/* Heat stage: blobs bleed off the edges, the console overlaps them bottom-right. */}
-      <div data-part="overview-stage" className="relative flex-1">
+      <motion.div {...entrance?.slot('visual')} data-part="overview-stage" className="relative flex-1">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <LiveBlobs className="absolute top-0 -left-[14%] h-full w-[128%]" />
         </div>
@@ -284,7 +291,7 @@ export function Hero() {
             Foster thermal model, live for every thyristor.
           </p>
         </aside>
-      </div>
+      </motion.div>
     </section>
   )
 }

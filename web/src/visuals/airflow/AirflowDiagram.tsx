@@ -1,5 +1,5 @@
-import { useReducedMotion } from 'motion/react'
-import { useEffect, useId, useMemo, useRef } from 'react'
+import { useReducedMotion } from '../../motion/useReducedMotion'
+import { useEffect, useId, useMemo, useRef, type CSSProperties } from 'react'
 import { formatTempC } from '../../domain/format'
 import { heatStopIndex, heatToken } from '../../domain/heatScale'
 import { statusFor } from '../../domain/status'
@@ -134,6 +134,19 @@ function DeviceChip({ index, tj, ids }: { index: number; tj: number; ids: { glow
     </g>
   )
 }
+/**
+ * Bloom swell as a transform about each ellipse's own centre, so the size
+ * change animates on the compositor instead of tweening `rx`/`ry` (Requirement 34.1).
+ */
+function swellStyle(swell: number): CSSProperties {
+  return {
+    transform: `scale(${swell.toFixed(3)})`,
+    transformBox: 'fill-box',
+    transformOrigin: 'center',
+    transition: 'transform 600ms var(--ease-out)',
+  }
+}
+
 function Bloom({ stops, swell, filterId, glowId }: { stops: readonly number[]; swell: number; filterId: string; glowId: string }) {
   if (stops.length === 0) return null
   const radii = BLOOM_RADII.slice(BLOOM_RADII.length - stops.length)
@@ -151,11 +164,11 @@ function Bloom({ stops, swell, filterId, glowId }: { stops: readonly number[]; s
               <ellipse
                 cx={STACK.cx}
                 cy={STACK.cy}
-                rx={inner[0] * swell * 1.4}
-                ry={inner[1] * swell * 1.4}
+                rx={inner[0] * 1.4}
+                ry={inner[1] * 1.4}
                 filter={svgUrl(glowId)}
                 opacity={0.8}
-                style={{ fill: heatToken(5) }}
+                style={{ fill: heatToken(5), ...swellStyle(swell) }}
               />
             )}
             <ellipse
@@ -163,9 +176,9 @@ function Bloom({ stops, swell, filterId, glowId }: { stops: readonly number[]; s
               data-heat-stop={s}
               cx={STACK.cx}
               cy={STACK.cy + i * 2}
-              rx={rx * swell}
-              ry={ry * swell}
-              style={{ fill: heatToken(s), transition: 'rx 600ms ease-out, ry 600ms ease-out' }}
+              rx={rx}
+              ry={ry}
+              style={{ fill: heatToken(s), ...swellStyle(swell) }}
             />
           </g>
         )
@@ -194,7 +207,7 @@ function FanChip({ fanStatus }: { fanStatus: boolean }) {
   )
 }
 export function AirflowDiagram({ fanStatus, tj, airflow, width = VIEW_W, className }: AirflowDiagramProps) {
-  const reduceMotion = useReducedMotion() === true
+  const reduceMotion = useReducedMotion()
   const raw = useId()
   const ids = useMemo(() => {
     const defs = heatDefIds(raw)

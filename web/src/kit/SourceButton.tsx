@@ -20,7 +20,7 @@ export interface SourceButtonProps {
 const BASE = [
   'flex w-full flex-col items-center justify-center gap-2 px-2 py-3 text-center font-sans',
   'min-h-[var(--source-btn-min-height)] rounded-[var(--source-btn-radius)] border',
-  'transition-[background-color,color,transform] duration-1 ease-out',
+  'transition-[background-color,color,scale] duration-1 ease-out',
 ].join(' ')
 
 /*

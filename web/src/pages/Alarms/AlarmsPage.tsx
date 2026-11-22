@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useSearchParams } from 'react-router'
 import { SeverityTimeline } from '../../charts/SeverityTimeline'
@@ -14,12 +15,14 @@ import {
   updateAlarmParams,
   type AlarmParamsPatch,
 } from '../../domain/alarmFilters'
+import { coalesceAlarms } from '../../domain/coalesceAlarms'
 import type { AlarmEvent } from '../../domain/types'
 import { CONTROL_LABEL, cx } from '../../kit/controlStyles'
 import { FilterChip } from '../../kit/FilterChip'
 import { HeroLockup } from '../../kit/HeroLockup'
 import { QueryState } from '../../kit/QueryState'
 import { STATUS_LABEL } from '../../kit/StatusChip'
+import { useEntrance } from '../../motion/useEntrance'
 import { useUiStore } from '../../state/uiStore'
 import { KIND_LABEL, ackOf, announcement, isActive, mergeEvents } from './alarmUi'
 import { BUTTON, BUTTON_PRIMARY, EventList } from './EventList'
@@ -33,6 +36,7 @@ import { useTimelineBrush } from './useTimelineBrush'
  * on top of recorded history and are announced politely.
  */
 export function AlarmsPage() {
+  const entrance = useEntrance('alarms')
   const [params, setParams] = useSearchParams()
   const state = useMemo(() => parseAlarmParams(params), [params])
   const brush = useTimelineBrush()
@@ -43,7 +47,10 @@ export function AlarmsPage() {
   const history = useAlarmHistory(query)
   const live = useAlarmLog()
   const liveIds = useMemo(() => new Set(live.map((e) => e.id)), [live])
-  const merged = useMemo(() => mergeEvents(live, history.data ?? []), [live, history.data])
+  // Repeats within 5 s become one row with one arrival (Requirement 33.9).
+  const liveRows = useMemo(() => coalesceAlarms(live), [live])
+  const arrivals = useArrivals(liveRows)
+  const merged = useMemo(() => mergeEvents(liveRows, history.data ?? []), [liveRows, history.data])
 
   const scoped = useMemo(
     () =>
@@ -101,25 +108,27 @@ export function AlarmsPage() {
 
   return (
     <div className="layout-page flex flex-col gap-6 py-8">
-      <HeroLockup
-        title="ALARMS"
-        subtitle="Alarms and history"
-        secondary={
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <p className="flex flex-col" data-testid="active-count">
-              <span className={CONTROL_LABEL}>Active</span>
-              <span className="text-28 leading-none text-text-primary tabular-nums">{activeCount}</span>
-            </p>
-            <AckAllControl count={unacked.length} userName={userName} onConfirm={onAcknowledgeAll} />
-          </div>
-        }
-      />
+      <motion.div {...entrance.slot('hero')}>
+        <HeroLockup
+          title="ALARMS"
+          subtitle="Alarms and history"
+          secondary={
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <p className="flex flex-col" data-testid="active-count">
+                <span className={CONTROL_LABEL}>Active</span>
+                <span className="text-28 leading-none text-text-primary tabular-nums">{activeCount}</span>
+              </p>
+              <AckAllControl count={unacked.length} userName={userName} onConfirm={onAcknowledgeAll} />
+            </div>
+          }
+        />
+      </motion.div>
 
       <p role="status" aria-live="polite" aria-atomic="true" className="sr-only" data-testid="alarm-announcer">
         {message}
       </p>
 
-      <section aria-label="Alarm filters" className="flex flex-col gap-3">
+      <motion.section {...entrance.slot('visual')} aria-label="Alarm filters" className="flex flex-col gap-3">
         <ChipRow label="Severity">
           {ALARM_SEVERITIES.map((s) => (
             <FilterChip
@@ -157,9 +166,9 @@ export function AlarmsPage() {
             />
           ))}
         </ChipRow>
-      </section>
+      </motion.section>
 
-      <section aria-label="Alarm timeline" className="flex flex-col gap-2">
+      <motion.section {...entrance.slot('visual')} aria-label="Alarm timeline" className="flex flex-col gap-2">
         <div ref={timelineRef} className="w-full min-w-0 overflow-x-auto rounded-1 border border-line-subtle bg-surface-panel">
           <SeverityTimeline
             events={scoped}
@@ -171,9 +180,9 @@ export function AlarmsPage() {
             width={Math.max(320, timelineWidth)}
           />
         </div>
-      </section>
+      </motion.section>
 
-      <section aria-labelledby="alarm-events-heading" className="flex flex-col gap-3">
+      <motion.section {...entrance.slot('secondary')} aria-labelledby="alarm-events-heading" className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="alarm-events-heading" className={CONTROL_LABEL}>
             Events · {visible.length} shown
@@ -214,13 +223,14 @@ export function AlarmsPage() {
               expandedId={state.event}
               onToggle={onToggleEvent}
               liveIds={liveIds}
+              arrivals={arrivals}
               acks={acks}
               onAcknowledge={onAcknowledge}
               userName={userName}
             />
           )}
         </QueryState>
-      </section>
+      </motion.section>
     </div>
   )
 }
@@ -315,6 +325,36 @@ function AckAllControl({
 }
 
 /** Announcement for the newest alarm raised since mount (Requirement 26.9). */
+/** How long a new row counts as arriving: long enough to mount and play its 240 ms arrival. */
+const ARRIVAL_WINDOW_MS = 1000
+const NO_ARRIVALS: ReadonlySet<string> = new Set()
+
+/**
+ * Ids of rows that appeared after the page mounted (Requirement 33.8). Derived
+ * while rendering, so a new row mounts already marked and its arrival plays
+ * from the first painted frame. Ids drop out after a second, so a row that
+ * re-mounts later (a filter change) does not replay it.
+ */
+function useArrivals(rows: readonly AlarmEvent[]): ReadonlySet<string> {
+  const [known, setKnown] = useState<ReadonlySet<string>>(() => new Set(rows.map((r) => r.id)))
+  const [arrivals, setArrivals] = useState<ReadonlySet<string>>(NO_ARRIVALS)
+  const fresh = rows.filter((r) => !known.has(r.id)).map((r) => r.id)
+  if (fresh.length > 0) {
+    setKnown(new Set([...known, ...fresh]))
+    setArrivals(new Set([...arrivals, ...fresh]))
+  }
+  useEffect(() => {
+    if (arrivals.size === 0) return
+    const timer = setTimeout(() => {
+      setArrivals(NO_ARRIVALS)
+    }, ARRIVAL_WINDOW_MS)
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [arrivals])
+  return arrivals
+}
+
 function useLiveAnnouncement(live: readonly AlarmEvent[]): string {
   const seen = useRef<Set<string> | null>(null)
   const [message, setMessage] = useState('')

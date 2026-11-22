@@ -1,5 +1,5 @@
 import { act, render, screen } from '@testing-library/react'
-import { motionValue } from 'motion/react'
+import { MotionConfig, motionValue } from 'motion/react'
 import { describe, expect, it } from 'vitest'
 import { MockTelemetrySource } from '../../src/data/mock/MockTelemetrySource'
 import { TelemetryStore } from '../../src/data/store'
@@ -99,6 +99,8 @@ describe('KpiTile sensor fault', () => {
     const value = motionValue(88.4)
     const { rerender } = render(
       <KpiTile label="T2 Tj" value={value} spec={TEMP_C_SPEC} delta={1.2} status="fault" />,
+      // Text binding under test, so live values apply without the tween.
+      { wrapper: ({ children }) => <MotionConfig reducedMotion="always">{children}</MotionConfig> },
     )
     const tile = screen.getByRole('group', { name: 'T2 Tj' })
     expect(tile).toHaveAttribute('data-fault', 'true')

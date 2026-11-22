@@ -1,10 +1,11 @@
-import { useMotionValueEvent, type MotionValue } from 'motion/react'
-import { useRef } from 'react'
+import type { MotionValue } from 'motion/react'
 import type { ChartBand } from '../charts/chartTheme'
 import { formatValue, formatValueFlush, MINUS_SIGN, valueLength, type FormatSpec } from '../domain/format'
 import type { Status } from '../domain/types'
+import { AnimatedNumber } from '../motion/AnimatedNumber'
 import { cx } from './controlStyles'
 import { Sparkline } from './Sparkline'
+import { StaleChip } from './StaleChip'
 import { StatusChip } from './StatusChip'
 
 export interface KpiTileProps {
@@ -32,6 +33,8 @@ export interface KpiTileProps {
    * "— —" for the value and delta, whatever `value` holds (Requirement 21.1).
    */
   status?: Status
+  /** The value is from a frame older than 1 s: dims it to `--text-muted` and adds a STALE chip (Requirement 12.4). */
+  stale?: boolean
   className?: string
 }
 
@@ -82,7 +85,7 @@ const READOUT = [
 ].join(' ')
 
 const VALUE = [
-  'num whitespace-pre leading-none [color:var(--kpi-value-color)]',
+  'num whitespace-pre leading-none',
   '[font-weight:var(--kpi-value-weight)] [font-stretch:var(--kpi-value-width)]',
   'tracking-[var(--kpi-value-tracking)]',
 ].join(' ')
@@ -106,7 +109,7 @@ function DeltaArrow({ direction }: { direction: 'up' | 'down' | 'flat' }) {
 /**
  * KPI readout: tracked-caps label, a large tabular value in a fixed `ch`
  * width, the unit set small beside it, a sparkline and the window delta.
- * The value text is written straight to the DOM on each MotionValue change.
+ * The value tweens through `AnimatedNumber`, which writes straight to the DOM.
  */
 export function KpiTile({
   label,
@@ -119,17 +122,11 @@ export function KpiTile({
   delta,
   deltaLabel,
   status,
+  stale = false,
   className,
 }: KpiTileProps) {
-  const valueRef = useRef<HTMLSpanElement>(null)
   const widthCh = kpiValueWidthCh(spec)
   const fault = status === 'fault'
-
-  // The subscription is re-bound on every render, so it always sees the current fault flag.
-  useMotionValueEvent(value, 'change', (latest) => {
-    const node = valueRef.current
-    if (node) node.textContent = kpiValueText(fault ? Number.NaN : latest, spec)
-  })
 
   const shownDelta = fault && delta !== undefined ? Number.NaN : delta
   const hasFooter = series !== undefined || delta !== undefined
@@ -147,6 +144,7 @@ export function KpiTile({
       className={cx(TILE, fault ? FAULT_BG : SHEEN, className)}
       {...(status ? { 'data-status': status } : {})}
       {...(fault ? { 'data-fault': 'true' } : {})}
+      {...(stale ? { 'data-stale': 'true' } : {})}
     >
       {status && (
         <span aria-hidden="true" className={cx('absolute inset-x-0 top-0 h-0.5', EDGE[status])} />
@@ -158,7 +156,12 @@ export function KpiTile({
         <span className={cx(LABEL, '-me-[var(--kpi-label-tracking)]')}>
           <span>{label}</span>
         </span>
-        {status && <StatusChip status={status} size="sm" />}
+        {(status !== undefined || stale) && (
+          <span className="flex items-center gap-2">
+            {stale && <StaleChip size="sm" />}
+            {status && <StatusChip status={status} size="sm" />}
+          </span>
+        )}
       </div>
 
       {/* Fixed width: N digit cells plus the unit reserve, so value changes never move the tile's layout. */}
@@ -168,9 +171,12 @@ export function KpiTile({
         data-width-ch={widthCh}
         data-testid="kpi-readout"
       >
-        <span ref={valueRef} className={VALUE} data-testid="kpi-value">
-          {kpiValueText(fault ? Number.NaN : value.get(), spec)}
-        </span>
+        <AnimatedNumber
+          value={value}
+          format={(v) => kpiValueText(fault ? Number.NaN : v, spec)}
+          className={cx(VALUE, stale ? '[color:var(--text-muted)]' : '[color:var(--kpi-value-color)]')}
+          data-testid="kpi-value"
+        />
         {unit && !fault && (
           <span className="shrink-0 text-[length:var(--kpi-unit-size)] [color:var(--kpi-unit-color)] [font-weight:var(--font-label-weight)]">
             {unit}

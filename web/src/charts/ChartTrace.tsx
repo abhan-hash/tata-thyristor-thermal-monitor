@@ -1,6 +1,9 @@
 import { line } from 'd3-shape'
-import { memo, type ReactNode } from 'react'
+import { animate, motion, useMotionValue } from 'motion/react'
+import { memo, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { MINUS_SIGN } from '../domain/format'
+import { EASE_OUT } from '../motion/tokens'
+import { useReducedMotion } from '../motion/useReducedMotion'
 import type { LinearScale } from './ChartFrame'
 import type { ChartPoints } from './series'
 
@@ -30,7 +33,33 @@ interface TraceProps {
   x: LinearScale
   y: LinearScale
   className: string
+  /** Live trace: each new sample slides the path left by one sample step (Requirement 33.6). */
+  live?: boolean
 }
+
+/** First-data draw-in (Requirement 33.5). */
+export const DRAW_IN_MS = 600
+const DRAW_IN = { duration: DRAW_IN_MS / 1000, ease: EASE_OUT } as const
+
+/**
+ * Pixel offset and duration for the slide that follows a new sample: the
+ * path starts one sample step to the right and settles at 0 over the sample
+ * period (clamped to 50–500 ms), linear, so consecutive slides join up.
+ * Null with fewer than two points or a non-positive step.
+ */
+export function sampleSlide(points: ChartPoints, x: LinearScale): { dx: number; durationS: number } | null {
+  const n = points.x.length
+  if (n < 2) return null
+  const last = points.x[n - 1] as number
+  const prev = points.x[n - 2] as number
+  const dx = x(last) - x(prev)
+  const periodS = last - prev
+  if (!(dx > 0) || !(periodS > 0)) return null
+  return { dx, durationS: Math.min(0.5, Math.max(0.05, periodS)) }
+}
+
+/** Dashed traces keep their dash pattern, so they fade in instead of drawing in. */
+const isDashed = (className: string) => className.includes('dasharray')
 
 function sameScale(a: LinearScale, b: LinearScale): boolean {
   const [ad0, ad1] = a.domain()
@@ -45,18 +74,48 @@ function sameScale(a: LinearScale, b: LinearScale): boolean {
  * a crosshair move does not rebuild the path string.
  */
 export const ChartTrace = memo(
-  function ChartTrace({ points, x, y, className }: TraceProps) {
+  function ChartTrace({ points, x, y, className, live = false }: TraceProps) {
     const indices = Array.from({ length: points.x.length }, (_, i) => i)
     const d =
       line<number>()
         .defined((i) => Number.isFinite(points.y[i] ?? Number.NaN))
         .x((i) => x(points.x[i] ?? 0))
         .y((i) => y(points.y[i] ?? 0))(indices) ?? ''
-    return <path d={d} className={className} data-points={points.x.length} />
+    const reduced = useReducedMotion()
+    const hasData = points.x.length >= 2
+    const dashed = isDashed(className)
+    // Draw-in plays once per mount, when the first data arrives; never under reduced motion.
+    const drawn = useRef(false)
+    const reveal = useMotionValue(1)
+    const shift = useMotionValue(0)
+    useLayoutEffect(() => {
+      if (!hasData) return
+      if (!drawn.current) {
+        drawn.current = true
+        if (reduced) return
+        reveal.jump(0)
+        void animate(reveal, 1, DRAW_IN)
+        return
+      }
+      if (!live || reduced) return
+      const slide = sampleSlide(points, x)
+      if (!slide) return
+      shift.jump(slide.dx)
+      void animate(shift, 0, { duration: slide.durationS, ease: 'linear' })
+    }, [points, hasData, live, reduced, x, reveal, shift])
+    return (
+      <motion.path
+        d={d}
+        className={className}
+        data-points={points.x.length}
+        style={dashed ? { x: shift, opacity: reveal } : { x: shift, pathLength: reveal }}
+      />
+    )
   },
   (prev, next) =>
     prev.points === next.points &&
     prev.className === next.className &&
+    prev.live === next.live &&
     sameScale(prev.x, next.x) &&
     sameScale(prev.y, next.y),
 )
