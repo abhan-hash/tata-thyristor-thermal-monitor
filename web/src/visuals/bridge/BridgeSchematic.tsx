@@ -353,11 +353,6 @@ function DeviceSymbol({ device, thumbnail, ids }: Omit<DeviceProps, 'selected' |
         d={`M${x + 8} ${apex + 14}L${x + 30} ${apex - 8}H${x + 42}`}
         style={{ fill: 'none', stroke: WIRE, strokeWidth: 1.5 }}
       />
-      {!thumbnail && (
-        <text x={x + 46} y={apex - 4} fontSize={10} className={WIDE} style={{ ...LABEL, fill: 'var(--text-muted)' }}>
-          {`G${device.id}`}
-        </text>
-      )}
       {thumbnail && device.status !== 'normal' && (
         // Thumbnail keeps the status shape so colour is still not the only cue.
         <g
@@ -389,6 +384,9 @@ function Badge({ device }: { device: BridgeDevice }) {
       <text x={12} y={21} fontSize={14} className="num" style={{ ...NUM, fill: 'var(--text-primary)' }}>
         {`T${device.id}`}
       </text>
+      {/* Whitespace between the text runs keeps the visible text word-separated, so it matches the
+          button's accessible name (axe label-content-name-mismatch). */}
+      {' '}
       <text
         x={BADGE.w - 12}
         y={21}
@@ -404,6 +402,7 @@ function Badge({ device }: { device: BridgeDevice }) {
           </tspan>
         )}
       </text>
+      {' '}
       <g transform="translate(12 30)" style={{ color: STATUS_COLOR[status] }}>
         <StatusIcon status={status} size={14} />
       </g>
@@ -456,37 +455,52 @@ function InteractiveDevice({ device, selected, ids, onSelect }: Omit<DeviceProps
     }
   }
   return (
-    <g
-      role="button"
-      tabIndex={0}
-      aria-label={deviceLabel(device.id, device.tj_estimated, status)}
-      aria-pressed={selected}
-      data-channel={device.id}
-      data-status={status}
-      data-selected={selected || undefined}
-      className="group cursor-pointer outline-none"
-      onClick={activate}
-      onKeyDown={onKeyDown}
-    >
-      <rect {...hit} rx={6} style={{ fill: 'transparent' }} />
-      <g aria-hidden="true">
-        <DeviceSymbol device={device} thumbnail={false} ids={ids} />
-        <Badge device={device} />
+    <>
+      <g
+        role="button"
+        tabIndex={0}
+        aria-label={deviceLabel(device.id, device.tj_estimated, status)}
+        aria-pressed={selected}
+        data-channel={device.id}
+        data-status={status}
+        data-selected={selected || undefined}
+        className="group cursor-pointer outline-none"
+        onClick={activate}
+        onKeyDown={onKeyDown}
+      >
+        <rect {...hit} rx={6} style={{ fill: 'transparent' }} />
+        <g aria-hidden="true">
+          <DeviceSymbol device={device} thumbnail={false} ids={ids} />
+          <Badge device={device} />
+        </g>
+        {/* Focus ring: dotted, separate from the gold selection brackets. */}
+        <rect
+          {...hit}
+          rx={6}
+          data-part="focus-ring"
+          className="opacity-0 group-focus-visible:opacity-100"
+          style={{
+            fill: 'none',
+            stroke: 'var(--focus-ring-color)',
+            strokeWidth: 'var(--focus-ring-width)',
+            strokeDasharray: '3 3',
+          }}
+        />
       </g>
-      {/* Focus ring: dotted, separate from the gold selection brackets. */}
-      <rect
-        {...hit}
-        rx={6}
-        data-part="focus-ring"
-        className="opacity-0 group-focus-visible:opacity-100"
-        style={{
-          fill: 'none',
-          stroke: 'var(--focus-ring-color)',
-          strokeWidth: 'var(--focus-ring-width)',
-          strokeDasharray: '3 3',
-        }}
-      />
-    </g>
+      {/* Gate label sits outside the button so the button's visible text matches its accessible
+          name (axe label-content-name-mismatch). */}
+      <text
+        x={x + 46}
+        y={ROW[row].apex - 4}
+        fontSize={10}
+        aria-hidden="true"
+        pointerEvents="none"
+        className={WIDE}
+        style={{ ...LABEL, fill: 'var(--text-muted)' }}
+      >
+        {`G${device.id}`}
+      </text>
+    </>
   )
 }
 

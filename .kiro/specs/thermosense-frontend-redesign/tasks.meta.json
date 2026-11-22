@@ -1883,6 +1883,11 @@
         "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795359761340
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361965229
       }
     ],
     "28.2 Animate charts and blob morphs": [
@@ -1890,6 +1895,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403311
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361966225
       }
     ],
     "28.3 Implement the sync pulse and reduced-motion substitutions": [
@@ -1897,6 +1907,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403374
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361967661
       }
     ],
     "28.4 Animate alarm arrivals and press/hover feedback": [
@@ -1904,6 +1919,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403440
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361968992
       }
     ],
     "28.5 Write unit tests for live and event motion": [
@@ -1911,6 +1931,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403498
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361970425
       }
     ],
     "29.1 Write the motion audit and enforce animated-property limits": [
@@ -1918,6 +1943,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403563
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361971680
       }
     ],
     "30. Checkpoint – Phase 4": [
@@ -1925,6 +1955,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403635
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361972642
       }
     ],
     "31.1 Implement `?mock=` stress fixtures": [
@@ -1960,6 +1995,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261403951
+      },
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361973472
       }
     ],
     "33.3 Write the token contrast test": [
@@ -2198,6 +2238,20 @@
         "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795359760805
+      }
+    ],
+    "28. Add live-value and event motion": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361970458
+      }
+    ],
+    "29. Audit motion": [
+      {
+        "executionId": "8db9ae03-ab0f-486c-8d30-c61d1b2755f0",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795361971718
       }
     ]
   }

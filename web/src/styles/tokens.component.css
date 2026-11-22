@@ -183,7 +183,7 @@
 
   /* Field, NumberField, Select */
   --field-bg: var(--surface-sunken);
-  --field-border: var(--line-strong);
+  --field-border: var(--line-control);
   --field-border-hover: var(--text-muted);
   --field-border-error: var(--status-critical);
   --field-text: var(--text-primary);
@@ -198,7 +198,7 @@
   /* Filter chip */
   --filter-chip-bg: transparent;
   --filter-chip-bg-hover: color-mix(in srgb, var(--text-primary) 5%, transparent);
-  --filter-chip-border: var(--line-strong);
+  --filter-chip-border: var(--line-control);
   --filter-chip-fg: var(--text-secondary);
   --filter-chip-bg-selected: color-mix(in srgb, var(--accent) 12%, transparent);
   --filter-chip-border-selected: var(--accent);

@@ -178,6 +178,7 @@ function StepCard({ step, index }: { step: VirtualSensorStep; index: number }) {
       <div className="flex items-baseline gap-4">
         <span
           aria-hidden="true"
+          data-a11y-decorative=""
           className="text-[length:var(--about-step-num-size)] leading-none font-[800] tabular-nums text-surface-raised [font-stretch:112%] [-webkit-text-stroke:1px_var(--line-strong)]"
         >
           {String(index + 1).padStart(2, '0')}

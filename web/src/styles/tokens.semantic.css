@@ -12,12 +12,15 @@
   /* Lines */
   --line-subtle: var(--ink-700);
   --line-strong: var(--ink-600);
+  /* Boundary of an interactive control (field, filter chip): ≥ 3:1 on panel and sunken (WCAG 1.4.11). */
+  --line-control: var(--ink-400);
   --line-contour-opacity: 0.06;
 
   /* Text */
   --text-primary: var(--ink-100);
   --text-secondary: var(--ink-300);
-  --text-muted: var(--ink-400);
+  /* ink-350, not ink-400: keeps muted body text at or above 4.5:1 on panel and raised surfaces. */
+  --text-muted: var(--ink-350);
 
   /* Accent */
   --accent: var(--gold-500);

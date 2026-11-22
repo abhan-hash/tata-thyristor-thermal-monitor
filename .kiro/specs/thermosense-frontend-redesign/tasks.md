@@ -579,40 +579,40 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - Entrance plays once per session and its timeline satisfies < 700 ms and ≤ 60 ms offsets; second visit renders final state; `AnimatedNumber` width is constant and reduced motion sets value immediately
     - _Requirements: 32.1, 32.2, 33.1, 35.2_
 
-- [ ] 28. Add live-value and event motion
-  - [-] 28.1 Interpolate heat fills and pulse critical glows
+- [x] 28. Add live-value and event motion
+  - [x] 28.1 Interpolate heat fills and pulse critical glows
     - `src/motion/useHeatFill.ts`: interpolates in heat-scale index space over 300 ms and outputs a fill colour; used by `HeatDisc` and bridge devices
     - Glow pulse only while a channel is critical; static for normal and warning; status changes still render under reduced motion
     - _Requirements: 33.2, 33.3, 33.4, 35.4_
 
-  - [ ] 28.2 Animate charts and blob morphs
+  - [x] 28.2 Animate charts and blob morphs
     - Charts: `pathLength` draw-in over 600 ms on first data, then translate the path left by one sample step per new sample; disabled under reduced motion
     - `HeatBlobs`: morph between 1 Hz updates with fixed topology (resample each band to a fixed point count before interpolating)
     - _Requirements: 33.5, 33.6, 34.2, 35.1_
 
-  - [ ] 28.3 Implement the sync pulse and reduced-motion substitutions
+  - [x] 28.3 Implement the sync pulse and reduced-motion substitutions
     - `src/kit/SyncPulse.tsx`: 1 px gold tick flashes once per Display_Tick, stops while stale, replaced by a static "LIVE" label under reduced motion; replace the placeholder in `TopNav`
     - Stale readouts dim to `--text-muted` with `StaleChip`
     - Disable Foster dash flow and airflow particles under reduced motion
     - _Requirements: 12.4, 33.7, 35.1, 35.3_
 
-  - [ ] 28.4 Animate alarm arrivals and press/hover feedback
+  - [x] 28.4 Animate alarm arrivals and press/hover feedback
     - `src/domain/coalesceAlarms.ts`: pure merge of repeats of the same channel+kind within 5 s into one row with a repeat count
     - One 240 ms slide-and-highlight per new (coalesced) alarm row via `AnimatePresence`
     - Global press `scale(0.97)` over 120 ms on interactive kit components; hover styles inside `@media (hover: hover)` only
     - _Requirements: 33.8, 33.9, 33.10, 33.11_
 
-  - [ ] 28.5 Write unit tests for live and event motion
+  - [x] 28.5 Write unit tests for live and event motion
     - Coalescing within 5 s yields one row; pulse class only on critical; reduced motion disables draw-in, dash flow and particles and shows "LIVE"; sync pulse stops when stale
     - _Requirements: 12.4, 33.3, 33.4, 33.9, 35.1, 35.3_
 
-- [ ] 29. Audit motion
-  - [ ] 29.1 Write the motion audit and enforce animated-property limits
+- [x] 29. Audit motion
+  - [x] 29.1 Write the motion audit and enforce animated-property limits
     - `web/docs/motion-audit.md`: every remaining animation with the state, arrival or causality it communicates; remove any animation that communicates none
     - `scripts/check-motion.mjs` (wired into `npm run lint`): fails when Motion `animate`/`transition` targets or CSS `transition`/`@keyframes` use layout properties (width, height, top, left, margin, padding)
     - _Requirements: 34.1, 34.3_
 
-- [ ] 30. Checkpoint – Phase 4
+- [x] 30. Checkpoint – Phase 4
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:property`, `npm run coverage` and `npm run test:e2e`; fix failures before continuing
   - Run `PHASE=4 npm run screenshots` (frozen clock, final states), confirm PNGs in `web/docs/screenshots/phase-4/`
@@ -643,7 +643,7 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - Fix any order or focus-ring defects found
     - _Requirements: 2.6, 38.1, 38.2, 38.3, 38.4_
 
-  - [ ] 33.2 Write the axe spec and fix violations
+  - [-] 33.2 Write the axe spec and fix violations
     - `tests/e2e/a11y.spec.ts`: `@axe-core/playwright` with WCAG 2.1 A/AA tags on every route and `/kit`; zero violations; every interactive element has an accessible name
     - Fix violations in the components
     - _Requirements: 39.1, 39.3_

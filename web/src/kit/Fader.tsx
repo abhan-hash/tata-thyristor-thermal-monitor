@@ -102,7 +102,12 @@ export function Fader({
   const pos = faderPosition(value, min, max)
 
   return (
-    <div className={cx('flex flex-col gap-2', disabled && CONTROL_DISABLED, className)}>
+    // aria-disabled marks the whole control (label, hint, readout) as inactive, so contrast
+    // checks treat the dimmed text as a disabled component (WCAG 1.4.3 exemption).
+    <div
+      aria-disabled={disabled || undefined}
+      className={cx('flex flex-col gap-2', disabled && CONTROL_DISABLED, className)}
+    >
       <div className="flex items-baseline justify-between gap-3">
         <label htmlFor={id} className={CONTROL_LABEL}>
           {label}

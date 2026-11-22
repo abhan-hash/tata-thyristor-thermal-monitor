@@ -74,7 +74,12 @@ export function FieldShell({
       .join(' ') || undefined
 
   return (
-    <div className={cx('flex flex-col gap-2', disabled && CONTROL_DISABLED, className)}>
+    // aria-disabled marks the whole control (label, hint, readout) as inactive, so contrast
+    // checks treat the dimmed text as a disabled component (WCAG 1.4.3 exemption).
+    <div
+      aria-disabled={disabled || undefined}
+      className={cx('flex flex-col gap-2', disabled && CONTROL_DISABLED, className)}
+    >
       <label htmlFor={id} className={CONTROL_LABEL}>
         {label}
       </label>

@@ -149,7 +149,7 @@ Tokens have three layers. Only the semantic and component layers may appear in c
 
 | Group | Tokens |
 |---|---|
-| Ink (neutrals) | `--ink-950 #0E0D0C` · `--ink-900 #141312` · `--ink-850 #1A1918` · `--ink-800 #211F1D` · `--ink-700 #2C2A27` · `--ink-600 #3A3733` · `--ink-400 #6E6A63` · `--ink-300 #9A958C` · `--ink-100 #E9E5DD` |
+| Ink (neutrals) | `--ink-950 #0E0D0C` · `--ink-900 #141312` · `--ink-850 #1A1918` · `--ink-800 #211F1D` · `--ink-700 #2C2A27` · `--ink-600 #3A3733` · `--ink-400 #6E6A63` · `--ink-350 #8E8981` · `--ink-300 #9A958C` · `--ink-100 #E9E5DD` |
 | Gold | `--gold-300 #F7CD6A` · `--gold-500 #F2B533` · `--gold-700 #B9821A` |
 | Heat ramp (9 stops) | `--heat-0 #3A2A1E` (ambient) · `--heat-1 #FFD9A0` · `--heat-2 #FFB766` · `--heat-3 #FF9233` · `--heat-4 #FF6A1A` · `--heat-5 #F2421A` · `--heat-6 #D9231A` · `--heat-7 #A8141C` · `--heat-8 #6E0B16` |
 | Signal | `--signal-ok #7FB77E` (muted, used sparingly) · `--signal-info #8FB3D9` |
@@ -168,7 +168,8 @@ The fonts are a deliberate choice. One variable family covers the bold geometric
 | `--surface-page` | ink-950 | page background under contours |
 | `--surface-panel` / `--surface-raised` / `--surface-sunken` | ink-900 / ink-850 / #0B0A09 | panels, rack rows, recessed fader wells |
 | `--line-subtle` / `--line-strong` | ink-700 / ink-600 | dividers, contour stroke (at 6% opacity) |
-| `--text-primary` / `--text-secondary` / `--text-muted` | ink-100 / ink-300 / ink-400 | type hierarchy (muted ≥ 4.5:1 on panel for body sizes) |
+| `--line-control` | ink-400 | field and filter-chip borders (≥ 3:1 on panel and sunken; added in Phase 5) |
+| `--text-primary` / `--text-secondary` / `--text-muted` | ink-100 / ink-300 / ink-350 | type hierarchy (muted ≥ 4.5:1 on panel for body sizes; ink-400 measured 3.45:1, so Phase 5 moved muted to ink-350) |
 | `--accent` / `--accent-strong` / `--on-accent` | gold-500 / gold-300 / ink-950 | headings, outlines, active buttons, focus ring |
 | `--status-normal` / `-warning` / `-critical` / `-fault` | ink-300 + check icon / heat-3 / heat-6 / ink-100 on striped hatch | status chips (always icon + text) |
 | `--heat-[0..8]` | heat ramp | temperature encoding only. Never used for chrome. |
