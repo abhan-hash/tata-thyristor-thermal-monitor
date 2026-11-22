@@ -643,12 +643,12 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - Fix any order or focus-ring defects found
     - _Requirements: 2.6, 38.1, 38.2, 38.3, 38.4_
 
-  - [-] 33.2 Write the axe spec and fix violations
+  - [x] 33.2 Write the axe spec and fix violations
     - `tests/e2e/a11y.spec.ts`: `@axe-core/playwright` with WCAG 2.1 A/AA tags on every route and `/kit`; zero violations; every interactive element has an accessible name
     - Fix violations in the components
     - _Requirements: 39.1, 39.3_
 
-  - [ ] 33.3 Write the token contrast test
+  - [x] 33.3 Write the token contrast test
     - `tests/unit/contrast.test.ts`: compute contrast for semantic text/surface pairs (≥ 4.5:1 for body text including `--text-muted` on panel, ≥ 3:1 for large text and component boundaries such as source-button borders and the focus ring); adjust semantic mappings if a pair fails
     - _Requirements: 39.2_
 
@@ -689,13 +689,13 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - Nice-to-have: `.github/workflows/web-nightly.yml` running `npm run test:property:nightly` (2000 runs) and uploading logged seeds; the npm script from task 1.1 already satisfies local nightly runs
     - _Requirements: 41.3_
 
-- [ ] 36. Produce the reference comparison and gap list
-  - [ ] 36.1 Create the side-by-side comparison and gap list
+- [x] 36. Produce the reference comparison and gap list
+  - [x] 36.1 Create the side-by-side comparison and gap list
     - `tests/visual/compare.spec.ts`: capture the Overview at 1440 px, render it next to `reference/Screenshot from 2026-11-20 20-43-12.png` in a local HTML page, save `web/docs/comparison/overview-vs-reference.png` (read the reference image only; do not commit `reference/`)
     - `web/docs/gap-list.md`: an honest list of visual and behavioural gaps against the reference and the requirements
     - _Requirements: 37.3_
 
-- [ ] 37. Final checkpoint – Phase 5
+- [x] 37. Final checkpoint – Phase 5
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run check`, `npm run coverage`, `npm run test:e2e` (including stress, keyboard, a11y, security) and `npm run test:soak`; fix failures before continuing
   - Run `PHASE=5 npm run screenshots`, confirm PNGs in `web/docs/screenshots/phase-5/`, and update the visual regression baselines
