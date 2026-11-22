@@ -294,7 +294,7 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
     - Every component name from Requirement 6.1 has a section; `?section=` calls `scrollIntoView` on the right element
     - _Requirements: 7.2, 7.3_
 
-- [-] 9. Checkpoint – Phase 1
+- [x] 9. Checkpoint – Phase 1
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:property` and `npm run coverage`; fix failures before continuing
   - Run `PHASE=1 npm run screenshots` and confirm PNGs exist in `web/docs/screenshots/phase-1/`
@@ -305,102 +305,102 @@ Every phase ends with a checkpoint that runs lint, typecheck and tests, captures
 
 ### Phase 2: Art direction and signature visuals
 
-- [ ] 10. Produce art-direction sketches
-  - [~] 10.1 Sketch the console, bridge and Foster ladder
+- [x] 10. Produce art-direction sketches
+  - [x] 10.1 Sketch the console, bridge and Foster ladder
     - Two distinct SVG sketches each in `web/docs/art-direction/`: `console-a.svg`, `console-b.svg`, `bridge-a.svg`, `bridge-b.svg`, `foster-a.svg`, `foster-b.svg`
     - Sketches use the token palette values and show where live data binds
     - _Requirements: 14.1_
 
-  - [~] 10.2 Sketch the mill cutaway and airflow diagram
+  - [x] 10.2 Sketch the mill cutaway and airflow diagram
     - `mill-a.svg`, `mill-b.svg`, `airflow-a.svg`, `airflow-b.svg` in `web/docs/art-direction/`
     - _Requirements: 14.1_
 
-  - [~] 10.3 Record the art-direction selection
+  - [x] 10.3 Record the art-direction selection
     - `web/docs/art-direction/SELECTION.md`: per visual, the chosen sketch, a rationale referring to the reference image, the data binding and operator legibility, and why the other sketch was not chosen
     - Later visual tasks build the chosen sketch without waiting for approval
     - _Requirements: 14.2, 14.3, 14.4_
 
-- [ ] 11. Build `HeatBlobs`
-  - [~] 11.1 Implement the heat field
+- [x] 11. Build `HeatBlobs`
+  - [x] 11.1 Implement the heat field
     - `src/domain/heatField.ts`: pure `buildField(channels, ambient)` producing a 48 × 32 `Float32Array` from six fixed anchor points (inverse-distance or Gaussian kernel), interpolating unhealthy channel anchors from neighbouring channels, and `bandThresholds(field)` returning exactly six levels; when all Tj ≥ 125 the innermost level maps to `--heat-8`
     - _Requirements: 15.4, 15.5, 15.6, 21.3_
 
-  - [~] 11.2 Implement the `HeatBlobs` component
+  - [x] 11.2 Implement the `HeatBlobs` component
     - `src/visuals/heat/HeatBlobs.tsx`: `d3-contour` isobands over the field, one `<path>` per band (always six, empty paths allowed), recomputed on each Display_Tick, fills from heat tokens
     - _Requirements: 15.4, 15.5, 34.2_
 
-  - [~] 11.3 Write unit tests for the heat field and blobs
+  - [x] 11.3 Write unit tests for the heat field and blobs
     - Six bands at all-ambient and all-trip inputs; innermost band is `--heat-8` at all-trip; faulted channel anchor equals the neighbour interpolation
     - _Requirements: 15.5, 15.6, 21.3_
 
-- [ ] 12. Build the `IsometricConsole`
-  - [~] 12.1 Implement isometric geometry
+- [x] 12. Build the `IsometricConsole`
+  - [x] 12.1 Implement isometric geometry
     - `src/visuals/console/iso.ts`: 30° projection matrix, slab face polygons (top, front, right), knob ellipse stacks, fader well and disc transform
     - Unit tests on projected coordinates
     - _Requirements: 16.1_
 
-  - [~] 12.2 Implement the console component from the chosen sketch
+  - [x] 12.2 Implement the console component from the chosen sketch
     - `src/visuals/console/IsometricConsole.tsx`: tone-stepped faces, 1 px top-edge bevel, contact shadow, turbulence texture clipped to the top face (static layer), two knobs with ring arcs, recessed fader well, tracked-caps micro-labels, projected `HeatDisc` with crop brackets
     - Bind disc to `hottest`, knob arcs to armature % rated and ambient, fader to airflow MotionValue
     - _Requirements: 16.1, 16.2, 16.3, 16.4, 40.7_
 
-  - [~] 12.3 Write unit tests for console bindings
+  - [x] 12.3 Write unit tests for console bindings
     - Fader position decreases under `fan_failure` and `clogging`; knob arcs follow current and ambient; disc follows hottest healthy Tj
     - _Requirements: 16.2, 16.3, 16.4_
 
-- [ ] 13. Build the `BridgeSchematic`
-  - [~] 13.1 Implement the bridge from the chosen sketch
+- [x] 13. Build the `BridgeSchematic`
+  - [x] 13.1 Implement the bridge from the chosen sketch
     - `src/visuals/bridge/BridgeSchematic.tsx`: three AC inputs, DC bus, T1–T6 thyristor symbols filled by `heatToken(heatStopIndex(tj))`, Status icon badge per device, selected-device highlight
     - Each device is a focusable `<g role="button" tabIndex={0}>` with accessible name "T3, 98.4 °C, warning"; click, Enter and Space call `onSelect(id)`; `selected` and `onSelect` props (router wiring in task 18.2); `thumbnail` size variant without interactivity
     - _Requirements: 17.1, 17.2, 17.3, 17.4, 17.5, 17.6_
 
-  - [~] 13.2 [PBT] Extend the never colour-only property test to bridge devices
+  - [x] 13.2 [PBT] Extend the never colour-only property test to bridge devices
     - **Property 4: Never colour-only**
     - Add the bridge-device case to `tests/property/p04-never-colour-only.test.tsx` (same single property test): for arbitrary Status per channel, each device's accessible output has status text and a distinct icon shape
     - **Validates: Requirements 5.3, 17.3, 21.1**
 
-  - [~] 13.3 Write unit tests for the bridge
+  - [x] 13.3 Write unit tests for the bridge
     - Accessible names include id, Tj and Status; Enter and Space call `onSelect`; selected device has the highlight; fill follows the heat scale
     - _Requirements: 17.2, 17.4, 17.5, 17.6_
 
-- [ ] 14. Build the `FosterLadder`
-  - [~] 14.1 Implement node temperatures and the ladder component
+- [x] 14. Build the `FosterLadder`
+  - [x] 14.1 Implement node temperatures and the ladder component
     - `src/domain/fosterNodes.ts`: node temperatures for junction, case, heatsink and air from a `ThyristorFrame`, ambient and model params, plus stage R values
     - `src/visuals/foster/FosterLadder.tsx`: 3-stage RC ladder from the chosen sketch, node fills via heat scale, dash flow speed proportional to power loss, labels τ1 0.02 s, τ2 0.5 s, τ3 20 s and R values, `variant: "compact" | "annotated"` with per-stage annotations
     - _Requirements: 18.1, 18.2, 18.3, 18.4, 18.5_
 
-  - [~] 14.2 Write unit tests for the Foster ladder
+  - [x] 14.2 Write unit tests for the Foster ladder
     - Node temperatures are ordered junction ≥ case ≥ heatsink ≥ air for positive power; dash speed scales with power loss; labels and annotated variant text present
     - _Requirements: 18.2, 18.3, 18.4, 18.5_
 
-- [ ] 15. Build the `MillCutaway` and `AirflowDiagram`
-  - [~] 15.1 Implement spike detection and the mill cutaway
+- [x] 15. Build the `MillCutaway` and `AirflowDiagram`
+  - [x] 15.1 Implement spike detection and the mill cutaway
     - `src/domain/spikes.ts`: `detectSpikeOnsets(currentSeries, ratedA)` returning onset indices (shared with the bar-bite markers in task 20.1)
     - `src/visuals/mill/MillCutaway.tsx`: rolling stand cutaway, drive cabinet with a thumbnail `BridgeSchematic` on the door, glowing strip that pulses when a spike onset is detected
     - _Requirements: 19.1, 19.2, 19.3_
 
-  - [~] 15.2 Implement the airflow diagram
+  - [x] 15.2 Implement the airflow diagram
     - `src/visuals/airflow/AirflowDiagram.tsx`: heat exchanger and blower from the chosen sketch, at most 40 particles moved with CSS transforms, speed from fan state; when `fan_status` is false the blower and particles stop and the exchanger fill moves to a warm heat stop
     - _Requirements: 20.1, 20.2, 20.3_
 
-  - [~] 15.3 Write unit tests for spikes, mill and airflow
+  - [x] 15.3 Write unit tests for spikes, mill and airflow
     - Spike onsets found in a synthetic series; strip pulse class toggles on onset; particle count ≤ 40; fan-off state stops particles and changes exchanger fill
     - _Requirements: 19.2, 20.2, 20.3_
 
-- [ ] 16. Add sensor-fault presentation and gallery coverage
-  - [~] 16.1 Apply the sensor-fault treatment across visuals and kit
+- [x] 16. Add sensor-fault presentation and gallery coverage
+  - [x] 16.1 Apply the sensor-fault treatment across visuals and kit
     - For `sensor_healthy` false: fault hatch fill, "SENSOR FAULT" `StatusChip` and the `— —` placeholder in `RackRow`, bridge device, `HeatDisc` readouts and `KpiTile`; restore normal presentation when healthy frames return
     - _Requirements: 21.1, 21.4_
 
-  - [~] 16.2 Add a visuals section to `/kit`
+  - [x] 16.2 Add a visuals section to `/kit`
     - Show each signature visual with fixed-state examples (normal, warning, critical/all-trip, all-ambient, one sensor fault, fan failure) and one live-bound instance
     - _Requirements: 7.2, 15.5, 21.1_
 
-  - [~] 16.3 Write unit tests for fault presentation
+  - [x] 16.3 Write unit tests for fault presentation
     - A faulted channel renders hatch, "SENSOR FAULT" and `— —`, is excluded from hottest Tj, and restores after healthy frames
     - _Requirements: 21.1, 21.2, 21.4_
 
-- [~] 17. Checkpoint – Phase 2
+- [-] 17. Checkpoint – Phase 2
   - Ensure all tests pass, ask the user if questions arise.
   - In `web/`: run `npm run lint`, `npm run typecheck`, `npm test`, `npm run test:property` and `npm run coverage`; fix failures before continuing
   - Add the `/kit?section=visuals` route to `tests/visual/routes.ts`, run `PHASE=2 npm run screenshots`, confirm PNGs in `web/docs/screenshots/phase-2/`

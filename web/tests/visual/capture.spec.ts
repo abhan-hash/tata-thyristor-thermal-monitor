@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { test } from '../fixtures.ts'
-import { CAPTURE_ROUTES, routeSlug } from './routes.ts'
+import { CAPTURE_ROUTES, routeSection, routeSlug } from './routes.ts'
 
 const PHASE = process.env.PHASE ?? ''
 if (!/^[A-Za-z0-9_-]+$/.test(PHASE)) {
@@ -20,10 +20,13 @@ for (const route of CAPTURE_ROUTES) {
     await page.waitForLoadState('networkidle')
     await page.evaluate(() => document.fonts.ready.then(() => undefined))
 
-    await page.screenshot({
-      path: path.join(OUT_DIR, `${routeSlug(route)}-${String(width)}.png`),
-      fullPage: true,
-      animations: 'disabled',
-    })
+    const file = path.join(OUT_DIR, `${routeSlug(route)}-${String(width)}.png`)
+    const section = routeSection(route)
+    if (section !== undefined) {
+      // Kit section routes capture only that section (DOM id `kit-<id>`, see src/pages/Kit/sections.ts).
+      await page.locator(`#kit-${section}`).screenshot({ path: file, animations: 'disabled' })
+      return
+    }
+    await page.screenshot({ path: file, fullPage: true, animations: 'disabled' })
   })
 }

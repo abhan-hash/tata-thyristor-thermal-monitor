@@ -16,6 +16,9 @@ const KIT_COMPONENTS = [
   'NumberField', 'Select', 'FilterChip', 'EmptyState', 'ConnectionBanner', 'ContourBackground',
 ] as const
 
+/** Signature visuals shown in the gallery (Requirements 7.2, 15.5). */
+const KIT_VISUALS = ['HeatBlobs', 'IsometricConsole', 'BridgeSchematic', 'FosterLadder', 'MillCutaway', 'AirflowDiagram'] as const
+
 let store: TelemetryStore | undefined
 /** Elements `scrollIntoView` was called on, in order. jsdom does not implement it. */
 let scrolled: Element[] = []
@@ -52,6 +55,7 @@ describe('kit section registry', () => {
   it('has a section for every component in Requirement 6.1, with unique ids', () => {
     const names = KIT_SECTIONS.map((s) => s.name)
     for (const name of KIT_COMPONENTS) expect(names).toContain(name)
+    for (const name of KIT_VISUALS) expect(names).toContain(name)
     expect(new Set(KIT_SECTIONS.map((s) => s.id)).size).toBe(KIT_SECTIONS.length)
   })
 

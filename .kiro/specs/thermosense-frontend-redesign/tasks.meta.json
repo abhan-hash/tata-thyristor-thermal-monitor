@@ -51,6 +51,10 @@
     "7.3 [PBT] Write property test for never colour-only (kit components)": {
       "status": "passed",
       "lastRunTimestamp": 1795286056184
+    },
+    "13.2 [PBT] Extend the never colour-only property test to bridge devices": {
+      "status": "passed",
+      "lastRunTimestamp": 1795349726393
     }
   },
   "executionHistory": {
@@ -956,6 +960,11 @@
         "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795294893619
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795295220341
       }
     ],
     "10.1 Sketch the console, bridge and Foster ladder": [
@@ -963,6 +972,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261399903
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795295308598
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795341736610
       }
     ],
     "10.2 Sketch the mill cutaway and airflow diagram": [
@@ -970,6 +989,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261399989
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795295309051
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795341737518
       }
     ],
     "10.3 Record the art-direction selection": [
@@ -977,6 +1006,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400030
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795341738180
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343353916
       }
     ],
     "11.1 Implement the heat field": [
@@ -984,6 +1023,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400072
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795341756857
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343354436
       }
     ],
     "11.2 Implement the `HeatBlobs` component": [
@@ -991,6 +1040,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400114
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343397500
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349278441
       }
     ],
     "11.3 Write unit tests for the heat field and blobs": [
@@ -998,6 +1057,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400159
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349593091
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795350944662
       }
     ],
     "12.1 Implement isometric geometry": [
@@ -1005,6 +1074,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400204
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343398525
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795348853563
       }
     ],
     "12.2 Implement the console component from the chosen sketch": [
@@ -1012,6 +1091,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400250
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349591927
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795350942224
       }
     ],
     "12.3 Write unit tests for console bindings": [
@@ -1019,6 +1108,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400291
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351266423
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351932004
       }
     ],
     "13.1 Implement the bridge from the chosen sketch": [
@@ -1026,6 +1125,26 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400331
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343399955
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795348853764
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795348853987
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349279301
       }
     ],
     "13.2 [PBT] Extend the never colour-only property test to bridge devices": [
@@ -1033,6 +1152,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400375
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349594116
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795350945571
       }
     ],
     "13.3 Write unit tests for the bridge": [
@@ -1040,6 +1169,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400419
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349595545
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795350946602
       }
     ],
     "14.1 Implement node temperatures and the ladder component": [
@@ -1047,6 +1186,26 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400459
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343400976
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795348853840
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795348854546
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349280696
       }
     ],
     "14.2 Write unit tests for the Foster ladder": [
@@ -1054,6 +1213,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400503
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351010197
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351236406
       }
     ],
     "15.1 Implement spike detection and the mill cutaway": [
@@ -1061,6 +1230,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400545
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349592096
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795350943350
       }
     ],
     "15.2 Implement the airflow diagram": [
@@ -1068,6 +1247,26 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400587
+      },
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343401394
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795348853899
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795348855056
+      },
+      {
+        "executionId": "61bbed27-47ac-4385-8ff7-29371ea9ea6d",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795349280926
       }
     ],
     "15.3 Write unit tests for spikes, mill and airflow": [
@@ -1075,6 +1274,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400627
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351267449
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351932154
       }
     ],
     "16.1 Apply the sensor-fault treatment across visuals and kit": [
@@ -1082,6 +1291,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400670
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351268347
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351932289
       }
     ],
     "16.2 Add a visuals section to `/kit`": [
@@ -1089,6 +1308,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400709
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351988412
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795352764208
       }
     ],
     "16.3 Write unit tests for fault presentation": [
@@ -1096,6 +1325,16 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400753
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351989084
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795352764833
       }
     ],
     "17. Checkpoint – Phase 2": [
@@ -1103,6 +1342,11 @@
         "executionId": "e1d5b829-f8f2-42f8-bd5d-28b97cb29097",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795261400796
+      },
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795352789296
       }
     ],
     "18.1 Register all routes": [
@@ -1544,6 +1788,55 @@
         "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
         "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
         "timestamp": 1795294892756
+      }
+    ],
+    "10. Produce art-direction sketches": [
+      {
+        "executionId": "817ffdec-3b2d-45fd-98a0-134aee132228",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795343354086
+      }
+    ],
+    "11. Build `HeatBlobs`": [
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795350944705
+      }
+    ],
+    "13. Build the `BridgeSchematic`": [
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795350946649
+      }
+    ],
+    "14. Build the `FosterLadder`": [
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351236500
+      }
+    ],
+    "12. Build the `IsometricConsole`": [
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351932072
+      }
+    ],
+    "15. Build the `MillCutaway` and `AirflowDiagram`": [
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795351932205
+      }
+    ],
+    "16. Add sensor-fault presentation and gallery coverage": [
+      {
+        "executionId": "6a012ee4-9845-43dc-aefa-bbb21dabc11f",
+        "chatSessionId": "sess_5d2861fa-11a7-467d-a746-0aba56e4541e",
+        "timestamp": 1795352764910
       }
     ]
   }

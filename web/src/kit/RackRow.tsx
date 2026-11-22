@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link, type To } from 'react-router'
+import { PLACEHOLDER } from '../domain/format'
 import type { Status } from '../domain/types'
 import { StatusChip } from './StatusChip'
 import { ChevronIcon } from './icons/ChevronIcon'
@@ -9,7 +10,11 @@ interface RackRowBaseProps {
   label: string
   /** Inline value slot (Tj readout, delta bar, …) placed before the status chip. */
   meta?: ReactNode
-  /** When set, a small `StatusChip` (icon + text) is rendered after `meta`. */
+  /**
+   * When set, a small `StatusChip` (icon + text) is rendered after `meta`.
+   * `fault` (sensor fault) also lays the fault hatch over the row and shows
+   * the "— —" placeholder in place of `meta` (Requirement 21.1).
+   */
   status?: Status
   /** Active row, styled like the reference VOCALS row. Exposed as `aria-current`. */
   selected?: boolean
@@ -38,7 +43,6 @@ const BASE = [
   'group relative flex w-full items-center gap-3 text-start font-sans',
   'min-h-[var(--rack-row-height)] px-[var(--rack-row-pad-x)] py-2',
   'border-b [border-color:var(--rack-row-border)]',
-  '[background-image:var(--rack-row-texture)] [background-size:var(--rack-row-texture-size)]',
   'transition-[background-color] duration-1 ease-out',
   // Lift the focused row so its ring is not painted over by the next row.
   'focus-visible:z-10',
@@ -72,6 +76,13 @@ const STATE: Readonly<Record<RackRowState, { row: string; label: string; chevron
   },
 }
 
+const TEXTURE = '[background-image:var(--rack-row-texture)] [background-size:var(--rack-row-texture-size)]'
+/** Fault hatch over the row's dot grain; hue-free so it never reads as a heat colour. */
+const FAULT_TEXTURE = [
+  '[background-image:var(--rack-row-fault-texture),var(--rack-row-texture)]',
+  '[background-size:var(--rack-row-fault-texture-size),var(--rack-row-texture-size)]',
+].join(' ')
+
 const LABEL = [
   'min-w-0 flex-[1_1_9rem] uppercase leading-tight',
   'text-[length:var(--rack-row-label-size)]',
@@ -98,8 +109,11 @@ export function RackRow(props: RackRowProps) {
   const { label, meta, status, selected = false, disabled = false, onSelect, className } = props
   const state = rackRowState(selected, disabled)
   const styles = STATE[state]
-  const classes = [BASE, styles.row, className].filter(Boolean).join(' ')
-  const hasTrailing = meta !== undefined || status !== undefined
+  const fault = status === 'fault'
+  const classes = [BASE, styles.row, fault ? FAULT_TEXTURE : TEXTURE, className].filter(Boolean).join(' ')
+  // A faulted sensor has no trustworthy value: the placeholder replaces whatever `meta` holds.
+  const shownMeta = fault ? PLACEHOLDER : meta
+  const hasTrailing = shownMeta !== undefined || status !== undefined
 
   const content = (
     <>
@@ -110,9 +124,12 @@ export function RackRow(props: RackRowProps) {
         </span>
         {hasTrailing && (
           <span className="ms-auto flex shrink-0 items-center gap-3">
-            {meta !== undefined && (
-              <span className="num whitespace-nowrap text-12 [color:var(--rack-row-meta-color)]">
-                {meta}
+            {shownMeta !== undefined && (
+              <span
+                className="num whitespace-nowrap text-12 [color:var(--rack-row-meta-color)]"
+                {...(fault ? { 'data-part': 'placeholder' } : {})}
+              >
+                {shownMeta}
               </span>
             )}
             {status !== undefined && <StatusChip status={status} size="sm" />}
@@ -128,6 +145,7 @@ export function RackRow(props: RackRowProps) {
   const common = {
     className: classes,
     'data-state': state,
+    ...(fault ? { 'data-fault': 'true' } : {}),
     ...(selected ? { 'aria-current': true as const } : {}),
   }
 

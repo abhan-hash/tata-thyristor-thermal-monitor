@@ -6,10 +6,11 @@ import { MemoryRouter } from 'react-router'
 import { describe, expect } from 'vitest'
 import { TEMP_C_SPEC } from '../../src/domain/format'
 import { DEFAULT_THRESHOLDS } from '../../src/domain/thresholds'
-import type { Status } from '../../src/domain/types'
+import type { ChannelId, Status } from '../../src/domain/types'
 import { KpiTile } from '../../src/kit/KpiTile'
 import { RackRow } from '../../src/kit/RackRow'
 import { STATUS_LABEL, StatusChip } from '../../src/kit/StatusChip'
+import { type BridgeDevice, BridgeSchematic } from '../../src/visuals/bridge/BridgeSchematic'
 import { HeatDisc } from '../../src/visuals/heat/HeatDisc'
 import { propertyTest } from './runner'
 
@@ -19,10 +20,10 @@ import { propertyTest } from './runner'
  * status-bearing surface) in state s, the accessible output contains a
  * non-empty text label for s and an icon with a distinct shape per status.
  *
- * Each surface is a `StatusCase`; task 13.2 adds the bridge-device case to
- * `CASES` and the single property below covers it unchanged.
+ * Each surface is a `StatusCase`; the single property below covers every
+ * case, including the bridge device (task 13.2) with arbitrary per-channel status.
  *
- * **Validates: Requirements 5.1, 5.2, 5.3**
+ * **Validates: Requirements 5.1, 5.2, 5.3, 17.3, 21.1**
  */
 
 const STATUSES: readonly Status[] = ['normal', 'warning', 'critical', 'fault']
@@ -32,7 +33,7 @@ interface StatusCase {
   /** Element rendering the surface in `status`, with an arbitrary caller label. */
   element: (status: Status, label: string) => ReactElement
   /** The node whose accessible output must carry the status text. */
-  root: (container: HTMLElement) => Element | null
+  root: (container: HTMLElement, label: string) => Element | null
   /** Shape identifier of the status icon drawn for the surface. */
   shape: (root: Element) => string | null
 }
@@ -69,6 +70,34 @@ function tjFor(status: Status): number {
     case 'fault':
       return Number.NaN
   }
+}
+
+const CHANNELS: readonly ChannelId[] = [1, 2, 3, 4, 5, 6]
+
+/** Small stable hash of the arbitrary label, used to vary the bridge layout per run. */
+function seed(label: string): number {
+  let h = 0
+  for (const ch of label) h = (h * 31 + (ch.codePointAt(0) ?? 0)) >>> 0
+  return h
+}
+
+/**
+ * Bridge with an arbitrary Status per channel: the device under test (picked
+ * from the label) is in `status`, the other five get statuses derived from the
+ * label, so neighbouring devices cannot leak their status into the target.
+ */
+function bridgeTarget(label: string): ChannelId {
+  return CHANNELS[seed(label) % CHANNELS.length] ?? 1
+}
+
+function bridgeDevices(status: Status, label: string): BridgeDevice[] {
+  const target = bridgeTarget(label)
+  let h = seed(label)
+  return CHANNELS.map((id) => {
+    h = (h * 1103515245 + 12345) >>> 0
+    const s = id === target ? status : (STATUSES[h % STATUSES.length] ?? 'normal')
+    return { id, tj_estimated: tjFor(s), status: s }
+  })
 }
 
 const CASES: readonly StatusCase[] = [
@@ -109,6 +138,13 @@ const CASES: readonly StatusCase[] = [
     // Normal keeps the reference's gold ring; other states swap in the status icon.
     shape: (root) => iconShape(root) ?? root.querySelector('[data-marker]')?.getAttribute('data-marker') ?? null,
   },
+  {
+    name: 'BridgeSchematic device',
+    element: (status, label) => <BridgeSchematic devices={bridgeDevices(status, label)} />,
+    // The device is a `g role="button"`; its accessible name carries id, Tj and status.
+    root: (c, label) => c.querySelector(`[role="button"][data-channel="${bridgeTarget(label)}"]`),
+    shape: iconShape,
+  },
 ]
 
 interface Observation {
@@ -120,7 +156,7 @@ interface Observation {
 function observe(c: StatusCase, status: Status, label: string): Observation {
   const { container, unmount } = render(c.element(status, label))
   try {
-    const root = c.root(container)
+    const root = c.root(container, label)
     expect(root, `${c.name}: root element`).not.toBeNull()
     if (!root) throw new Error('unreachable')
     const statusNode = root.matches('[data-status]') ? root : root.querySelector('[data-status]')

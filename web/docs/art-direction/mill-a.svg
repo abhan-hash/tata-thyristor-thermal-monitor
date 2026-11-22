@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600">
+  <!--
+    MILL_CUTAWAY · SKETCH A · FRONT SECTION
+    View looks along the rolling direction. The 4-high stand is cut through the
+    housing posts (hatched). The strip is a thin glowing bar in the roll gap.
+    Spindles run out through the right post to the pinion box and motor; the
+    drive cabinet carries a thumbnail 6-pulse bridge on its door.
+    Gold callouts mark live data bindings.
+  -->
+  <defs>
+    <style>
+      .lbl  { font-family: 'Archivo Variable', Archivo, 'Arial Narrow', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.32em; fill: #9A958C; }
+      .lblg { font-family: 'Archivo Variable', Archivo, 'Arial Narrow', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.32em; fill: #F2B533; }
+      .bind { font-family: 'Archivo Variable', Archivo, 'Arial Narrow', sans-serif; font-weight: 400; font-size: 10px; fill: #E9E5DD; }
+      .ttl  { font-family: 'Archivo Variable', Archivo, sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 0.04em; }
+      .gold { fill: none; stroke: #F2B533; stroke-width: 1.25; }
+      .goldt{ fill: none; stroke: #B9821A; stroke-width: 0.75; }
+      .gs   { stroke: #F2B533; stroke-width: 1.25; }
+      .gst  { stroke: #B9821A; stroke-width: 0.75; }
+      .call { fill: none; stroke: #F7CD6A; stroke-width: 0.75; stroke-dasharray: 3 3; }
+    </style>
+
+    <linearGradient id="ttlGrad" x1="0" x2="1">
+      <stop offset="0" stop-color="#FF6A1A"/><stop offset="0.6" stop-color="#FFB766"/><stop offset="1" stop-color="#F7CD6A"/>
+    </linearGradient>
+    <!-- roll body: matte cylinder shading -->
+    <linearGradient id="rollV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A3733"/><stop offset="0.35" stop-color="#2C2A27"/>
+      <stop offset="0.7" stop-color="#1A1918"/><stop offset="1" stop-color="#0E0D0C"/>
+    </linearGradient>
+    <!-- work rolls catch strip heat on the side facing the gap -->
+    <linearGradient id="wrTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2C2A27"/><stop offset="0.3" stop-color="#211F1D"/><stop offset="1" stop-color="#A8141C" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="wrBot" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#141312"/><stop offset="0.3" stop-color="#211F1D"/><stop offset="1" stop-color="#A8141C" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="stripH" x1="0" x2="1">
+      <stop offset="0" stop-color="#F2421A"/><stop offset="0.2" stop-color="#FF9233"/>
+      <stop offset="0.5" stop-color="#FFD9A0"/><stop offset="0.8" stop-color="#FF9233"/><stop offset="1" stop-color="#F2421A"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FF9233" stop-opacity="0.85"/>
+      <stop offset="0.45" stop-color="#F2421A" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#6E0B16" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ramp" x1="0" x2="1">
+      <stop offset="0" stop-color="#3A2A1E"/><stop offset="0.15" stop-color="#6E0B16"/><stop offset="0.3" stop-color="#A8141C"/>
+      <stop offset="0.45" stop-color="#D9231A"/><stop offset="0.6" stop-color="#F2421A"/><stop offset="0.72" stop-color="#FF6A1A"/>
+      <stop offset="0.84" stop-color="#FF9233"/><stop offset="0.93" stop-color="#FFB766"/><stop offset="1" stop-color="#FFD9A0"/>
+    </linearGradient>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#1A1918"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#3A3733" stroke-width="1.4"/>
+    </pattern>
+    <pattern id="vent" width="8" height="5" patternUnits="userSpaceOnUse">
+      <rect width="8" height="5" fill="#141312"/><rect y="1" width="8" height="1.6" fill="#2C2A27"/>
+    </pattern>
+    <filter id="blur8" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="blur3" x="-20%" y="-200%" width="140%" height="500%"><feGaussianBlur stdDeviation="2.5"/></filter>
+    <filter id="matte" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
+    </filter>
+    <clipPath id="window"><rect x="300" y="130" width="280" height="340"/></clipPath>
+  </defs>
+
+  <!-- background + contour texture -->
+  <rect width="960" height="600" fill="#141312"/>
+  <g fill="none" stroke="#211F1D" stroke-width="1">
+    <path d="M-20 80 C 160 40, 300 120, 480 70 S 800 30, 980 90"/>
+    <path d="M-20 120 C 150 90, 320 160, 500 110 S 820 70, 980 140"/>
+    <path d="M-20 520 C 200 480, 360 560, 560 510 S 840 470, 980 540"/>
+    <path d="M-20 560 C 180 530, 380 600, 580 550 S 860 520, 980 580"/>
+    <path d="M40 300 C 70 220, 160 210, 190 280 S 150 380, 90 370 S 20 350, 40 300 Z"/>
+  </g>
+  <rect width="960" height="600" filter="url(#matte)"/>
+
+  <!-- header -->
+  <text x="32" y="40" class="lblg">MILL_CUTAWAY · SKETCH A</text>
+  <text x="32" y="66" class="ttl" fill="url(#ttlGrad)">Front section · 4-high stand</text>
+  <text x="32" y="84" class="lbl">VIEW ALONG ROLLING DIRECTION</text>
+
+  <!-- floor line -->
+  <line x1="200" y1="510" x2="940" y2="510" class="goldt"/>
+  <g stroke="#3A3733" stroke-width="1">
+    <line x1="210" y1="510" x2="200" y2="520"/><line x1="240" y1="510" x2="230" y2="520"/><line x1="270" y1="510" x2="260" y2="520"/>
+    <line x1="640" y1="510" x2="630" y2="520"/><line x1="670" y1="510" x2="660" y2="520"/><line x1="700" y1="510" x2="690" y2="520"/>
+    <line x1="780" y1="510" x2="770" y2="520"/><line x1="810" y1="510" x2="800" y2="520"/><line x1="840" y1="510" x2="830" y2="520"/>
+    <line x1="870" y1="510" x2="860" y2="520"/><line x1="900" y1="510" x2="890" y2="520"/>
+  </g>
+
+  <!-- ===== HOUSING (section cut, hatched) ===== -->
+  <path d="M250 96 H630 V510 H580 V470 H300 V510 H250 Z M300 130 V470 H580 V130 Z" fill="url(#hatch)" fill-rule="evenodd"/>
+  <path d="M250 96 H630 V510 H580 V470 H300 V510 H250 Z" class="gold"/>
+  <rect x="300" y="130" width="280" height="340" class="gold"/>
+  <!-- screwdown -->
+  <rect x="430" y="60" width="20" height="36" fill="#211F1D" class="gs"/>
+  <g stroke="#B9821A" stroke-width="0.75"><line x1="430" y1="66" x2="450" y2="70"/><line x1="430" y1="74" x2="450" y2="78"/><line x1="430" y1="82" x2="450" y2="86"/><line x1="430" y1="90" x2="450" y2="94"/></g>
+  <rect x="418" y="50" width="44" height="10" rx="2" fill="#2C2A27" class="gs"/>
+  <rect x="434" y="96" width="12" height="40" fill="#2C2A27" stroke="#B9821A" stroke-width="0.75"/>
+
+  <!-- ===== HEAT GLOW in the window (stepped bands) ===== -->
+  <g clip-path="url(#window)">
+    <rect x="300" y="130" width="280" height="340" fill="#0E0D0C"/>
+    <ellipse cx="440" cy="290" rx="210" ry="120" fill="url(#glow)" filter="url(#blur8)"/>
+    <ellipse cx="440" cy="290" rx="170" ry="34" fill="#6E0B16" opacity="0.55"/>
+    <ellipse cx="440" cy="290" rx="150" ry="22" fill="#A8141C" opacity="0.6"/>
+  </g>
+
+  <!-- ===== ROLLS ===== -->
+  <!-- chocks -->
+  <g fill="#211F1D" stroke="#B9821A" stroke-width="0.75">
+    <rect x="304" y="142" width="22" height="86"/><rect x="554" y="142" width="22" height="86"/>
+    <rect x="308" y="238" width="18" height="44"/><rect x="554" y="238" width="18" height="44"/>
+    <rect x="308" y="298" width="18" height="44"/><rect x="554" y="298" width="18" height="44"/>
+    <rect x="304" y="352" width="22" height="86"/><rect x="554" y="352" width="22" height="86"/>
+  </g>
+  <!-- backup roll top -->
+  <rect x="326" y="140" width="228" height="90" rx="6" fill="url(#rollV)" class="gs"/>
+  <line x1="332" y1="150" x2="548" y2="150" stroke="#6E6A63" stroke-width="0.6" opacity="0.6"/>
+  <!-- work roll top -->
+  <rect x="326" y="238" width="228" height="46" rx="4" fill="url(#wrTop)" class="gs"/>
+  <!-- strip: glowing bar in the gap -->
+  <rect x="318" y="284" width="244" height="12" fill="#FF6A1A" filter="url(#blur8)" opacity="0.9"/>
+  <rect x="318" y="285" width="244" height="10" fill="#FFB766" filter="url(#blur3)"/>
+  <rect x="330" y="286.5" width="220" height="7" fill="url(#stripH)"/>
+  <!-- work roll bottom -->
+  <rect x="326" y="296" width="228" height="46" rx="4" fill="url(#wrBot)" class="gs"/>
+  <!-- backup roll bottom -->
+  <rect x="326" y="350" width="228" height="90" rx="6" fill="url(#rollV)" class="gs"/>
+  <line x1="332" y1="430" x2="548" y2="430" stroke="#6E6A63" stroke-width="0.6" opacity="0.4"/>
+  <!-- roll centrelines -->
+  <g stroke="#6E6A63" stroke-width="0.6" stroke-dasharray="10 3 2 3">
+    <line x1="290" y1="185" x2="600" y2="185"/><line x1="290" y1="261" x2="640" y2="261"/>
+    <line x1="290" y1="319" x2="640" y2="319"/><line x1="290" y1="395" x2="600" y2="395"/>
+  </g>
+
+  <!-- ===== SPINDLES → PINION BOX → MOTOR ===== -->
+  <g fill="#211F1D" class="gold">
+    <rect x="554" y="254" width="96" height="14" fill="#2C2A27"/>
+    <rect x="554" y="312" width="96" height="14" fill="#2C2A27"/>
+  </g>
+  <g stroke="#B9821A" stroke-width="0.75"><line x1="600" y1="254" x2="600" y2="268"/><line x1="604" y1="254" x2="604" y2="268"/><line x1="600" y1="312" x2="600" y2="326"/><line x1="604" y1="312" x2="604" y2="326"/></g>
+  <rect x="650" y="226" width="44" height="128" rx="3" fill="#211F1D" class="gs"/>
+  <text x="672" y="372" class="lbl" text-anchor="middle">PINION</text>
+  <rect x="694" y="284" width="14" height="12" fill="#2C2A27" class="gs"/>
+  <!-- DC motor -->
+  <rect x="708" y="236" width="74" height="108" rx="10" fill="#1A1918" class="gs"/>
+  <g stroke="#3A3733" stroke-width="2"><line x1="716" y1="246" x2="716" y2="334"/><line x1="726" y1="246" x2="726" y2="334"/><line x1="736" y1="246" x2="736" y2="334"/><line x1="746" y1="246" x2="746" y2="334"/><line x1="756" y1="246" x2="756" y2="334"/><line x1="766" y1="246" x2="766" y2="334"/><line x1="774" y1="246" x2="774" y2="334"/></g>
+  <rect x="716" y="344" width="58" height="12" fill="#211F1D" class="gst"/>
+  <text x="745" y="226" class="lbl" text-anchor="middle">DC MOTOR</text>
+
+  <!-- ===== DRIVE CABINET ===== -->
+  <rect x="806" y="140" width="128" height="370" rx="3" fill="#1A1918" class="gs"/>
+  <rect x="806" y="140" width="128" height="370" rx="3" filter="url(#matte)"/>
+  <line x1="807" y1="141" x2="933" y2="141" stroke="#6E6A63" stroke-width="1"/>
+  <rect x="816" y="152" width="108" height="10" fill="url(#vent)"/>
+  <!-- door -->
+  <rect x="816" y="172" width="108" height="270" rx="2" fill="#141312" stroke="#B9821A" stroke-width="0.75"/>
+  <rect x="826" y="186" width="88" height="96" rx="2" fill="#0E0D0C" class="gst"/>
+  <!-- thumbnail 6-pulse bridge -->
+  <g transform="translate(830 192)" stroke="#F2B533" stroke-width="0.9" fill="none">
+    <line x1="4" y1="6" x2="76" y2="6"/><line x1="4" y1="80" x2="76" y2="80"/>
+    <g id="leg">
+      <line x1="16" y1="6" x2="16" y2="80"/>
+      <path d="M11 20 L21 20 L16 28 Z" fill="#F2B533"/><line x1="11" y1="28" x2="21" y2="28"/>
+      <path d="M11 54 L21 54 L16 62 Z" fill="#F2B533"/><line x1="11" y1="62" x2="21" y2="62"/>
+      <circle cx="16" cy="43" r="1.6" fill="#F2B533"/>
+    </g>
+    <use href="#leg" x="24"/>
+    <g>
+      <line x1="64" y1="6" x2="64" y2="80"/>
+      <path d="M59 20 L69 20 L64 28 Z" fill="#FF6A1A" stroke="#FF6A1A"/><line x1="59" y1="28" x2="69" y2="28" stroke="#FF6A1A"/>
+      <path d="M59 54 L69 54 L64 62 Z" fill="#F2B533"/><line x1="59" y1="62" x2="69" y2="62"/>
+      <circle cx="64" cy="43" r="1.6" fill="#F2B533"/>
+    </g>
+    <circle cx="64" cy="24" r="9" fill="#FF6A1A" opacity="0.25" stroke="none"/>
+  </g>
+  <text x="870" y="298" class="lbl" text-anchor="middle">6-PULSE</text>
+  <!-- LEDs + handle -->
+  <circle cx="834" cy="318" r="3" fill="#7FB77E"/><circle cx="846" cy="318" r="3" fill="#F2B533"/><circle cx="858" cy="318" r="3" fill="#3A3733"/>
+  <rect x="908" y="300" width="6" height="40" rx="3" fill="#2C2A27" class="gst"/>
+  <rect x="826" y="380" width="88" height="48" fill="url(#vent)"/>
+  <rect x="826" y="380" width="88" height="48" fill="#FF6A1A" opacity="0.12"/>
+  <text x="870" y="470" class="lbl" text-anchor="middle">DRIVE CABINET</text>
+  <!-- armature cable motor → cabinet -->
+  <path d="M782 270 C 795 270, 795 220, 806 220" fill="none" stroke="#F2B533" stroke-width="1.5"/>
+  <path d="M782 310 C 798 310, 798 240, 806 240" fill="none" stroke="#B9821A" stroke-width="1.5"/>
+
+  <!-- ===== DATA BINDING CALLOUTS ===== -->
+  <g>
+    <circle cx="340" cy="290" r="3" fill="#F7CD6A"/>
+    <path d="M340 290 L230 290 L200 260" class="call"/>
+    <text x="40" y="236" class="lblg">BIND · STRIP GLOW</text>
+    <text x="40" y="252" class="bind">opacity + bloom pulse on</text>
+    <text x="40" y="266" class="bind">detectSpikeOnsets(current)</text>
+    <text x="40" y="280" class="bind">→ bar_entry bite</text>
+  </g>
+  <g>
+    <circle cx="870" cy="214" r="3" fill="#F7CD6A"/>
+    <path d="M870 214 L870 124 L760 124" class="call"/>
+    <text x="634" y="112" class="lblg">BIND · DOOR BRIDGE</text>
+    <text x="634" y="128" class="bind">BridgeSchematic @ thumbnail</text>
+    <text x="634" y="142" class="bind">device tint ← Tj status</text>
+  </g>
+  <g>
+    <circle cx="794" cy="245" r="3" fill="#F7CD6A"/>
+    <path d="M794 245 L794 200 L760 200" class="call"/>
+    <text x="664" y="196" class="lbl" text-anchor="start">ARMATURE I</text>
+  </g>
+  <g>
+    <circle cx="870" cy="404" r="3" fill="#F7CD6A"/>
+    <path d="M870 404 L870 548" class="call"/>
+    <text x="934" y="562" class="lblg" text-anchor="end">BIND · VENT WARMTH ← HOTTEST TJ</text>
+  </g>
+
+  <!-- heat ramp legend -->
+  <text x="32" y="548" class="lbl">STRIP GLOW · IDLE → BITE</text>
+  <rect x="32" y="556" width="260" height="8" fill="url(#ramp)"/>
+  <rect x="32" y="556" width="260" height="8" fill="none" stroke="#B9821A" stroke-width="0.5"/>
+  <text x="32" y="580" class="lbl">HEAT-0</text><text x="292" y="580" class="lbl" text-anchor="end">HEAT-1</text>
+</svg>

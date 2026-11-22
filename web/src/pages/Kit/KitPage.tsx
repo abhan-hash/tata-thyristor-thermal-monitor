@@ -11,6 +11,7 @@ import { ConnectionBannerSpecimen, EmptyStateSpecimen } from './specimens/Feedba
 import { IconsSpecimen, TokensSpecimen, TypeScaleSpecimen } from './specimens/Foundations'
 import { HeatDefsSpecimen, HeatDiscSpecimen, HeatSmearTitleSpecimen } from './specimens/Heat'
 import { ChartFrameSpecimen, KpiTileSpecimen, SparklineSpecimen, StaleChipSpecimen, StatusChipSpecimen } from './specimens/Readouts'
+import { AirflowDiagramSpecimen, BridgeSchematicSpecimen, FosterLadderSpecimen, HeatBlobsSpecimen, IsometricConsoleSpecimen, MillCutawaySpecimen } from './specimens/Visuals'
 import { FilterChipSpecimen, RackRowSpecimen, SourceButtonSpecimen, SourceGridSpecimen } from './specimens/Selection'
 
 const SPECIMENS: Readonly<Record<KitSectionId, { body: ComponentType; states: readonly string[] }>> = {
@@ -25,6 +26,12 @@ const SPECIMENS: Readonly<Record<KitSectionId, { body: ComponentType; states: re
   'heat-smear-title': { body: HeatSmearTitleSpecimen, states: ['Intensity 0–1'] },
   'heat-disc': { body: HeatDiscSpecimen, states: ['Normal', 'Warning', 'Critical', 'Fault'] },
   'heat-defs': { body: HeatDefsSpecimen, states: ['Gradient', 'Filters', 'Hatch'] },
+  'heat-blobs': { body: HeatBlobsSpecimen, states: ['Normal', 'Warning', 'Critical', 'All ambient', 'Sensor fault', 'Fan failure', 'Live'] },
+  'isometric-console': { body: IsometricConsoleSpecimen, states: ['Normal', 'Warning', 'Critical', 'All ambient', 'Sensor fault', 'Fan failure', 'Live'] },
+  'bridge-schematic': { body: BridgeSchematicSpecimen, states: ['Full', 'Thumbnail', 'Each status', 'All ambient', 'Sensor fault', 'Selected', 'Live'] },
+  'foster-ladder': { body: FosterLadderSpecimen, states: ['Compact', 'Annotated', 'Each status', 'All ambient', 'Sensor fault', 'Live'] },
+  'mill-cutaway': { body: MillCutawaySpecimen, states: ['Steady', 'Bar bite', 'Critical', 'Idle', 'Sensor fault', 'Live'] },
+  'airflow-diagram': { body: AirflowDiagramSpecimen, states: ['Normal', 'Clogging', 'Critical', 'All ambient', 'Sensor fault', 'Fan off', 'Live'] },
   'status-chip': { body: StatusChipSpecimen, states: ['Each status', 'Two sizes'] },
   'stale-chip': { body: StaleChipSpecimen, states: ['Two sizes'] },
   'kpi-tile': { body: KpiTileSpecimen, states: ['Each status', 'Default', 'Loading'] },

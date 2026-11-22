@@ -26,7 +26,11 @@ export interface KpiTileProps {
   delta?: number
   /** Caption after the delta, e.g. "60 S". */
   deltaLabel?: string
-  /** When set, a `StatusChip` (icon + text) and a matching top edge are shown. */
+  /**
+   * When set, a `StatusChip` (icon + text) and a matching top edge are shown.
+   * `fault` (sensor fault) also lays the fault hatch over the tile and shows
+   * "— —" for the value and delta, whatever `value` holds (Requirement 21.1).
+   */
   status?: Status
   className?: string
 }
@@ -57,8 +61,12 @@ const TILE = [
   'relative isolate flex min-w-0 flex-col gap-3 overflow-hidden',
   'rounded-[var(--kpi-radius)] border p-[var(--kpi-pad)]',
   '[background-color:var(--kpi-bg)] [border-color:var(--kpi-border)]',
-  '[background-image:var(--kpi-sheen)] shadow-[var(--kpi-shadow)]',
+  'shadow-[var(--kpi-shadow)]',
 ].join(' ')
+const SHEEN = '[background-image:var(--kpi-sheen)]'
+
+/** Fault hatch over the sheen; hue-free so it never reads as a heat colour. */
+const FAULT_BG = '[background-image:var(--kpi-fault-bg),var(--kpi-sheen)]'
 
 const LABEL = [
   'max-w-full uppercase leading-tight [color:var(--kpi-label-color)] [overflow-wrap:break-word]',
@@ -114,17 +122,20 @@ export function KpiTile({
 }: KpiTileProps) {
   const valueRef = useRef<HTMLSpanElement>(null)
   const widthCh = kpiValueWidthCh(spec)
+  const fault = status === 'fault'
 
+  // The subscription is re-bound on every render, so it always sees the current fault flag.
   useMotionValueEvent(value, 'change', (latest) => {
     const node = valueRef.current
-    if (node) node.textContent = kpiValueText(latest, spec)
+    if (node) node.textContent = kpiValueText(fault ? Number.NaN : latest, spec)
   })
 
+  const shownDelta = fault && delta !== undefined ? Number.NaN : delta
   const hasFooter = series !== undefined || delta !== undefined
   const direction =
-    delta === undefined || !Number.isFinite(delta) || formatDelta(delta, spec).startsWith('\u00B1')
+    shownDelta === undefined || !Number.isFinite(shownDelta) || formatDelta(shownDelta, spec).startsWith('\u00B1')
       ? 'flat'
-      : delta > 0
+      : shownDelta > 0
         ? 'up'
         : 'down'
 
@@ -132,8 +143,9 @@ export function KpiTile({
     <div
       role="group"
       aria-label={label}
-      className={cx(TILE, className)}
+      className={cx(TILE, fault ? FAULT_BG : SHEEN, className)}
       {...(status ? { 'data-status': status } : {})}
+      {...(fault ? { 'data-fault': 'true' } : {})}
     >
       {status && (
         <span aria-hidden="true" className={cx('absolute inset-x-0 top-0 h-0.5', EDGE[status])} />
@@ -156,9 +168,9 @@ export function KpiTile({
         data-testid="kpi-readout"
       >
         <span ref={valueRef} className={VALUE} data-testid="kpi-value">
-          {kpiValueText(value.get(), spec)}
+          {kpiValueText(fault ? Number.NaN : value.get(), spec)}
         </span>
-        {unit && (
+        {unit && !fault && (
           <span className="shrink-0 text-[length:var(--kpi-unit-size)] [color:var(--kpi-unit-color)] [font-weight:var(--font-label-weight)]">
             {unit}
           </span>
@@ -177,15 +189,15 @@ export function KpiTile({
               {...(bands ? { bands } : {})}
             />
           )}
-          {delta !== undefined && (
+          {shownDelta !== undefined && (
             <span
               className="num ms-auto flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[length:var(--kpi-delta-size)] [color:var(--kpi-delta-color)]"
               data-testid="kpi-delta"
             >
-              {Number.isFinite(delta) && <DeltaArrow direction={direction} />}
+              {Number.isFinite(shownDelta) && <DeltaArrow direction={direction} />}
               <span>
-                {formatDelta(delta, spec)}
-                {unit ? ` ${unit}` : ''}
+                {formatDelta(shownDelta, spec)}
+                {unit && !fault ? ` ${unit}` : ''}
               </span>
               {deltaLabel && (
                 <span className="uppercase tracking-[0.16em] [color:var(--kpi-delta-caption-color)]">

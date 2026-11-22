@@ -52,6 +52,19 @@ export const KIT_CHAPTERS = [
     ],
   },
   {
+    id: 'visuals',
+    title: 'Signature visuals',
+    summary: 'The drive drawn as heat, hardware and circuit. Each in fixed states, then bound to the live store.',
+    sections: [
+      { id: 'heat-blobs', name: 'HeatBlobs', summary: 'Stepped isotherms of the six channel Tj values, hottest innermost.' },
+      { id: 'isometric-console', name: 'IsometricConsole', summary: 'Matte slab with the hottest Tj on the disc, armature and ambient knobs and an airflow fader.' },
+      { id: 'bridge-schematic', name: 'BridgeSchematic', summary: 'Six-pulse bridge with heat-filled devices; full and cabinet-door thumbnail.' },
+      { id: 'foster-ladder', name: 'FosterLadder', summary: 'Junction → case → heatsink → air RC ladder with τ chips; compact and annotated.' },
+      { id: 'mill-cutaway', name: 'MillCutaway', summary: 'Stand cutaway whose strip pulses on each bar-entry current spike.' },
+      { id: 'airflow-diagram', name: 'AirflowDiagram', summary: 'Cabinet air path; particles stop and the exchanger changes fill when the fan fails.' },
+    ],
+  },
+  {
     id: 'readouts',
     title: 'Status and readouts',
     summary: 'How a value, its trend and its status are read at a glance.',

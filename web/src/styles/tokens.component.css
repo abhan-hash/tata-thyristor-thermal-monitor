@@ -86,6 +86,15 @@
     transparent 0.9px
   );
   --rack-row-texture-size: 3px 3px;
+  /* Sensor fault (Requirement 21.1): a quiet hue-free hatch over the whole row or tile. */
+  --fault-wash: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--status-fault) 9%, transparent) 0 4px,
+    transparent 4px 8px
+  );
+  --rack-row-fault-texture: var(--fault-wash);
+  --rack-row-fault-texture-size: auto;
+  --kpi-fault-bg: var(--fault-wash);
   /* Fluid label size: 12 px at 390 px viewports, 14 px from ~1100 px up. */
   --rack-row-label-size: clamp(12px, 0.68rem + 0.28vw, 14px);
   --rack-row-label-width: var(--font-label-width);
