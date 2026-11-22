@@ -1,0 +1,115 @@
+/*
+ * Global styles: the three token layers, base page styles, numeric utility,
+ * focus ring and the reduced-motion base rule.
+ */
+@import './tokens.primitive.css';
+@import './tokens.semantic.css';
+@import './tokens.component.css';
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-weight: var(--font-body-weight);
+    font-stretch: var(--font-body-width);
+    font-size: var(--text-16);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--surface-page);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  :focus-visible,
+  /* Forced focus for the kit gallery's state specimens (Requirement 7.2). */
+  :where([data-force-state~='focus'])
+    :is(a[href], button:enabled, input:enabled, select:enabled, textarea:enabled, [tabindex='0']) {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+@layer utilities {
+  /* Tabular figures so readouts never shift width (Requirement 3.7). */
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+}
+
+/*
+ * Motion (Requirements 33.3, 33.7, 33.10, 34.1). Every animation here is
+ * listed in docs/motion-audit.md with the state it communicates. Only
+ * `opacity` and `scale` are animated.
+ */
+@layer base {
+  /* Press feedback: scale(0.97) over --dur-1. `scale` is its own property, so translate utilities are untouched. */
+  :where(button:enabled, [role='button']) {
+    transition: scale var(--dur-1) var(--ease-out);
+  }
+  :where(button:enabled, [role='button']):active {
+    scale: 0.97;
+  }
+  /* SVG buttons (bridge devices) scale about their own centre. */
+  :where(svg [role='button']) {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+}
+
+@layer utilities {
+  /* Critical glow: the only looping animation; it stops as soon as the channel leaves critical. */
+  .motion-critical-pulse {
+    animation: critical-pulse 1.6s var(--ease-in-out) infinite;
+  }
+  /* Sync_Pulse: one flash per Display_Tick. */
+  .motion-sync-flash {
+    animation: sync-flash var(--dur-entrance) var(--ease-out) 1 both;
+  }
+}
+
+@keyframes critical-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes sync-flash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-critical-pulse,
+  .motion-sync-flash {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

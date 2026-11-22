@@ -1,0 +1,64 @@
+/*
+ * Semantic token layer: purpose aliases over the primitive layer.
+ * Components may use these and the component layer, never --ink-* / --gold-*.
+ */
+:root {
+  /* Surfaces */
+  --surface-page: var(--ink-950);
+  --surface-panel: var(--ink-900);
+  --surface-raised: var(--ink-850);
+  --surface-sunken: #0B0A09;
+
+  /* Lines */
+  --line-subtle: var(--ink-700);
+  --line-strong: var(--ink-600);
+  /* Boundary of an interactive control (field, filter chip): ≥ 3:1 on panel and sunken (WCAG 1.4.11). */
+  --line-control: var(--ink-400);
+  --line-contour-opacity: 0.06;
+
+  /* Text */
+  --text-primary: var(--ink-100);
+  --text-secondary: var(--ink-300);
+  /* ink-350, not ink-400: keeps muted body text at or above 4.5:1 on panel and raised surfaces. */
+  --text-muted: var(--ink-350);
+
+  /* Accent */
+  --accent: var(--gold-500);
+  --accent-strong: var(--gold-300);
+  --on-accent: var(--ink-950);
+
+  /*
+   * Status (chips always pair colour with an icon and text).
+   * Fault is ink-100 on a striped hatch, so it never relies on hue alone.
+   */
+  --status-normal: var(--ink-300);
+  --status-warning: var(--heat-3);
+  --status-critical: var(--heat-6);
+  /* Critical as small text: heat-6 alone is ~3.9:1 on the dark surfaces,
+     so text is lifted toward the primary text colour to clear 4.5:1. */
+  --status-critical-text: color-mix(in srgb, var(--status-critical) 70%, var(--text-primary));
+  --status-fault: var(--ink-100);
+  --status-fault-hatch: repeating-linear-gradient(
+    -45deg,
+    var(--ink-700) 0 4px,
+    var(--ink-900) 4px 8px
+  );
+
+  /*
+   * Heat: --heat-0 … --heat-8 are defined once in tokens.primitive.css and
+   * exposed to components under the same names (a self-alias such as
+   * `--heat-0: var(--heat-0)` would be a cycle and invalidate the token).
+   * Temperature encoding only; never use them for chrome.
+   */
+
+  /* Focus: 2 px gold-300 ring with a 2 px ink-950 offset */
+  --focus-ring-color: var(--gold-300);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-offset-color: var(--ink-950);
+  --focus-ring: 0 0 0 var(--focus-ring-offset) var(--focus-ring-offset-color),
+    0 0 0 calc(var(--focus-ring-offset) + var(--focus-ring-width)) var(--focus-ring-color);
+
+  /* Type roles */
+  --font-sans: var(--font-family-base);
+}

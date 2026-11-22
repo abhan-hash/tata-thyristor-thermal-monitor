@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600">
+  <!--
+    AIRFLOW_DIAGRAM · SKETCH A · CLOSED-LOOP SCHEMATIC
+    Cabinet air runs a rectangular loop: blower (bottom) → thyristor heatsink
+    stack (left, picks up heat) → hot duct (top) → air-to-water heat exchanger
+    (right, sheds heat) → back to the blower. Particles are colour-coded by air
+    temperature and move along the loop with CSS transforms (≤ 40).
+    Gold callouts mark live data bindings.
+  -->
+  <defs>
+    <style>
+      .lbl  { font-family: 'Archivo Variable', Archivo, 'Arial Narrow', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.32em; fill: #9A958C; }
+      .lblg { font-family: 'Archivo Variable', Archivo, 'Arial Narrow', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.32em; fill: #F2B533; }
+      .bind { font-family: 'Archivo Variable', Archivo, 'Arial Narrow', sans-serif; font-weight: 400; font-size: 10px; fill: #E9E5DD; }
+      .val  { font-family: 'Archivo Variable', Archivo, sans-serif; font-weight: 800; font-size: 26px; fill: #E9E5DD; }
+      .ttl  { font-family: 'Archivo Variable', Archivo, sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 0.04em; }
+      .call { fill: none; stroke: #F7CD6A; stroke-width: 0.75; stroke-dasharray: 3 3; }
+    </style>
+    <linearGradient id="ttlGrad" x1="0" x2="1">
+      <stop offset="0" stop-color="#FF6A1A"/><stop offset="0.6" stop-color="#FFB766"/><stop offset="1" stop-color="#F7CD6A"/>
+    </linearGradient>
+    <!-- duct air temperature along the loop: hot on top, cool on bottom -->
+    <linearGradient id="ductAir" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A8141C" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#3A2A1E" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#211F1D" stop-opacity="0.2"/>
+    </linearGradient>
+    <radialGradient id="hsGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FF9233" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#F2421A" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#6E0B16" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hxFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A2A1E"/><stop offset="1" stop-color="#1A1918"/>
+    </linearGradient>
+    <radialGradient id="hub" cx="0.4" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#3A3733"/><stop offset="1" stop-color="#0E0D0C"/>
+    </radialGradient>
+    <linearGradient id="tailHot" x1="0" x2="1">
+      <stop offset="0" stop-color="#F2421A" stop-opacity="0"/><stop offset="1" stop-color="#FF9233"/>
+    </linearGradient>
+    <linearGradient id="tailCool" x1="0" x2="1">
+      <stop offset="0" stop-color="#F7CD6A" stop-opacity="0"/><stop offset="1" stop-color="#FFD9A0"/>
+    </linearGradient>
+    <linearGradient id="tailMid" x1="0" x2="1">
+      <stop offset="0" stop-color="#FF9233" stop-opacity="0"/><stop offset="1" stop-color="#FFB766"/>
+    </linearGradient>
+    <!-- particle glyphs: streak pointing +x, rotate for direction -->
+    <g id="pHot"><rect x="-18" y="-1.5" width="18" height="3" rx="1.5" fill="url(#tailHot)"/><circle r="2.6" fill="#FF6A1A"/></g>
+    <g id="pMid"><rect x="-16" y="-1.5" width="16" height="3" rx="1.5" fill="url(#tailMid)"/><circle r="2.4" fill="#FFB766"/></g>
+    <g id="pCool"><rect x="-14" y="-1.2" width="14" height="2.4" rx="1.2" fill="url(#tailCool)"/><circle r="2.2" fill="#FFD9A0"/></g>
+    <filter id="blur10" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="10"/></filter>
+    <filter id="matte" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0"/>
+    </filter>
+    <marker id="chev" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M2 1 L7 5 L2 9" fill="none" stroke="#F2B533" stroke-width="1.4"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="600" fill="#141312"/>
+  <g fill="none" stroke="#211F1D" stroke-width="1">
+    <path d="M-20 560 C 200 520, 380 590, 580 545 S 860 510, 980 570"/>
+    <path d="M-20 590 C 220 560, 400 620, 600 580 S 880 550, 980 600"/>
+    <path d="M300 300 C 330 250, 420 240, 470 270 S 520 360, 440 370 S 280 350, 300 300 Z"/>
+  </g>
+  <rect width="960" height="600" filter="url(#matte)"/>
+
+  <text x="32" y="40" class="lblg">AIRFLOW_DIAGRAM · SKETCH A</text>
+  <text x="32" y="66" class="ttl" fill="url(#ttlGrad)">Closed cabinet air loop</text>
+  <text x="32" y="84" class="lbl">BLOWER → STACK → EXCHANGER → BLOWER</text>
+
+  <!-- ===== DUCT LOOP ===== -->
+  <path d="M150 110 H800 A40 40 0 0 1 840 150 V460 A40 40 0 0 1 800 500 H150 A40 40 0 0 1 110 460 V150 A40 40 0 0 1 150 110 Z
+           M184 174 H766 A10 10 0 0 1 776 184 V426 A10 10 0 0 1 766 436 H184 A10 10 0 0 1 174 426 V184 A10 10 0 0 1 184 174 Z"
+        fill="#1A1918" fill-rule="evenodd" stroke="#F2B533" stroke-width="1.25"/>
+  <path d="M150 110 H800 A40 40 0 0 1 840 150 V460 A40 40 0 0 1 800 500 H150 A40 40 0 0 1 110 460 V150 A40 40 0 0 1 150 110 Z
+           M184 174 H766 A10 10 0 0 1 776 184 V426 A10 10 0 0 1 766 436 H184 A10 10 0 0 1 174 426 V184 A10 10 0 0 1 184 174 Z"
+        fill="url(#ductAir)" fill-rule="evenodd"/>
+  <!-- flow centreline with direction chevrons -->
+  <path d="M142 400 V160 Q142 142 160 142 H790 Q808 142 808 160 V450 Q808 468 790 468 H160 Q142 468 142 450 Z"
+        fill="none" stroke="#3A3733" stroke-width="0.75" stroke-dasharray="2 6"/>
+  <path d="M300 142 H320" stroke="none" fill="none" marker-end="url(#chev)"/>
+  <path d="M620 142 H640" fill="none" marker-end="url(#chev)"/>
+  <path d="M808 440 V455" fill="none" marker-end="url(#chev)"/>
+  <path d="M260 468 H245" fill="none" marker-end="url(#chev)"/>
+  <path d="M700 468 H685" fill="none" marker-end="url(#chev)"/>
+  <path d="M142 200 V185" fill="none" marker-end="url(#chev)"/>
+
+  <!-- ===== HEATSINK STACK (left) ===== -->
+  <ellipse cx="142" cy="305" rx="70" ry="110" fill="url(#hsGlow)" filter="url(#blur10)"/>
+  <rect x="104" y="230" width="76" height="150" rx="2" fill="#211F1D" stroke="#F2B533" stroke-width="1.25"/>
+  <g stroke="#B9821A" stroke-width="1">
+    <line x1="110" y1="242" x2="174" y2="242"/><line x1="110" y1="254" x2="174" y2="254"/><line x1="110" y1="266" x2="174" y2="266"/>
+    <line x1="110" y1="278" x2="174" y2="278"/><line x1="110" y1="290" x2="174" y2="290"/>
+    <line x1="110" y1="320" x2="174" y2="320"/><line x1="110" y1="332" x2="174" y2="332"/><line x1="110" y1="344" x2="174" y2="344"/>
+    <line x1="110" y1="356" x2="174" y2="356"/><line x1="110" y1="368" x2="174" y2="368"/>
+  </g>
+  <!-- thyristor puck clamped in the stack -->
+  <rect x="118" y="296" width="48" height="18" rx="3" fill="#FF6A1A" stroke="#FFB766" stroke-width="0.75"/>
+  <rect x="124" y="300" width="36" height="10" rx="2" fill="#FFB766" opacity="0.6"/>
+  <text x="142" y="398" class="lbl" text-anchor="middle">STACK</text>
+
+  <!-- ===== HEAT EXCHANGER (right) ===== -->
+  <rect x="770" y="214" width="76" height="180" rx="2" fill="url(#hxFill)" stroke="#F2B533" stroke-width="1.25"/>
+  <g stroke="#3A3733" stroke-width="1">
+    <line x1="778" y1="220" x2="778" y2="388"/><line x1="786" y1="220" x2="786" y2="388"/><line x1="794" y1="220" x2="794" y2="388"/>
+    <line x1="802" y1="220" x2="802" y2="388"/><line x1="810" y1="220" x2="810" y2="388"/><line x1="818" y1="220" x2="818" y2="388"/>
+    <line x1="826" y1="220" x2="826" y2="388"/><line x1="834" y1="220" x2="834" y2="388"/>
+  </g>
+  <path d="M846 236 H780 V262 H836 V288 H780 V314 H836 V340 H780 V366 H846" fill="none" stroke="#F7CD6A" stroke-width="1.4"/>
+  <path d="M846 236 H930" fill="none" stroke="#F7CD6A" stroke-width="2"/>
+  <path d="M846 366 H930" fill="none" stroke="#FF9233" stroke-width="2"/>
+  <text x="930" y="228" class="lbl" text-anchor="end">COOLANT IN</text>
+  <text x="930" y="384" class="lbl" text-anchor="end">COOLANT OUT</text>
+  <text x="808" y="208" class="lbl" text-anchor="middle">HX</text>
+
+  <!-- ===== BLOWER (bottom) ===== -->
+  <path d="M475 408 A62 62 0 1 1 413 470 L413 500 L475 500 Z" fill="#1A1918" stroke="#F2B533" stroke-width="1.25"/>
+  <circle cx="475" cy="470" r="44" fill="url(#hub)" stroke="#B9821A" stroke-width="0.75"/>
+  <g transform="translate(475 470)" fill="none" stroke="#F2B533" stroke-width="1.4" stroke-linecap="round">
+    <path d="M10 0 Q24 -6 38 4"/><path d="M10 0 Q24 -6 38 4" transform="rotate(45)"/>
+    <path d="M10 0 Q24 -6 38 4" transform="rotate(90)"/><path d="M10 0 Q24 -6 38 4" transform="rotate(135)"/>
+    <path d="M10 0 Q24 -6 38 4" transform="rotate(180)"/><path d="M10 0 Q24 -6 38 4" transform="rotate(225)"/>
+    <path d="M10 0 Q24 -6 38 4" transform="rotate(270)"/><path d="M10 0 Q24 -6 38 4" transform="rotate(315)"/>
+  </g>
+  <circle cx="475" cy="470" r="9" fill="#2C2A27" stroke="#F2B533" stroke-width="1"/>
+  <path d="M520 430 A 60 60 0 0 1 535 470" fill="none" stroke="#F7CD6A" stroke-width="1" marker-end="url(#chev)"/>
+  <text x="475" y="560" class="lbl" text-anchor="middle">CENTRIFUGAL BLOWER</text>
+
+  <!-- ===== PARTICLES (28 shown, ≤ 40 live) ===== -->
+  <!-- left column, rising out of the stack -->
+  <use href="#pCool" transform="translate(142 420) rotate(-90)"/>
+  <use href="#pHot" transform="translate(142 212) rotate(-90)"/>
+  <use href="#pHot" transform="translate(130 180) rotate(-80)"/>
+  <!-- top run, hot -->
+  <use href="#pHot" transform="translate(200 136)"/><use href="#pHot" transform="translate(250 148)"/>
+  <use href="#pHot" transform="translate(300 132)"/><use href="#pHot" transform="translate(360 146)"/>
+  <use href="#pHot" transform="translate(420 138)"/><use href="#pHot" transform="translate(470 150)"/>
+  <use href="#pHot" transform="translate(530 134)"/><use href="#pHot" transform="translate(590 144)"/>
+  <use href="#pHot" transform="translate(650 138)"/><use href="#pHot" transform="translate(705 150)"/>
+  <use href="#pHot" transform="translate(760 136)"/>
+  <!-- right column, cooling through the exchanger -->
+  <use href="#pHot" transform="translate(800 184) rotate(90)"/>
+  <use href="#pMid" transform="translate(816 196) rotate(90)"/>
+  <use href="#pCool" transform="translate(806 420) rotate(90)"/>
+  <use href="#pCool" transform="translate(816 448) rotate(110)"/>
+  <!-- bottom run, cool -->
+  <use href="#pCool" transform="translate(760 474) rotate(180)"/><use href="#pCool" transform="translate(710 462) rotate(180)"/>
+  <use href="#pCool" transform="translate(655 476) rotate(180)"/><use href="#pCool" transform="translate(600 464) rotate(180)"/>
+  <use href="#pCool" transform="translate(360 474) rotate(180)"/><use href="#pCool" transform="translate(305 462) rotate(180)"/>
+  <use href="#pCool" transform="translate(250 476) rotate(180)"/><use href="#pCool" transform="translate(195 464) rotate(180)"/>
+  <use href="#pCool" transform="translate(150 450) rotate(-130)"/>
+
+  <!-- ===== CENTRE READOUT PANEL ===== -->
+  <rect x="350" y="218" width="250" height="122" rx="6" fill="#141312" stroke="#3A3733" stroke-width="1"/>
+  <rect x="350" y="218" width="250" height="122" rx="6" filter="url(#matte)"/>
+  <text x="366" y="240" class="lblg">LOOP STATE</text>
+  <circle cx="584" cy="236" r="4" fill="#7FB77E"/>
+  <text x="572" y="240" class="lbl" text-anchor="end">FAN ON</text>
+  <text x="366" y="280" class="val">100<tspan font-size="12" fill="#9A958C" dx="4">% AIRFLOW</tspan></text>
+  <line x1="366" y1="294" x2="584" y2="294" stroke="#2C2A27"/>
+  <text x="366" y="312" class="lbl">AIR HOT</text><text x="470" y="312" class="lbl">AIR COOL</text>
+  <text x="366" y="328" class="bind" fill="#FF9233">{t_air_hot} °C</text><text x="470" y="328" class="bind">{ambient} °C</text>
+
+  <!-- ===== DATA BINDING CALLOUTS ===== -->
+  <g>
+    <circle cx="180" cy="305" r="3" fill="#F7CD6A"/>
+    <path d="M180 305 H200 V250 H210" class="call"/>
+    <text x="214" y="236" class="lblg">BIND · STACK</text>
+    <text x="214" y="252" class="bind">glow ← hottest Tj</text>
+  </g>
+  <g>
+    <circle cx="770" cy="304" r="3" fill="#F7CD6A"/>
+    <path d="M770 304 H710 V360" class="call"/>
+    <text x="760" y="378" class="lblg" text-anchor="end">BIND · HX FILL</text>
+    <text x="760" y="394" class="bind" text-anchor="end">fan_status false →</text>
+    <text x="760" y="408" class="bind" text-anchor="end">warm stop --heat-4</text>
+  </g>
+  <g>
+    <circle cx="475" cy="408" r="3" fill="#F7CD6A"/>
+    <path d="M475 408 V350" class="call"/>
+    <text x="214" y="384" class="lblg">BIND · BLOWER + PARTICLES</text>
+    <text x="214" y="400" class="bind">fan_status → impeller spin and</text>
+    <text x="214" y="414" class="bind">particle speed; false stops both</text>
+  </g>
+
+  <!-- legend -->
+  <g transform="translate(32 548)">
+    <text class="lbl" y="0">AIR TEMP</text>
+    <use href="#pCool" transform="translate(30 16)"/><text x="40" y="20" class="lbl">COOL</text>
+    <use href="#pMid" transform="translate(120 16)"/><text x="130" y="20" class="lbl">MID</text>
+    <use href="#pHot" transform="translate(200 16)"/><text x="210" y="20" class="lbl">HOT</text>
+  </g>
+</svg>

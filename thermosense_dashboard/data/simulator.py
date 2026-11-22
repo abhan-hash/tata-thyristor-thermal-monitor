@@ -38,7 +38,11 @@ class Simulator:
         
         # State variables for each thyristor
         self.tj_states = np.zeros((6, 3))  # 3 RC layers per thyristor
-        self.heatsink_temps = np.ones(6) * 45.0  # Initial heatsink temp
+        # Duct airflow warming gradient (inlet T1/T2 -> outlet T5/T6)
+        self.duct_factors = np.array([0.96, 0.98, 1.00, 1.01, 1.04, 1.06])
+        # Device forward drop & current sharing variations (+-3%)
+        self.share_factors = np.array([1.02, 0.99, 1.03, 0.98, 1.01, 0.97])
+        self.heatsink_temps = np.array([43.5, 44.2, 45.0, 45.6, 46.8, 47.5])
         self.peak_hold = np.zeros(6)  # Peak Tj in last second
         self.peak_hold_timer = 0.0
         
@@ -97,9 +101,10 @@ class Simulator:
         current = base + spike + noise
         return max(0, current)
     
-    def _calculate_power_loss(self, current: float) -> float:
-        """Calculate power loss in one thyristor (Id/3 assumption)"""
-        i_thyristor = current / 3.0
+    def _calculate_power_loss(self, current: float, thyristor_idx: int = 0) -> float:
+        """Calculate power loss in one thyristor with realistic current sharing variation"""
+        share = self.share_factors[thyristor_idx % 6]
+        i_thyristor = (current / 3.0) * share
         if i_thyristor < 0:
             return 0.0
         
@@ -109,22 +114,21 @@ class Simulator:
     
     def _update_thermal_model(self, thyristor_idx: int, power_loss: float, 
                               heatsink_temp: float, dt: float):
-        """Update 3-layer Foster RC network for junction temperature"""
-        # Simplified Foster network: 3 RC stages in series
-        # Each layer has capacitance and responds at different speeds
-        
-        # Layer 1 (fast): responds to power changes quickly
-        self.tj_states[thyristor_idx, 0] += dt / self.tau_1 * (
+        """Update 3-layer Foster RC network using unconditionally stable exponential discretization"""
+        # Exact exponential discretization: dx/dt = (u - x) / tau
+        # Alpha = 1 - exp(-dt / tau) ensures unconditional numerical stability for any dt > 0
+        alpha_1 = 1.0 - np.exp(-dt / self.tau_1)
+        self.tj_states[thyristor_idx, 0] += alpha_1 * (
             power_loss * self.R_jc / 3 - self.tj_states[thyristor_idx, 0]
         )
         
-        # Layer 2 (medium)
-        self.tj_states[thyristor_idx, 1] += dt / self.tau_2 * (
+        alpha_2 = 1.0 - np.exp(-dt / self.tau_2)
+        self.tj_states[thyristor_idx, 1] += alpha_2 * (
             power_loss * self.R_jc / 3 - self.tj_states[thyristor_idx, 1]
         )
         
-        # Layer 3 (slow)
-        self.tj_states[thyristor_idx, 2] += dt / self.tau_3 * (
+        alpha_3 = 1.0 - np.exp(-dt / self.tau_3)
+        self.tj_states[thyristor_idx, 2] += alpha_3 * (
             power_loss * self.R_jc / 3 - self.tj_states[thyristor_idx, 2]
         )
         
@@ -134,9 +138,10 @@ class Simulator:
         return tj
     
     def _update_heatsink_temp(self, thyristor_idx: int, power_loss: float, dt: float):
-        """Update heatsink temperature with thermal mass"""
-        # Effective R_sa depends on cooling health
-        r_sa = self.R_sa_baseline * (1 + 2 * self.clogging_level)
+        """Update heatsink temperature with duct airflow gradient and thermal mass"""
+        # Effective R_sa depends on cooling health and physical position along cooling duct
+        duct_factor = self.duct_factors[thyristor_idx % 6]
+        r_sa = self.R_sa_baseline * duct_factor * (1 + 2 * self.clogging_level)
         
         # If fan failed, R_sa increases dramatically
         if self.fan_failed:
@@ -146,14 +151,15 @@ class Simulator:
         target_rise = power_loss * r_sa
         target_temp = self.ambient_temp + target_rise
         
-        # Thermal time constant for heatsink (~30 seconds)
+        # Exact exponential discretization for heatsink mass (~30 seconds)
         tau_heatsink = 30.0
-        self.heatsink_temps[thyristor_idx] += dt / tau_heatsink * (
+        alpha_hs = 1.0 - np.exp(-dt / tau_heatsink)
+        self.heatsink_temps[thyristor_idx] += alpha_hs * (
             target_temp - self.heatsink_temps[thyristor_idx]
         )
         
         # Add measurement noise (RTD)
-        noise = np.random.normal(0, 0.1)
+        noise = np.random.normal(0, 0.08)
         return self.heatsink_temps[thyristor_idx] + noise, r_sa
     
     def _calculate_residual(self, thyristor_idx: int, heatsink_temp: float, 
@@ -178,8 +184,8 @@ class Simulator:
         
         # Update each thyristor
         for i in range(6):
-            # Power loss
-            power_loss = self._calculate_power_loss(self.armature_current)
+            # Power loss with channel current sharing variation
+            power_loss = self._calculate_power_loss(self.armature_current, thyristor_idx=i)
             
             # Update heatsink temperature
             heatsink_temp, r_sa = self._update_heatsink_temp(i, power_loss, self.dt)
@@ -217,15 +223,16 @@ class Simulator:
         for i in range(6):
             thyristor = data.thyristors[i]
             
-            # Power loss
-            power_loss = self._calculate_power_loss(self.armature_current)
+            # Power loss with channel differentiation
+            power_loss = self._calculate_power_loss(self.armature_current, thyristor_idx=i)
             
             # Temperatures
             tj = self.peak_hold[i]
             heatsink_temp = self.heatsink_temps[i]
             
             # R_sa
-            r_sa = self.R_sa_baseline * (1 + 2 * self.clogging_level)
+            duct_factor = self.duct_factors[i % 6]
+            r_sa = self.R_sa_baseline * duct_factor * (1 + 2 * self.clogging_level)
             if self.fan_failed:
                 r_sa *= 3.0
             
@@ -236,7 +243,8 @@ class Simulator:
             thyristor.tj_estimated = tj
             thyristor.t_heatsink_measured = heatsink_temp
             thyristor.power_loss = power_loss
-            thyristor.current = self.armature_current / 3.0
+            share = self.share_factors[i % 6]
+            thyristor.current = (self.armature_current / 3.0) * share
             thyristor.residual = residual
             thyristor.r_sa = r_sa
             thyristor.margin_to_limit = 125.0 - tj
@@ -266,7 +274,7 @@ class Simulator:
         """Reset simulation to initial state"""
         self.current_time = 0.0
         self.tj_states = np.zeros((6, 3))
-        self.heatsink_temps = np.ones(6) * 45.0
+        self.heatsink_temps = np.array([43.5, 44.2, 45.0, 45.6, 46.8, 47.5])
         self.peak_hold = np.zeros(6)
         self.fan_failed = False
         self.clogging_level = 0.0
